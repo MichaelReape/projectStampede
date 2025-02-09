@@ -1,0 +1,30 @@
+for the wfc
+ill have the user select the amount of rooms they need
+all rooms can hold the same number of objects maybe not sure
+just create very basic rooms as tiles in blender, with doors at different places/ hallways with multiple doors etc
+obviously doors can only connect to other doors so should be easy enough.
+last room must not be a hallway
+
+will have to add the prefab game object I made for spawning images into it somehow i guess along each wall or something
+
+have a device to spawn the objects anywhere like a wrist thing or pull up a tablet, then spawn the object and move it at will
+
+
+
+tomorrow 
+-create the tiles in blender, super basic rooms with just walls and doors 
+
+-write the wfc algorithm, treat it like the 2d top down algorithms
+
+-save the palace object? to a json file using jsonUtility
+
+-write the code in the loadOptionPanel to show what jsons are available
+
+no dead ends until the last room then its an option
+archimesh add on
+
+room types:
+-hallway, two door on each end, long and narrow
+-square room with two doors 
+-corner room 
+-hallway with 4 doors , front door 
