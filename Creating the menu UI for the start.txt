@@ -1,0 +1,17 @@
+Creating the menu UI for the start of the game
+
+- main menu scene separate to game environment scene
+
+
+-new map 
+	load gameplay scene with a new/empty map. Might prompt the user to create a new palace by size here later
+
+-load map
+	bring up list of existing saves/palaces and user can select and continue
+
+after each of these it moves into the gameplay scene
+
+SceneManager.LoadScene() in unity
+
+DONE 
+atleast until i can save the map 

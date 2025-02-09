@@ -1,0 +1,23 @@
+save load level
+
+1 define data structure
+	- Object for map data
+	- Object for the palace map
+
+2 serialization to json
+	- JsonUtility API 
+	- have a save / load manager
+		- saveMap, loadMap, getSavePath
+
+3 save and load to disk
+	- have a game controller
+	- creates a new map or loads a previous map
+		- this can be used from a ui menu
+
+
+** can maybe just have it save a map for now and extend it later to include the mnemonic devices **
+
+- need a menu system to start the game
+	- menu controller
+
+- can maybe encrypt the data or use some cryptography to verify its integrity 
