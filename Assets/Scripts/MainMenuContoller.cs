@@ -12,9 +12,9 @@ public class MainMenuContoller : MonoBehaviour
     //will use scene manager to load the gamescene
     public void NewMap()
     {
-        //this will be a blank map
-        SceneManager.LoadScene("GameScene");
-        Debug.Log("new map pressed");
+        //loads teh blank map scene
+        SceneManager.LoadScene("NewMapTemplate");
+        Debug.Log("new map loaded");
     }
 
     //onclick will call this
