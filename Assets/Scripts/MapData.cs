@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-//this data strucure will hold the data of the unique map
+//this will hold the data of the unique map
 //will be serialized and stored in a json file
 
 [Serializable]
