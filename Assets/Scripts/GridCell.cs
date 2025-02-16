@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridCell : MonoBehaviour
+public class GridCell
 {
     //will reptresent each cell in the grid where a tile/room can be placed
     //will keep track of the cells position in the grid

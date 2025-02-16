@@ -36,7 +36,7 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\WFCManager.cs",
               "ToolTip": "C:\\Users\\micha\\michaelproject\\projectStampede\\Assets\\Scripts\\WFCManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\WFCManager.cs",
-              "ViewState": "AgIAAGcAAAAAAAAAAAAMwGQAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGQAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-15T20:25:17.616Z",
               "EditorCaption": ""
@@ -51,7 +51,8 @@
               "RelativeToolTip": "Assets\\Scripts\\GridCell.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-14T23:42:18.536Z"
+              "WhenOpened": "2025-02-14T23:42:18.536Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",

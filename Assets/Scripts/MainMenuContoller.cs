@@ -7,6 +7,7 @@ public class MainMenuContoller : MonoBehaviour
 {
     public GameObject LoadOptionPanel;
     public GameObject ChooseOptionPanel;
+    public WFCManager wfcManager;
 
     //onclidk will call this
     //will use scene manager to load the gamescene
@@ -15,6 +16,11 @@ public class MainMenuContoller : MonoBehaviour
         //loads teh blank map scene
         SceneManager.LoadScene("NewMapTemplate");
         Debug.Log("new map loaded");
+
+        wfcManager.InitialiseGrid();
+        Debug.Log("grid initialised");
+        wfcManager.RunWFC();
+        Debug.Log("WFC run");
     }
 
     //onclick will call this

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,7 @@ public class WFCManager : MonoBehaviour
     public GridCell[,] grid;
 
     //directions for the neighbours
-    private Vector2Int[] directions = new Vector2Int[]
+    public Vector2Int[] directions = new Vector2Int[]
     {
         //north, east, south, west
         new Vector2Int(0,1),
@@ -23,12 +24,12 @@ public class WFCManager : MonoBehaviour
         new Vector2Int(-1,0)
     };
 
-    void Start()
-    {
-        InitialiseGrid();
-        RunWFC();
+    //void Start()
+    //{
+    //    //InitialiseGrid();
+    //    //RunWFC();
 
-    }
+    //}
 
     //initialise the grid
     public void InitialiseGrid()
@@ -106,7 +107,7 @@ public class WFCManager : MonoBehaviour
             return;
         }
         //select a random tile from the possible tiles
-        int randomTileIndex = Random.Range(0, cell.possibleTiles.Count);
+        int randomTileIndex = UnityEngine.Random.Range(0, cell.possibleTiles.Count);
         //set the chosen tile to the random tile
         cell.chosenTile = cell.possibleTiles[randomTileIndex];
         //remove all other possible tiles
@@ -168,7 +169,9 @@ public class WFCManager : MonoBehaviour
                         sourceWallIndex = 1;
                         neighbourWallIndex = 3;
                     }
-
+                    //Debug.Log("sourceWallIndex: " + sourceWallIndex);
+                    //Debug.Log("neighbourWallIndex: " + neighbourWallIndex);
+                    //Debug.Log("Direction: " + direction);
                     //now need to filter the possible tiles based on the doors
                     foreach (TileData tile in neighbour.possibleTiles)
                     {
@@ -176,6 +179,12 @@ public class WFCManager : MonoBehaviour
                         //right now it only checks the source cell doors but what about the walls
                         //might be a feature as it will create hallways idk
 
+                        //issue is the cell.chosenTile might be null
+                        //not sure about this
+                        //if(cell.chosenTile == null)
+                        //{
+                        //    return;
+                        //}
                         //if the source cell has a door in the direction
                         if (cell.chosenTile.doorPositions[sourceWallIndex] == 1)
                         {
