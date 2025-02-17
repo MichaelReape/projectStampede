@@ -60,18 +60,15 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.48f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\WFC Scripts\TileData.cs" />
     <Compile Include="Assets\Scripts\LoadImageFromInternet.cs" />
-    <Compile Include="Assets\Scripts\old\Room.cs" />
-    <Compile Include="Assets\Scripts\GridCell.cs" />
     <Compile Include="Assets\Scripts\ButtonActions.cs" />
     <Compile Include="Assets\Scripts\MoveImage.cs" />
-    <Compile Include="Assets\Scripts\old\WFC3D.cs" />
+    <Compile Include="Assets\Scripts\WFC Scripts\WFCManager.cs" />
     <Compile Include="Assets\Scripts\SphereInteraction.cs" />
-    <Compile Include="Assets\Scripts\TileData.cs" />
     <Compile Include="Assets\Scripts\MainMenuContoller.cs" />
-    <Compile Include="Assets\Scripts\old\Cell.cs" />
-    <Compile Include="Assets\Scripts\WFCManager.cs" />
-    <Compile Include="Assets\Scripts\MapData.cs" />
+    <Compile Include="Assets\Scripts\Save-Load Scripts\MapData.cs" />
+    <Compile Include="Assets\Scripts\WFC Scripts\GridCell.cs" />
     <Compile Include="Assets\Scripts\CloseButton.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
   </ItemGroup>

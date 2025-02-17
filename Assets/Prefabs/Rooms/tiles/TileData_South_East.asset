@@ -16,4 +16,4 @@ MonoBehaviour:
   numberOfDoors: 2
   doorPositions: 01000000000000000000000001000000
   wieght: 1
-  tilePrefab: {fileID: 919132149155446097, guid: 9b8c3643376e37140b699cc38eef9286, type: 3}
+  tilePrefab: {fileID: 7198614709712076401, guid: 2f73db83a63280444998924a9a5fe261, type: 3}

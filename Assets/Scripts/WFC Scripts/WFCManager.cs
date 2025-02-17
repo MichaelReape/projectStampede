@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 
 public class WFCManager : MonoBehaviour
@@ -24,16 +25,28 @@ public class WFCManager : MonoBehaviour
         new Vector2Int(-1,0)
     };
 
-    //void Start()
-    //{
-    //    //InitialiseGrid();
-    //    //RunWFC();
+    void Start()
+    {
+        InitialiseGrid();
+        RunWFC();
 
-    //}
+    }
 
     //initialise the grid
     public void InitialiseGrid()
     {
+        //print the direction offsets
+        foreach (Vector2Int direction in directions)
+        {
+            Debug.Log(direction);
+        }
+        //i want to print the tiles to the console
+        //foreach (TileData tile in tiles)
+        //{
+        //    Debug.Log(tile.tileName);
+        //}
+        //ok so it has the tiles
+
         //create the grid with the given dimensions
         grid = new GridCell[gridWidth, gridHeight];
         //populate the grid with 
@@ -42,8 +55,14 @@ public class WFCManager : MonoBehaviour
             for (int y = 0; y < gridHeight; y++)
             {
                 grid[x, y] = new GridCell(new Vector2Int(x,y), tiles);
+                //i want to print the possible tiles for each cell
+                //foreach (TileData tile in grid[x, y].possibleTiles)
+                //{
+                //    Debug.Log(tile.tileName);
+                //}
             }
         }
+        Debug.Log("Grid initialised");
     }
 
     //collapse the grid using the WFC algorithm
@@ -58,12 +77,18 @@ public class WFCManager : MonoBehaviour
             GridCell lowestEntropyCell = GetLowestEntropy();
             //collapse the cell
             CollapseCell(lowestEntropyCell);
-            //propagate the constraints
-            Propagate(lowestEntropyCell);
+        //propagate the constraints
+        Propagate(lowestEntropyCell);
             //check if all cells have collapsed
             allCollapsed = CheckAllCollapsed();
             //if not repeat
         }
+        //print the grid
+        foreach (GridCell cell in grid)
+        {
+            Debug.Log("the chosen tile is " + cell.chosenTile.tileName);
+        }
+        Debug.Log("All cells have collapsed");
         //instantiate the tiles
         InstantiateTiles();
     }
@@ -94,6 +119,13 @@ public class WFCManager : MonoBehaviour
                 }
             }
         }
+        //print the lowest entropy cell options
+        //foreach (TileData tile in lowestEntropyCell.possibleTiles)
+        //{
+        //    Debug.Log("the lowest cell options are "+tile.tileName);
+        //}
+        //print the lowest entropy cell position
+        Debug.Log("the lowest cell position is " + lowestEntropyCell.gridPosition);
         return lowestEntropyCell;
     }
 
@@ -101,30 +133,65 @@ public class WFCManager : MonoBehaviour
 
     public void CollapseCell(GridCell cell)
     {
+        //i want to create an empty list instead of clearing and adding to the original
+        List<TileData> possibleTilesTemp = new List<TileData>();
         //if cell is already collapsed, return
         if (cell.chosenTile != null)
         {
+            Debug.Log("cell already collapsed");
             return;
+        }
+        if (cell.possibleTiles.Count == 0)
+        {
+            Debug.LogWarning("No possible tiles left for cell at " + cell.gridPosition);
+            //TODO: Handle contradiction, e.g. backtracking or returning early.
+            //causing the game to crash
+            //return;
         }
         //select a random tile from the possible tiles
         int randomTileIndex = UnityEngine.Random.Range(0, cell.possibleTiles.Count);
+        //seems to tend to 0
+        //print the random Tile index
+        //Debug.Log("the random tile index is " + randomTileIndex);
+        //print the random tile
+        //Debug.Log("the random tile is " + cell.possibleTiles[randomTileIndex].tileName);
         //set the chosen tile to the random tile
+        Debug.Log(randomTileIndex);
         cell.chosenTile = cell.possibleTiles[randomTileIndex];
+
+        //print the chosen tile      
+        Debug.Log("The cell is collapsed, the chosen tile is " + cell.chosenTile.tileName);
         //remove all other possible tiles
-        cell.possibleTiles.Clear();
+        //cell.possibleTiles.Clear();
         //set the chosen tile to the cell list of possible tiles (tidying up)
-        cell.possibleTiles.Add(cell.chosenTile);
+        //cell.possibleTiles.Add(cell.chosenTile);
+
+        //add the chosen tile to the temp list
+        //possibleTilesTemp.Add(cell.chosenTile);
+        //set the possible tiles to the temp list
+        cell.possibleTiles = new List<TileData>{cell.chosenTile};
+        //possibleTilesTemp.Clear();
     }
     public void Propagate(GridCell cell)
     {
+        if (cell.chosenTile == null)
+        {
+            Debug.LogWarning("Tried to propagate from a cell that isn't collapsed: " + cell.gridPosition);
+            return;
+        }
+        Debug.Log("Propagating constraints " + cell.gridPosition);
         //1. get the neighbours of the cell
         foreach (Vector2Int direction in directions)
         {
+            //print the direction
+            Debug.Log("the direction we are looking is " + direction);
             //get the neighbour using the direction offset
             Vector2Int neighbourPos = cell.gridPosition + direction;
             //check if the neighbour is within the grid
             if (IsValidPosition(neighbourPos))
             {
+                //print here
+                Debug.Log("the neighbour position is " + neighbourPos + " and is valid");
                 //get the neighbour cell
                 GridCell neighbour = grid[neighbourPos.x, neighbourPos.y];
 
@@ -137,7 +204,8 @@ public class WFCManager : MonoBehaviour
                     //so we remove based on the doors of the source cell
                     //if there is no door then obviously there wont be any neighbours in that direction
                     //since we are going through each direction we can use an if else to decide which wall to chekc
-
+                    //print here
+                    Debug.Log("the neighbour has not collapsed");
                     int sourceWallIndex = 0;
                     int neighbourWallIndex = 0;
 
@@ -150,29 +218,39 @@ public class WFCManager : MonoBehaviour
                         //their south door should be the same as our north door
                         sourceWallIndex = 2;
                         neighbourWallIndex = 0;
+                        Debug.Log("sourceWallIndex: " + sourceWallIndex);
+                        Debug.Log("neighbourWallIndex: " + neighbourWallIndex);
                     }
                     else if (direction == directions[1])
                     {
                         //east neighbour
                         sourceWallIndex = 3;
                         neighbourWallIndex = 1;
+                        Debug.Log("sourceWallIndex: " + sourceWallIndex);
+                        Debug.Log("neighbourWallIndex: " + neighbourWallIndex);
                     }
                     else if (direction == directions[2])
                     {
                         //south neighbour
                         sourceWallIndex = 0;
                         neighbourWallIndex = 2;
+                        Debug.Log("sourceWallIndex: " + sourceWallIndex);
+                        Debug.Log("neighbourWallIndex: " + neighbourWallIndex);
                     }
                     else if (direction == directions[3])
                     {
                         //west neighbour
                         sourceWallIndex = 1;
                         neighbourWallIndex = 3;
+                        Debug.Log("sourceWallIndex: " + sourceWallIndex);
+                        Debug.Log("neighbourWallIndex: " + neighbourWallIndex);
                     }
                     //Debug.Log("sourceWallIndex: " + sourceWallIndex);
                     //Debug.Log("neighbourWallIndex: " + neighbourWallIndex);
                     //Debug.Log("Direction: " + direction);
                     //now need to filter the possible tiles based on the doors
+
+                    List<TileData> tilesToRemove = new List<TileData>();
                     foreach (TileData tile in neighbour.possibleTiles)
                     {
                         //this may be wrong, need to check
@@ -186,18 +264,22 @@ public class WFCManager : MonoBehaviour
                         //    return;
                         //}
                         //if the source cell has a door in the direction
-                        if (cell.chosenTile.doorPositions[sourceWallIndex] == 1)
-                        {
-                            //if the neighbour tile doesnt have a door in the opposite direction
-                            if (tile.doorPositions[neighbourWallIndex] == 0)
+                        //if (cell.chosenTile != null)
+                        //{ }
+                            if (cell.chosenTile.doorPositions[sourceWallIndex] == 1 && tile.doorPositions[neighbourWallIndex]==0)
                             {
-                                //remove the tile from the list of possible tiles
+                            //if the neighbour tile doesnt have a door in the opposite 
+                            //remove the tile from the list of possible tiles
 
-                                //this might be a bad idea as it could cause a runtime error
-                                //instead i might create a copy list and just overwrite the original at the end
-                                neighbour.possibleTiles.Remove(tile);
+                            //this might be a bad idea as it could cause a runtime error
+                            //instead i might create a copy list and just overwrite the original at the end
+                            //neighbour.possibleTiles.Remove(tile);
+                            tilesToRemove.Add(tile);
                             }
-                        }
+                    }
+                    foreach (TileData tile in tilesToRemove)
+                    {
+                        neighbour.possibleTiles.Remove(tile);
                     }
                     //recursively call the propagate method on the neighbour
                     Propagate(neighbour);
@@ -210,6 +292,8 @@ public class WFCManager : MonoBehaviour
     //checks if the position is within the grid
     public bool IsValidPosition(Vector2Int pos)
     {
+        //print the position
+        //Debug.Log("the position is " + pos);
         if (pos.x >= 0 && pos.x < gridWidth && pos.y >= 0 && pos.y < gridHeight)
         {
             return true;
@@ -243,12 +327,15 @@ public class WFCManager : MonoBehaviour
         {
             for (int y = 0; y < gridHeight; y++)
             {
+                //print the chosen tile
+                Debug.Log("the chosen tile is " + grid[x, y].chosenTile.tileName + " at position " + x + ", " + y);
                 //get the chosen tile
                 TileData chosenTile = grid[x, y].chosenTile;
                 //instantiate the tile
                 GameObject tile = Instantiate(chosenTile.tilePrefab, new Vector3(x * cellSize, 0, y * cellSize), Quaternion.identity);
             }
         }
+        Debug.Log("Tiles instantiated");
     }
 
     //methods needed for the WFC algorithm

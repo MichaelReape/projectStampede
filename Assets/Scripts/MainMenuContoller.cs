@@ -17,10 +17,11 @@ public class MainMenuContoller : MonoBehaviour
         SceneManager.LoadScene("NewMapTemplate");
         Debug.Log("new map loaded");
 
-        wfcManager.InitialiseGrid();
-        Debug.Log("grid initialised");
-        wfcManager.RunWFC();
-        Debug.Log("WFC run");
+        //wfcManager.InitialiseGrid();
+        //Debug.Log("grid initialised");
+        //wfcManager.RunWFC();
+        //Debug.Log("WFC run");
+        //Debug.Log("map generated");
     }
 
     //onclick will call this
