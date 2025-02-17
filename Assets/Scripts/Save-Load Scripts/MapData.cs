@@ -9,16 +9,23 @@ using UnityEngine.UIElements;
 [Serializable]
 public class RoomData
 {
-    //holds the postion of the room in the map
-    public Vector3 position;
-    //holds the type of the room
+    //if i add rotation to the rooms, i will add it here
+    //store an x and y position
+    public int x;
+    public int y;
+    //store the room type
     public string roomType;
 }
 
 [Serializable]
 public class MapData
 {
+    //might need to store the grid size
+    public int width;
+    public int height;
     //Stores all the room data
+    //need to flatten 2d array of rooms into a list
+    //simple enough just iterate through the 2d array and add each room to the list
     public List<RoomData> rooms = new List<RoomData>();
 }
 

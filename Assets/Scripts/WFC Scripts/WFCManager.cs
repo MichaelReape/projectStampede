@@ -29,7 +29,7 @@ public class WFCManager : MonoBehaviour
     {
         InitialiseGrid();
         RunWFC();
-
+        saveMap();
     }
 
     //initialise the grid
@@ -338,10 +338,46 @@ public class WFCManager : MonoBehaviour
         Debug.Log("Tiles instantiated");
     }
 
-    //methods needed for the WFC algorithm
-    //1. get the cell with the lowest entropy or a random cell to start
-    //2. choose and collapse the cell, remove all other possible tiles, can add a wight 
-    //3. propagate the constraints through the grid
-    //4. check if all cells have collapsed
-    //
+    //code to test the save feature
+    [SerializeField] private MapSaver mapSaver;
+    private MapData generatedData;
+
+   public void saveMap()
+    {
+        //create a new mapData object
+        MapData mapData = new MapData();
+        mapData.height = gridHeight;
+        mapData.width = gridWidth;
+
+        //flatten the 2d array of grid cells into a list
+        for (int x = 0; x < gridWidth; x++)
+        {
+            for (int y = 0; y < gridHeight; y++)
+            {
+                GridCell cell = grid[x, y];
+                //create a new roomData object
+                RoomData roomData = new RoomData();
+                roomData.x = x;
+                roomData.y = y;
+                roomData.roomType = cell.chosenTile.tileName;
+                Debug.Log("the room type is " + roomData.roomType);
+                //will add the rooms to the mapData object in a sequential order then can reproduce
+                //the grid given the width and height
+
+                mapData.rooms.Add(roomData);
+            }
+        }
+        //save the mapData object
+        mapSaver.SaveGrid(mapData, "testMap");
+        Debug.Log("Map saved");
+
+    }
+        //methods needed for the WFC algorithm
+        //1. get the cell with the lowest entropy or a random cell to start
+        //2. choose and collapse the cell, remove all other possible tiles, can add a wight 
+        //3. propagate the constraints through the grid
+        //4. check if all cells have collapsed
+        //
 }
+
+
