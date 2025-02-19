@@ -27,6 +27,7 @@ public class WFCManager : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("WFC Manager started");
         InitialiseGrid();
         RunWFC();
         saveMap();
@@ -321,6 +322,8 @@ public class WFCManager : MonoBehaviour
     public void InstantiateTiles()
     {
         //this might be wrong, need to check
+        //is instantiating the tiles with a gap between them
+        //maybe need to change the cell size to 1
 
         //loop through the grid and instantiate the tiles
         for (int x = 0; x < gridWidth; x++)
@@ -339,6 +342,7 @@ public class WFCManager : MonoBehaviour
     }
 
     //code to test the save feature
+    //DO NOT FORGET TO REMOVE!!!
     [SerializeField] private MapSaver mapSaver;
     private MapData generatedData;
 
@@ -348,7 +352,7 @@ public class WFCManager : MonoBehaviour
         MapData mapData = new MapData();
         mapData.height = gridHeight;
         mapData.width = gridWidth;
-
+        mapData.cellSize = cellSize;
         //flatten the 2d array of grid cells into a list
         for (int x = 0; x < gridWidth; x++)
         {
@@ -371,6 +375,11 @@ public class WFCManager : MonoBehaviour
         mapSaver.SaveGrid(mapData, "testMap");
         Debug.Log("Map saved");
 
+    }
+
+    public List<TileData> getTiles()
+    {
+        return tiles;
     }
         //methods needed for the WFC algorithm
         //1. get the cell with the lowest entropy or a random cell to start

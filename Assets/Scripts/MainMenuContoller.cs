@@ -29,8 +29,9 @@ public class MainMenuContoller : MonoBehaviour
     //it will call another ui/canvas displaying all the saved palaces
     public void LoadMap()
     {
-        LoadOptionPanel.SetActive(true);
-        ChooseOptionPanel.SetActive(false);
+        SceneManager.LoadScene("LoadMapTemplate");
+        //LoadOptionPanel.SetActive(true);
+        //ChooseOptionPanel.SetActive(false);
         Debug.Log("load map pressed");
     }
 }
