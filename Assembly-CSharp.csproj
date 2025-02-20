@@ -63,6 +63,7 @@
     <Compile Include="Assets\Scripts\WFC Scripts\TileData.cs" />
     <Compile Include="Assets\Scripts\LoadImageFromInternet.cs" />
     <Compile Include="Assets\Scripts\Save-Load Scripts\MapLoader.cs" />
+    <Compile Include="Assets\Scripts\ButtonController.cs" />
     <Compile Include="Assets\Scripts\InputFieldController.cs" />
     <Compile Include="Assets\Scripts\ButtonActions.cs" />
     <Compile Include="Assets\Scripts\MoveImage.cs" />

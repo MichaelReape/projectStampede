@@ -3,16 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\micha\\michaelproject\\projectStampede\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|C:\\Users\\micha\\michaelproject\\projectStampede\\assets\\scripts\\wfc scripts\\wfcmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\wfc scripts\\wfcmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|C:\\Users\\micha\\michaelproject\\projectStampede\\assets\\scripts\\inputbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inputbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|c:\\users\\micha\\michaelproject\\projectstampede\\assets\\scripts\\inputbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inputbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|c:\\users\\micha\\michaelproject\\projectstampede\\assets\\scripts\\buttonactions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\buttonactions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|C:\\Users\\micha\\michaelproject\\projectStampede\\assets\\scripts\\inputfieldcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inputfieldcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|C:\\Users\\micha\\michaelproject\\projectStampede\\assets\\scripts\\webrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\webrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|C:\\Users\\micha\\michaelproject\\projectStampede\\assets\\scripts\\wfc scripts\\wfcmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\wfc scripts\\wfcmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|C:\\Users\\micha\\michaelproject\\projectStampede\\assets\\scripts\\save-load scripts\\maploader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -21,14 +29,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|C:\\Users\\micha\\michaelproject\\projectStampede\\assets\\scripts\\playermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|C:\\Users\\micha\\michaelproject\\projectStampede\\assets\\scripts\\loadimagefrominternet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\loadimagefrominternet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|C:\\Users\\micha\\michaelproject\\projectStampede\\assets\\scripts\\webrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\webrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{90E7F2DB-3000-B468-4F50-423ABBF587B7}|Assembly-CSharp.csproj|C:\\Users\\micha\\michaelproject\\projectStampede\\assets\\scripts\\mainmenucontoller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -62,17 +62,30 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "ButtonActions.cs",
+              "DocumentMoniker": "C:\\Users\\micha\\michaelproject\\projectStampede\\Assets\\Scripts\\ButtonActions.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\ButtonActions.cs",
+              "ToolTip": "C:\\Users\\micha\\michaelproject\\projectStampede\\Assets\\Scripts\\ButtonActions.cs",
+              "RelativeToolTip": "Assets\\Scripts\\ButtonActions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-20T19:19:59.282Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "InputButton.cs",
               "DocumentMoniker": "C:\\Users\\micha\\michaelproject\\projectStampede\\Assets\\Scripts\\InputButton.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\InputButton.cs",
               "ToolTip": "C:\\Users\\micha\\michaelproject\\projectStampede\\Assets\\Scripts\\InputButton.cs",
               "RelativeToolTip": "Assets\\Scripts\\InputButton.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAoAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-19T14:14:40.071Z",
               "EditorCaption": ""
@@ -85,40 +98,27 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\InputFieldController.cs",
               "ToolTip": "C:\\Users\\micha\\michaelproject\\projectStampede\\Assets\\Scripts\\InputFieldController.cs",
               "RelativeToolTip": "Assets\\Scripts\\InputFieldController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-19T14:09:32.647Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 3,
               "Title": "WebRequest.cs",
               "DocumentMoniker": "C:\\Users\\micha\\michaelproject\\projectStampede\\Assets\\Scripts\\WebRequest.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\WebRequest.cs",
               "ToolTip": "C:\\Users\\micha\\michaelproject\\projectStampede\\Assets\\Scripts\\WebRequest.cs",
               "RelativeToolTip": "Assets\\Scripts\\WebRequest.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAQwBEAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-18T23:37:30.092Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "LoadImageFromInternet.cs",
-              "DocumentMoniker": "C:\\Users\\micha\\michaelproject\\projectStampede\\Assets\\Scripts\\LoadImageFromInternet.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\LoadImageFromInternet.cs",
-              "ToolTip": "C:\\Users\\micha\\michaelproject\\projectStampede\\Assets\\Scripts\\LoadImageFromInternet.cs",
-              "RelativeToolTip": "Assets\\Scripts\\LoadImageFromInternet.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-18T22:23:31.508Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "PlayerMovement.cs",
               "DocumentMoniker": "C:\\Users\\micha\\michaelproject\\projectStampede\\Assets\\Scripts\\PlayerMovement.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerMovement.cs",
@@ -126,12 +126,11 @@
               "RelativeToolTip": "Assets\\Scripts\\PlayerMovement.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAD0AAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-18T17:20:14.65Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-18T17:20:14.65Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "MapLoader.cs",
               "DocumentMoniker": "C:\\Users\\micha\\michaelproject\\projectStampede\\Assets\\Scripts\\Save-Load Scripts\\MapLoader.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Save-Load Scripts\\MapLoader.cs",
@@ -139,8 +138,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Save-Load Scripts\\MapLoader.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-18T12:47:01.814Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-18T12:47:01.814Z"
             },
             {
               "$type": "Document",
@@ -156,7 +154,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "WFCManager.cs",
               "DocumentMoniker": "C:\\Users\\micha\\michaelproject\\projectStampede\\Assets\\Scripts\\WFC Scripts\\WFCManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\WFC Scripts\\WFCManager.cs",
@@ -164,8 +162,7 @@
               "RelativeToolTip": "Assets\\Scripts\\WFC Scripts\\WFCManager.cs",
               "ViewState": "AgIAACsBAAAAAAAAAAAAwKAAAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-17T20:34:41.967Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-17T20:34:41.967Z"
             },
             {
               "$type": "Document",

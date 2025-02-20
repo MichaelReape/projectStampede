@@ -223,7 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 496242fd7becc7e489a269451bb3d7d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputPanel: {fileID: 0}
+  inputPanel: {fileID: 4568225988820716197}
   inputFieldController: {fileID: 0}
   interactionDistance: 2
 --- !u!1 &3628153223182067939
