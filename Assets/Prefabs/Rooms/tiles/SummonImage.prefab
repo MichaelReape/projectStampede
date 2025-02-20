@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 8276498842537946581}
   - component: {fileID: 358561801512406965}
   - component: {fileID: 2007457060775044196}
-  - component: {fileID: 6564869359806329687}
+  - component: {fileID: 7653326585843802087}
   m_Layer: 0
   m_Name: SummonImage
   m_TagString: Untagged
@@ -211,7 +211,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6564869359806329687
+--- !u!114 &7653326585843802087
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -220,10 +220,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3195022158656895070}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60c33b7fb979843d4ba6b8c329ff80b2, type: 3}
+  m_Script: {fileID: 11500000, guid: 496242fd7becc7e489a269451bb3d7d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuCanvas: {fileID: 7921834353665751147}
+  inputPanel: {fileID: 0}
+  inputFieldController: {fileID: 0}
   interactionDistance: 2
 --- !u!1 &3628153223182067939
 GameObject:
