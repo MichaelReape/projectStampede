@@ -28,3 +28,56 @@ room types:
 -square room with two doors 
 -corner room 
 -hallway with 4 doors , front door 
+
+
+
+TileData class
+number of doors
+position of doors
+
+GridCell class
+each cell is a possible room
+list of all possible TileData options for cell
+	will be collapsed to 1 option
+user can choose a preset map size (small, medium, large)
+2d array of chosen size where each element is a cell with all possibilities 
+TileData collapsedTile = "set when coallapsed"
+
+initialize all cells to have all possibilities 
+
+chooses random cell or one with lowest entropy, I guess an edge cell maybe
+randomly choose an option for that cell
+collapse it
+
+propagate by updating all neighbour cells
+remove all incompatible cells 
+
+repeat the selection and propagation until all cells are collapsed
+
+Adjacency rules
+	1. Doors must connect
+	2. Must be no doors on the edges
+	3. etc
+
+Need a isCompatible method to checktwo tiles can link together
+
+
+
+
+
+need to either do something clever with rotating the tiles i have or just import more tiles,
+for example need endtiles that end on more than just a tile with a south door, need ones the end on west, north and east too.
+maybe i can add a bias for the end tiles so they are not just always selected.
+also maybe should have a miniumum room count and if not met just run the algorithm again until they are 
+
+Also need to modify the propagate method to use a copy of the possible tiles instead of modifying the orginal, then overwrite it 
+
+get this running in unity then create a save method using serialization I think
+
+Write back to Mark
+
+Update the github tracker
+
+
+
+

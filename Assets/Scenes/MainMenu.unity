@@ -1242,6 +1242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LoadOptionPanel: {fileID: 1618894371}
   ChooseOptionPanel: {fileID: 86794502}
+  wfcManager: {fileID: 0}
 --- !u!4 &1882934151
 Transform:
   m_ObjectHideFlags: 0
