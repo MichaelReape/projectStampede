@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\SphereInteraction.cs" />
     <Compile Include="Assets\Scripts\MainMenuContoller.cs" />
     <Compile Include="Assets\Scripts\Save-Load Scripts\MapSaver.cs" />
+    <Compile Include="Assets\Scripts\PromptCanvasController.cs" />
     <Compile Include="Assets\Scripts\Save-Load Scripts\MapData.cs" />
     <Compile Include="Assets\Scripts\WFC Scripts\GridCell.cs" />
     <Compile Include="Assets\Scripts\APIManager.cs" />

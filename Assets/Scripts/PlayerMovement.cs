@@ -2,9 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//need to turn this into a singleton
+
+
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
+    private static PlayerMovement instance;
+
     public Camera playerCamera;
     public float walkSpeed = 4f;
     //public float runSpeed = 12f;
@@ -19,6 +24,38 @@ public class PlayerMovement : MonoBehaviour
     private float rotationX = 0;
     private CharacterController characterController;
     private bool canMove = true;
+
+    public static PlayerMovement PlayerMovementInstance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+    private void Awake()
+    {
+        //singleton pattern to ensure only one instance of the APIManager      
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+
+    public bool CanMove
+    {
+        get
+        {
+            return canMove;
+        }
+        set
+        {
+            canMove = value;
+        }
+    }
 
     void Start()
     {

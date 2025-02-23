@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de0ab42e4478e6c4fa478362edd496a7, type: 3}
-  m_Name: TileData_South_East
+  m_Name: TileData_South_West_East
   m_EditorClassIdentifier: 
-  tileName: South_East
-  numberOfDoors: 2
-  doorPositions: 01000000000000000000000001000000
+  tileName: South_West_East
+  numberOfDoors: 3
+  doorPositions: 01000000010000000000000001000000
   wieght: 1
-  tilePrefab: {fileID: 7198614709712076401, guid: 2f73db83a63280444998924a9a5fe261, type: 3}
+  tilePrefab: {fileID: 7170120152615485178, guid: 2b74c60f27e355d45bcad9063c06d45e, type: 3}
