@@ -30,7 +30,7 @@ public class WFCManager : MonoBehaviour
         Debug.Log("WFC Manager started");
         InitialiseGrid();
         RunWFC();
-        // saveMap();
+        saveMap();
     }
 
     //initialise the grid
@@ -367,7 +367,8 @@ public class WFCManager : MonoBehaviour
                 //Debug.Log("the room type is " + roomData.roomType);
                 //will add the rooms to the mapData object in a sequential order then can reproduce
                 //the grid given the width and height
-
+                //add the image paths
+                roomData.imagePaths = cell.imagePaths;
                 mapData.rooms.Add(roomData);
             }
         }

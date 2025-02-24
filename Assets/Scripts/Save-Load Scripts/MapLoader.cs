@@ -41,7 +41,7 @@ public class MapLoader : MonoBehaviour
     public void InstantiateLoadedgrid(MapData map)
     {
         //possibly use a dictionary to store the tiles and their names
-
+        Debug.Log("Instantiating loaded grid");
 
         //first handle if the grid is null
         if (map == null)

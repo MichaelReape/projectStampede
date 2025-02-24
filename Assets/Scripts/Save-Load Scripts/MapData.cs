@@ -15,6 +15,9 @@ public class RoomData
     public int y;
     //store the room ,maybe change to roomName
     public string roomType;
+    //Array of the images saves in the rorom
+    //order bottom left, top left, top right, bottom right
+    public string[] imagePaths = new string[4];
 }
 
 [Serializable]

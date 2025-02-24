@@ -82,10 +82,17 @@ public class APIManager : MonoBehaviour
                 //load the image from the byte array
                 //this seems to work better than the DownloadHandlerTexture.GetContent(request) 
                 bool loaded = tex.LoadImage(result);
+
                 if (loaded)
                 {
                     Debug.Log("Image loaded successfully");
                     Sprite webSprite = SpriteFromTexture2D(tex);
+                    //here i will save the image using the ImageSaver script
+                    string savedImagePath = ImageSaver.ImageSaverInstance.SaveImage(result, prompt);
+                    Debug.Log("Image saved to: " + savedImagePath);
+                    //need to add the saved image path to the RoomData object
+                    //but i need to know which room the image is being generated in
+                    //return the sprite to the callback function
                     onSuccess?.Invoke(webSprite);
                 }
                 else

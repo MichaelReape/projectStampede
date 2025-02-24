@@ -11,7 +11,9 @@ public class GridCell
     public List<TileData> possibleTiles ;
     //the collapsed cell, the chosen TileData
     public TileData chosenTile = null;
-    
+    //image paths at the spawers
+    public string[] imagePaths = new string[4];
+
     public GridCell(Vector2Int gridPos, List<TileData> tiles)
     {
         gridPosition = gridPos;
