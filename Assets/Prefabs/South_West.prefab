@@ -113,6 +113,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6974861170737512856, guid: 5218df2947ad36a4db30c972ed94f4dd, type: 3}
+      propertyPath: promptCanvasController
+      value: 
+      objectReference: {fileID: 3960329280302668288}
     - target: {fileID: 7218181140844757485, guid: 5218df2947ad36a4db30c972ed94f4dd, type: 3}
       propertyPath: m_Name
       value: Image_Spawner_NewMap
@@ -122,6 +126,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5218df2947ad36a4db30c972ed94f4dd, type: 3}
+--- !u!114 &3960329280302668288 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1444355667534107680, guid: 5218df2947ad36a4db30c972ed94f4dd, type: 3}
+  m_PrefabInstance: {fileID: 2521606415826914848}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 237a472ec52392a40a1361f21d11270a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8529087252420642575 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6098977831246481711, guid: 5218df2947ad36a4db30c972ed94f4dd, type: 3}

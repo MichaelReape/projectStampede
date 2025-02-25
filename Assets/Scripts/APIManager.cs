@@ -14,6 +14,10 @@ public class APIManager : MonoBehaviour
     private string apiEndpoint = "http://localhost:5000/generate";
     //to make sure only one api call is made at a time
     private bool isCallingAPI = false;
+    
+    private int gridx;
+    private int gridy;
+    private int buttonIndex;
 
     public static APIManager APIInstance 
     {
@@ -37,8 +41,11 @@ public class APIManager : MonoBehaviour
     }
 
     //going to add a callback function to get the image from the API
-    public void GetImageFromAPI(string prompt, System.Action<Sprite> onSuccess)
+    public void GetImageFromAPI(string prompt, int x, int y, int index, System.Action<Sprite> onSuccess)
     {
+        gridx = x;
+        gridy = y;
+        buttonIndex = index;
         StartCoroutine(GetImage(prompt, onSuccess));
     }
     private IEnumerator GetImage(string prompt, System.Action<Sprite> onSuccess)
@@ -89,7 +96,11 @@ public class APIManager : MonoBehaviour
                     Sprite webSprite = SpriteFromTexture2D(tex);
                     //here i will save the image using the ImageSaver script
                     string savedImagePath = ImageSaver.ImageSaverInstance.SaveImage(result, prompt);
-                    Debug.Log("Image saved to: " + savedImagePath);
+                    //saves teh image path to the specific room/grid cell for the specific button
+                    MapManager.MapManagerInstance.grid[gridx, gridy].imagePaths[buttonIndex] = savedImagePath;
+                    MapManager.MapManagerInstance.saveMap();
+                    Debug.Log("in APIManager, Image saved to: " + savedImagePath);
+                    Debug.Log(MapManager.MapManagerInstance.grid[gridx, gridy].imagePaths[buttonIndex]);
                     //need to add the saved image path to the RoomData object
                     //but i need to know which room the image is being generated in
                     //return the sprite to the callback function
@@ -119,7 +130,7 @@ public class APIManager : MonoBehaviour
         }
         isCallingAPI = false;
     }
-    Sprite SpriteFromTexture2D(Texture2D texture)
+    public Sprite SpriteFromTexture2D(Texture2D texture)
     {
         //convert the texture to a sprite
         return Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f);

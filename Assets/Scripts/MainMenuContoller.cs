@@ -7,7 +7,7 @@ public class MainMenuContoller : MonoBehaviour
 {
     public GameObject LoadOptionPanel;
     public GameObject ChooseOptionPanel;
-    public WFCManager wfcManager;
+    //public MapManager wfcManager;
 
     //onclidk will call this
     //will use scene manager to load the gamescene
@@ -16,10 +16,12 @@ public class MainMenuContoller : MonoBehaviour
         //loads teh blank map scene
         SceneManager.LoadScene("NewMapTemplate");
         Debug.Log("new map loaded");
-
-        //wfcManager.InitialiseGrid();
+        //MapManager.MapManagerInstance.cellSize = 8;
+        //MapManager.MapManagerInstance.gridHeight = 2;
+        //MapManager.MapManagerInstance.gridWidth = 2;
+        //MapManager.MapManagerInstance.InitialiseGrid(2,2,8);
         //Debug.Log("grid initialised");
-        //wfcManager.RunWFC();
+        //MapManager.MapManagerInstance.RunWFC();
         //Debug.Log("WFC run");
         //Debug.Log("map generated");
     }

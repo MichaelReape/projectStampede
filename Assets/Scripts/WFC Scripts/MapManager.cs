@@ -2,18 +2,24 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class WFCManager : MonoBehaviour
+public class MapManager : MonoBehaviour
 {
+    //going to convert to  a singleton pattern, is this a good decision design wise, yes or no? 
+    //singleton pattern to ensure only one instance of the WFCManager
+    private static MapManager instance;
     //grid dimensions can be set
     public int gridWidth;
     public int gridHeight;
     //all rooms have the same size at the minute
-    public int cellSize;
+    public int cellSize = 8;
     public List<TileData> tiles;
     //2d array to hold the grid
     public GridCell[,] grid;
+    public TileManager tileManager;
 
     //directions for the neighbours
     public Vector2Int[] directions = new Vector2Int[]
@@ -25,17 +31,42 @@ public class WFCManager : MonoBehaviour
         new Vector2Int(-1,0)
     };
 
+    public static MapManager MapManagerInstance
+    {
+        get
+        { 
+            return instance;
+        }
+    }
+
+    private void Awake()
+    {
+        //singleton pattern to ensure only one instance of the WFCManager
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+
     void Start()
     {
-        Debug.Log("WFC Manager started");
-        InitialiseGrid();
-        RunWFC();
-        saveMap();
+        //Debug.Log("Map Manager started");
+        //InitialiseGrid();
+        //RunWFC();
+        //saveMap();
     }
 
     //initialise the grid
-    public void InitialiseGrid()
+    public void InitialiseGrid(int height, int width)
     {
+        //set the grid dimensions
+        gridHeight = height;
+        gridWidth = width;
+        //cellSize = size;
         //print the direction offsets
         foreach (Vector2Int direction in directions)
         {
@@ -71,6 +102,7 @@ public class WFCManager : MonoBehaviour
 
     public void RunWFC()
     {
+        Debug.Log("Running WFC");
         bool allCollapsed = false;
         while (!allCollapsed)
         {
@@ -91,6 +123,7 @@ public class WFCManager : MonoBehaviour
         }
         //Debug.Log("All cells have collapsed");
         //instantiate the tiles
+        Debug.Log("Instantiating tiles");
         InstantiateTiles();
     }
 
@@ -330,12 +363,55 @@ public class WFCManager : MonoBehaviour
         {
             for (int y = 0; y < gridHeight; y++)
             {
+                //maybe do a safety check here
+                //
+                //
+                //
+                GridCell cell = grid[x, y];
                 //print the chosen tile
                 //Debug.Log("the chosen tile is " + grid[x, y].chosenTile.tileName + " at position " + x + ", " + y);
                 //get the chosen tile
-                TileData chosenTile = grid[x, y].chosenTile;
+                TileData chosenTile = cell.chosenTile;
                 //instantiate the tile
                 GameObject tile = Instantiate(chosenTile.tilePrefab, new Vector3(x * cellSize, 0, y * cellSize), Quaternion.identity);
+
+                //sets the grid position of the button objects in the tile
+                ButtonController[] buttonControllers = tile.GetComponentsInChildren<ButtonController>();
+                foreach (ButtonController buttonController in buttonControllers)
+                {
+                    buttonController.setGrid(x, y);
+                }
+
+                //code to load the saved images to the corresponding buttons objects
+                for(int i = 0; i < cell.imagePaths.Length; i++)
+                {
+                    String imagePath = cell.imagePaths[i];
+                    //check if the image exists
+                    if(!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath))
+                    {
+                        byte[] imageBytes = File.ReadAllBytes(imagePath);
+
+                        Texture2D tex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+                        //load the image from the byte array
+                        if (tex.LoadImage(imageBytes))
+                        {
+                            //probably need to refactor this
+                            //dont like calling the APIManager for this
+                            //maybe should keep it dumb
+                            Sprite webSprite = APIManager.APIInstance.SpriteFromTexture2D(tex);
+                            //buttonControllers[i].SetImage(webSprite);
+
+                            //not quite sure how to do this
+                            if (i < buttonControllers.Length)
+                            {
+                                //Image image = buttonControllers[i].GetComponent<Image>();
+                                //grabs the image component from the button controller through the canvaa
+                                Image image = buttonControllers[i].promptCanvasController.image;
+                                image.sprite = webSprite;
+                            }
+                        }
+                    }
+                }
             }
         }
         //Debug.Log("Tiles instantiated");
@@ -376,6 +452,40 @@ public class WFCManager : MonoBehaviour
         mapSaver.SaveGrid(mapData, "testMap");
         //Debug.Log("Map saved");
 
+    }
+
+    public void ReconstructGrid(MapData map)
+    {
+        //this will be fed the map data from teh json file and will reconstruct the grid array
+        gridHeight = map.height;
+        gridWidth = map.width;
+        cellSize = map.cellSize;
+        grid = new GridCell[gridWidth, gridHeight];
+        tiles = tileManager.GetTileDatas();
+        //populate the grid with the room data
+        foreach (RoomData room in map.rooms)
+        {
+            //create a new grid cell
+            GridCell cell = new GridCell(new Vector2Int(room.x, room.y), tiles);
+            //set the chosen tile
+            foreach (TileData tile in tiles)
+            {
+                Debug.Log("here");
+                if (tile.tileName.Equals(room.roomType))
+                {
+                    Debug.Log("the room type is " + room.roomType);
+                    Debug.Log("CHOSEN TILE: " + tile.tileName);
+                    cell.chosenTile = tile;
+                }
+            }
+            //set the image paths
+            cell.imagePaths = room.imagePaths;
+            //add the cell to the grid
+            grid[room.x, room.y] = cell;
+        }
+        //Debug.Log("Grid reconstructed");
+        //instantiate the tiles
+        InstantiateTiles();
     }
 
     public List<TileData> getTiles()

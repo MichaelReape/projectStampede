@@ -14,7 +14,7 @@ public class MapLoader : MonoBehaviour
         tiles = tileManager.GetTileDatas();
         Debug.Log("Number of tiles loaded " + tiles.Count);
         MapData map = LoadGrid("testMap");
-        InstantiateLoadedgrid(map);
+        MapManager.MapManagerInstance.ReconstructGrid(map);
         Debug.Log("Map loaded");
     }
 
@@ -38,32 +38,33 @@ public class MapLoader : MonoBehaviour
         return map;
     }
 
-    public void InstantiateLoadedgrid(MapData map)
-    {
-        //possibly use a dictionary to store the tiles and their names
-        Debug.Log("Instantiating loaded grid");
+    //public void InstantiateLoadedgrid(MapData map)
+    //{
+    //    //Debug.Log(map.rooms[0].imagePaths[0]);
+    //    //possibly use a dictionary to store the tiles and their names
+    //    Debug.Log("Instantiating loaded grid");
 
-        //first handle if the grid is null
-        if (map == null)
-        {
-            Debug.LogError("MapData is null");
-            return;
-        }
+    //    //first handle if the grid is null
+    //    if (map == null)
+    //    {
+    //        Debug.LogError("MapData is null");
+    //        return;
+    //    }
 
-        int cellSize = map.cellSize;
-        //iterate through the list of rooms
-        foreach (RoomData room in map.rooms)
-        {
-            foreach (TileData tile in tiles)
-            {
-                if (tile.tileName.Equals(room.roomType))
-                {
-                    //instantiate the tile
-                    GameObject tilePrefab = Instantiate(tile.tilePrefab, new Vector3(room.x * cellSize, 0, room.y * cellSize), Quaternion.identity);
-                    break;
-                }
-            }
-        }
+    //    int cellSize = map.cellSize;
+    //    //iterate through the list of rooms
+    //    foreach (RoomData room in map.rooms)
+    //    {
+    //        foreach (TileData tile in tiles)
+    //        {
+    //            if (tile.tileName.Equals(room.roomType))
+    //            {
+    //                //instantiate the tile
+    //                GameObject tilePrefab = Instantiate(tile.tilePrefab, new Vector3(room.x * cellSize, 0, room.y * cellSize), Quaternion.identity);
+    //                break;
+    //            }
+    //        }
+    //    }
 
-    }
+    //}
 }

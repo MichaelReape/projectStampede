@@ -807,7 +807,7 @@ MonoBehaviour:
   promptInput: {fileID: 6052321722316668031}
   promptCanvas: {fileID: 5157660774654694577}
   image: {fileID: 1537929210083240812}
-  playerMovement: {fileID: 0}
+  ButtonController: {fileID: 6974861170737512856}
 --- !u!1 &6789065386815259030
 GameObject:
   m_ObjectHideFlags: 0
@@ -1442,6 +1442,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6974861170737512856}
   m_SourcePrefab: {fileID: 100100000, guid: 6d056774e3819a84291dc9608f99ba87, type: 3}
+--- !u!4 &1639019930445008396 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5796410195816208385, guid: 6d056774e3819a84291dc9608f99ba87, type: 3}
+  m_PrefabInstance: {fileID: 5102028268130145805}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2184763972466446556 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6386065704600798929, guid: 6d056774e3819a84291dc9608f99ba87, type: 3}
@@ -1465,5 +1470,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionDistance: 2
-  promptCanvas: {fileID: 5157660774654694577}
-  playerMovement: {fileID: 0}
+  buttonIndex: 0
+  buttonTransform: {fileID: 1639019930445008396}
+  promptCanvasController: {fileID: 1444355667534107680}
