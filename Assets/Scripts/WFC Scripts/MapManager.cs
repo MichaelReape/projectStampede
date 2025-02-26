@@ -16,6 +16,7 @@ public class MapManager : MonoBehaviour
     public int gridHeight;
     //all rooms have the same size at the minute
     public int cellSize = 8;
+    public string mapName;
     public List<TileData> tiles;
     //2d array to hold the grid
     public GridCell[,] grid;
@@ -424,6 +425,7 @@ public class MapManager : MonoBehaviour
 
     public void saveMap()
     {
+        //this is where i build teh map to save
         //create a new mapData object
         MapData mapData = new MapData();
         mapData.height = gridHeight;
@@ -449,7 +451,7 @@ public class MapManager : MonoBehaviour
             }
         }
         //save the mapData object
-        mapSaver.SaveGrid(mapData, "testMap");
+        mapSaver.SaveGrid(mapData, mapName);
         //Debug.Log("Map saved");
 
     }

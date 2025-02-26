@@ -15,6 +15,7 @@ public class ButtonController : MonoBehaviour
     //[SerializeField] private GameObject promptCanvas;
     public PromptCanvasController promptCanvasController;
     //[SerializeField] private PlayerMovement playerMovement;
+    //public PauseMenuController pauseMenuController;
 
     // Start is called before the first frame update
     void Start()
@@ -24,15 +25,15 @@ public class ButtonController : MonoBehaviour
 
     private void OnMouseDown()
     { 
-        if (Vector3.Distance(Camera.main.transform.position, transform.position) <= interactionDistance)
+        if (Vector3.Distance(Camera.main.transform.position, transform.position) <= interactionDistance && !PauseMenuController.PMCInstance.GetIsPauseMenuOpen())
         {
             Debug.Log("Click");
             //APIManager.APIInstance.GetImageFromAPI("A big,fat, orange cat smoking a bong", (Sprite result) =>
             //{
             //    image.sprite = result;
             //});
-
-
+            //pauseMenuController.SetIsPauseMenuOpen(true);
+            PauseMenuController.PMCInstance.SetIsPauseMenuOpen(true);
             //going to call the prompt canvas and set it to active
             promptCanvasController.gameObject.SetActive(true);
             //promptCanvas.SetActive(true);
@@ -54,11 +55,16 @@ public class ButtonController : MonoBehaviour
     }
     private void OnMouseUp()
     {
-        //disengage the button animation
-        Vector3 newPosition = buttonTransform.position;
-        newPosition.y += 0.05f;
-        buttonTransform.position = newPosition;
-        Debug.Log("Clack");
+        //bug here where if the button is pressed while menu open will just add y position
+        //probably fix with another flag
+        //if (!PauseMenuController.PMCInstance.GetIsPauseMenuOpen())
+        //{
+            //disengage the button animation
+            Vector3 newPosition = buttonTransform.position;
+            newPosition.y += 0.05f;
+            buttonTransform.position = newPosition;
+            Debug.Log("Clack");
+        
     }
 
     public void setGrid(int x, int y)

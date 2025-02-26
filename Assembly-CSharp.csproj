@@ -68,6 +68,8 @@
     <Compile Include="Assets\Scripts\WFC Scripts\MapManager.cs" />
     <Compile Include="Assets\Scripts\ButtonActions.cs" />
     <Compile Include="Assets\Scripts\MoveImage.cs" />
+    <Compile Include="Assets\Scripts\PauseMenuController.cs" />
+    <Compile Include="Assets\Scripts\UIMenuManager.cs" />
     <Compile Include="Assets\Scripts\WFC Scripts\NewMap.cs" />
     <Compile Include="Assets\Scripts\InputButton.cs" />
     <Compile Include="Assets\Scripts\SphereInteraction.cs" />

@@ -14,6 +14,7 @@ public class PromptCanvasController : MonoBehaviour
     [SerializeField] public Image image;
     //public Transform buttonTransform;
     public ButtonController ButtonController;
+    //public PauseMenuController pauseMenuController;
     private int gridx;
     private int gridy;
     private int buttonIndex;
@@ -34,6 +35,8 @@ public class PromptCanvasController : MonoBehaviour
         //get the text from the input field
         string prompt = promptInput.text;
         //int gridx = ButtonController.getGridX();
+        PauseMenuController.PMCInstance.SetIsPauseMenuOpen(false);
+        //pauseMenuController.SetIsPauseMenuOpen(false);
 
         //get the image from the API
         if (!prompt.Equals(""))
@@ -61,6 +64,8 @@ public class PromptCanvasController : MonoBehaviour
     }
     public void OnCancel()
     {
+        //pauseMenuController.SetIsPauseMenuOpen(false);
+        PauseMenuController.PMCInstance.SetIsPauseMenuOpen(false);
         Debug.Log("Cancel Button Clicked");
         ButtonController.SetButtonGreen();
         //close the prompt canvas

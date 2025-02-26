@@ -1080,6 +1080,7 @@ MonoBehaviour:
   gridWidth: 0
   gridHeight: 0
   cellSize: 0
+  mapName: 
   tiles:
   - {fileID: 11400000, guid: 6f66643114c2d4249a3df2488e6cd32d, type: 2}
   - {fileID: 11400000, guid: a8b1b2497500de641b37d837959b3c93, type: 2}
