@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PauseMenuController : MonoBehaviour
 {
@@ -87,12 +88,13 @@ public class PauseMenuController : MonoBehaviour
     public void OnMainMenuButtonClicked()
     {
         Debug.Log("Main Menu button clicked");
-        //SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void OnQuitButtonClicked()
     {
         Debug.Log("Quit button clicked");
+        //not working in editor
         Application.Quit();
     }
     public void OnConfirmButtonClicked()

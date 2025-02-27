@@ -16,6 +16,7 @@ public class ButtonController : MonoBehaviour
     public PromptCanvasController promptCanvasController;
     //[SerializeField] private PlayerMovement playerMovement;
     //public PauseMenuController pauseMenuController;
+    public bool isButtonPressed = false;
 
     // Start is called before the first frame update
     void Start()
@@ -47,9 +48,13 @@ public class ButtonController : MonoBehaviour
             PlayerMovement.PlayerMovementInstance.CanMove = false;
 
             //engage teh button animation
-            Vector3 newPosition = buttonTransform.position;
-            newPosition.y -= 0.05f;
-            buttonTransform.position = newPosition;
+            if (!isButtonPressed)
+            {
+                Vector3 newPosition = buttonTransform.position;
+                newPosition.y -= 0.05f;
+                buttonTransform.position = newPosition;
+                isButtonPressed = true;
+            }
         }
 
     }
@@ -60,10 +65,10 @@ public class ButtonController : MonoBehaviour
         //if (!PauseMenuController.PMCInstance.GetIsPauseMenuOpen())
         //{
             //disengage the button animation
-            Vector3 newPosition = buttonTransform.position;
-            newPosition.y += 0.05f;
-            buttonTransform.position = newPosition;
-            Debug.Log("Clack");
+            //Vector3 newPosition = buttonTransform.position;
+            //newPosition.y += 0.05f;
+            //buttonTransform.position = newPosition;
+            //Debug.Log("Clack");
         
     }
 

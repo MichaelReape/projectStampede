@@ -39,7 +39,7 @@ public class PromptCanvasController : MonoBehaviour
         //pauseMenuController.SetIsPauseMenuOpen(false);
 
         //get the image from the API
-        if (!prompt.Equals(""))
+        if (!prompt.Equals("") && !APIManager.APIInstance.isCallingAPI)
         {
             ButtonController.SetButtonRed();
             APIManager.APIInstance.GetImageFromAPI(prompt,gridx, gridy, buttonIndex,(Sprite result) =>
@@ -48,11 +48,19 @@ public class PromptCanvasController : MonoBehaviour
                 Debug.Log("Image received from API");
                 image.sprite = result;
                 ButtonController.SetButtonGreen();
+                buttonAnimation();
             });
+            //if (APIManager.APIInstance.isCallingAPI)
+            //{
+            //    ButtonController.SetButtonGreen();
+            //    buttonAnimation();
+            //    Debug.Log("API call in progress");
+            //} 
         }
         else
         {
-            ButtonController.SetButtonGreen();
+            //ButtonController.SetButtonGreen();
+            buttonAnimation();
             Debug.Log("Prompt is empty");
         }
         //close the prompt canvas
@@ -74,5 +82,16 @@ public class PromptCanvasController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         PlayerMovement.PlayerMovementInstance.CanMove = true;
+        buttonAnimation();
+    }
+    public void buttonAnimation()
+    {
+        if (ButtonController.isButtonPressed)
+        {
+            Vector3 newPosition = ButtonController.buttonTransform.position;
+            newPosition.y += 0.05f;
+            ButtonController.buttonTransform.position = newPosition;
+            ButtonController.isButtonPressed = false;
+        }
     }
 }

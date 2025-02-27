@@ -4,12 +4,20 @@ using UnityEngine;
 using System.IO;
 public class MapSaver : MonoBehaviour
 {
+    public string directory;
     public void SaveGrid(MapData map, string fileName)
     {
         string json = JsonUtility.ToJson(map);
 
+        directory = Path.Combine(Application.persistentDataPath, "Saves");
+        //check if the directory exists
+        if (!Directory.Exists(directory))
+        {
+            //if it doesn't exist create it
+            Directory.CreateDirectory(directory);
+        }
         //may need to check if already exists and also to create the directory
-        string path = Path.Combine(Application.persistentDataPath, fileName + ".json");
+        string path = Path.Combine(directory, fileName + ".json");
 
         //print path to console
         Debug.Log("Saving to: " + path);

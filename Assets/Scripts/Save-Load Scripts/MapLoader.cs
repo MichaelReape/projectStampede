@@ -3,17 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Runtime.CompilerServices;
+using UnityEngine.SceneManagement;
 
 public class MapLoader : MonoBehaviour
 {
-    public TileManager tileManager;
-    public List<TileData> tiles;
+    //public TileManager tileManager;
+    //public List<TileData> tiles;
+    public GameObject LoadMenuCanvas;
 
     private void Start()
     {
-        tiles = tileManager.GetTileDatas();
-        Debug.Log("Number of tiles loaded " + tiles.Count);
-        MapData map = LoadGrid("testMap");
+        //    //canr remember if this is needed
+        //    tiles = tileManager.GetTileDatas();
+        //    //Debug.Log("Number of tiles loaded " + tiles.Count);
+        //    //MapData map = LoadGrid("testMap");
+        //    //MapManager.MapManagerInstance.ReconstructGrid(map);
+        //    //Debug.Log("Map loaded");
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        PlayerMovement.PlayerMovementInstance.CanMove = false;
+    }
+
+public void LoadMap(string fileName)
+    {
+        //disable the load menu
+        LoadMenuCanvas.SetActive(false);
+        //load the scene first
+        //SceneManager.LoadScene("LoadMapTemplate");
+        //open the cursonr and lock the movement
+        MapData map = LoadGrid(fileName);
+        MapManager.MapManagerInstance.mapName = fileName;
         MapManager.MapManagerInstance.ReconstructGrid(map);
         Debug.Log("Map loaded");
     }
@@ -21,7 +40,9 @@ public class MapLoader : MonoBehaviour
     public MapData LoadGrid(string fileName)
     {
         //get the path to the file
-        string path = Path.Combine(Application.persistentDataPath, fileName + ".json");
+        Debug.Log("Loading file " + fileName);
+        string path = Path.Combine(Application.persistentDataPath, "Saves", fileName + ".json");
+        Debug.Log("Path to file " + path);
 
         //check if the file exists or not
         if (!File.Exists(path))
@@ -36,6 +57,20 @@ public class MapLoader : MonoBehaviour
         MapData map = JsonUtility.FromJson<MapData>(json);
         Debug.Log("File " + fileName + " loaded from " + path);
         return map;
+    }
+
+    public string[] GetFiles()
+    {
+        string saveDirectory = Path.Combine(Application.persistentDataPath, "Saves");
+        if (!Directory.Exists(saveDirectory))
+        {
+            Debug.LogError("Directory " + saveDirectory + " does not exist");
+            Directory.CreateDirectory(saveDirectory);
+            return null;
+        }
+        string[] files = Directory.GetFiles(saveDirectory, "*.json");
+        return files;
+        //may get rid of the extension later
     }
 
     //public void InstantiateLoadedgrid(MapData map)

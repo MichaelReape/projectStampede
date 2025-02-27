@@ -14,7 +14,9 @@ public class NewMap : MonoBehaviour
     void Start()
     {
         newMapPanel.SetActive(true);
-        MapManager.MapManagerInstance.InitialiseGrid(2, 2);
+        int mapSizeX = MapSize.mapSizeX;
+        int mapSizeY = MapSize.mapSizeY;
+        MapManager.MapManagerInstance.InitialiseGrid(mapSizeX, mapSizeY);
         Debug.Log("grid initialised");
         MapManager.MapManagerInstance.RunWFC();
         Debug.Log("WFC run");

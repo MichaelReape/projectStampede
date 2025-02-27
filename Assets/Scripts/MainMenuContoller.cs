@@ -5,17 +5,25 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuContoller : MonoBehaviour
 {
-    public GameObject LoadOptionPanel;
+    //public GameObject LoadOptionPanel;
     public GameObject ChooseOptionPanel;
     //public MapManager wfcManager;
+    public GameObject MapSizePanel;
 
     //onclidk will call this
     //will use scene manager to load the gamescene
+
+    public void Start()
+    {
+        MapSizePanel.SetActive(false);
+    }
     public void NewMap()
     {
         //loads teh blank map scene
-        SceneManager.LoadScene("NewMapTemplate");
+        //SceneManager.LoadScene("NewMapTemplate");
         Debug.Log("new map loaded");
+        ChooseOptionPanel.SetActive(false);
+        MapSizePanel.SetActive(true);
         //MapManager.MapManagerInstance.cellSize = 8;
         //MapManager.MapManagerInstance.gridHeight = 2;
         //MapManager.MapManagerInstance.gridWidth = 2;

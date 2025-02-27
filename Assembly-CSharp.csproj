@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\ButtonActions.cs" />
     <Compile Include="Assets\Scripts\MoveImage.cs" />
     <Compile Include="Assets\Scripts\PauseMenuController.cs" />
+    <Compile Include="Assets\Scripts\WFC Scripts\MapSize.cs" />
     <Compile Include="Assets\Scripts\UIMenuManager.cs" />
     <Compile Include="Assets\Scripts\WFC Scripts\NewMap.cs" />
     <Compile Include="Assets\Scripts\InputButton.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Assets\Scripts\Save-Load Scripts\MapData.cs" />
     <Compile Include="Assets\Scripts\WFC Scripts\GridCell.cs" />
     <Compile Include="Assets\Scripts\APIManager.cs" />
+    <Compile Include="Assets\Scripts\Save-Load Scripts\LoadMenuController.cs" />
     <Compile Include="Assets\Scripts\Save-Load Scripts\ImageLoader.cs" />
     <Compile Include="Assets\Scripts\Save-Load Scripts\TileManager.cs" />
     <Compile Include="Assets\Scripts\Save-Load Scripts\ImageSaver.cs" />

@@ -15,7 +15,7 @@ public class MapManager : MonoBehaviour
     public int gridWidth;
     public int gridHeight;
     //all rooms have the same size at the minute
-    public int cellSize = 8;
+    public int cellSize;
     public string mapName;
     public List<TileData> tiles;
     //2d array to hold the grid
@@ -355,6 +355,7 @@ public class MapManager : MonoBehaviour
     //this will be done after the grid has been collapsed
     public void InstantiateTiles()
     {
+        Debug.Log("Instantiating tiles");
         //this might be wrong, need to check
         //is instantiating the tiles with a gap between them
         //maybe need to change the cell size to 1
@@ -364,6 +365,8 @@ public class MapManager : MonoBehaviour
         {
             for (int y = 0; y < gridHeight; y++)
             {
+                //print the cell 
+                Debug.Log("the cell is " + grid[x, y].chosenTile.tilePrefab.name);
                 //maybe do a safety check here
                 //
                 //
@@ -384,11 +387,11 @@ public class MapManager : MonoBehaviour
                 }
 
                 //code to load the saved images to the corresponding buttons objects
-                for(int i = 0; i < cell.imagePaths.Length; i++)
+                for (int i = 0; i < cell.imagePaths.Length; i++)
                 {
                     String imagePath = cell.imagePaths[i];
                     //check if the image exists
-                    if(!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath))
+                    if (!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath))
                     {
                         byte[] imageBytes = File.ReadAllBytes(imagePath);
 
@@ -415,6 +418,10 @@ public class MapManager : MonoBehaviour
                 }
             }
         }
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            PlayerMovement.PlayerMovementInstance.CanMove = true;
+            PauseMenuController.PMCInstance.SetIsPauseMenuOpen(false);
         //Debug.Log("Tiles instantiated");
     }
 
@@ -452,7 +459,7 @@ public class MapManager : MonoBehaviour
         }
         //save the mapData object
         mapSaver.SaveGrid(mapData, mapName);
-        //Debug.Log("Map saved");
+        Debug.Log("Map saved");
 
     }
 
@@ -460,8 +467,12 @@ public class MapManager : MonoBehaviour
     {
         //this will be fed the map data from teh json file and will reconstruct the grid array
         gridHeight = map.height;
+        Debug.Log("the grid height is " + gridHeight);
         gridWidth = map.width;
+        Debug.Log("the grid width is " + gridWidth);
         cellSize = map.cellSize;
+        Debug.Log("the cell size is " + cellSize);
+        //cellSize = map.cellSize;
         grid = new GridCell[gridWidth, gridHeight];
         tiles = tileManager.GetTileDatas();
         //populate the grid with the room data
@@ -472,11 +483,11 @@ public class MapManager : MonoBehaviour
             //set the chosen tile
             foreach (TileData tile in tiles)
             {
-                Debug.Log("here");
+                //Debug.Log("here");
                 if (tile.tileName.Equals(room.roomType))
                 {
-                    Debug.Log("the room type is " + room.roomType);
-                    Debug.Log("CHOSEN TILE: " + tile.tileName);
+                    //Debug.Log("the room type is " + room.roomType);
+                    //Debug.Log("CHOSEN TILE: " + tile.tileName);
                     cell.chosenTile = tile;
                 }
             }
@@ -485,7 +496,7 @@ public class MapManager : MonoBehaviour
             //add the cell to the grid
             grid[room.x, room.y] = cell;
         }
-        //Debug.Log("Grid reconstructed");
+        Debug.Log("Grid reconstructed");
         //instantiate the tiles
         InstantiateTiles();
     }

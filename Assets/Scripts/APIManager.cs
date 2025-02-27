@@ -13,7 +13,7 @@ public class APIManager : MonoBehaviour
     private static APIManager instance;
     private string apiEndpoint = "http://localhost:5000/generate";
     //to make sure only one api call is made at a time
-    private bool isCallingAPI = false;
+    public bool isCallingAPI = false;
     
     private int gridx;
     private int gridy;
