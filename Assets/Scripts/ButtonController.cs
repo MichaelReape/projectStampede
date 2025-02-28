@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,9 +15,12 @@ public class ButtonController : MonoBehaviour
     //[SerializeField] public Image image;
     //[SerializeField] private GameObject promptCanvas;
     public PromptCanvasController promptCanvasController;
+    //public Prompt3dController prompt3dController;
     //[SerializeField] private PlayerMovement playerMovement;
     //public PauseMenuController pauseMenuController;
     public bool isButtonPressed = false;
+    public TMP_Dropdown dropdown;
+    public GameObject dropdownCanvas;
 
     // Start is called before the first frame update
     void Start()
@@ -36,9 +40,9 @@ public class ButtonController : MonoBehaviour
             //pauseMenuController.SetIsPauseMenuOpen(true);
             PauseMenuController.PMCInstance.SetIsPauseMenuOpen(true);
             //going to call the prompt canvas and set it to active
-            promptCanvasController.gameObject.SetActive(true);
-            //promptCanvas.SetActive(true);
-            promptCanvasController.setButtonInfo(gridx, gridy, buttonIndex);
+            //promptCanvasController.gameObject.SetActive(true);
+            ////promptCanvas.SetActive(true);
+            //promptCanvasController.setButtonInfo(gridx, gridy, buttonIndex);
             //promptCanvasController.buttonIndex = buttonIndex;
             //promptCanvasController.gridx = gridx;
             //promptCanvasController.gridy = gridy;
@@ -46,7 +50,10 @@ public class ButtonController : MonoBehaviour
             Cursor.visible = true;
             Debug.Log("Prompt Canvas Active");
             PlayerMovement.PlayerMovementInstance.CanMove = false;
-
+            //show the dropdown
+            //dropdown.gameObject.SetActive(true);
+            dropdownCanvas.SetActive(true);
+            dropdown.onValueChanged.AddListener(delegate { DropdownValueChanged(dropdown); });
             //engage teh button animation
             if (!isButtonPressed)
             {
@@ -71,7 +78,36 @@ public class ButtonController : MonoBehaviour
             //Debug.Log("Clack");
         
     }
-
+    private void DropdownValueChanged(TMP_Dropdown change)
+    {
+        Debug.Log("Dropdown Value Changed");
+        Debug.Log(change.value);
+        if (change.value == 1)
+        {
+            Debug.Log("2D Option");
+            Option2D();
+        }
+        else if (change.value == 2)
+        {
+            Debug.Log("3D Option");
+            Option3D();
+        }
+    }
+    public void Option2D()
+    {
+        Debug.Log("2D Option");
+        promptCanvasController.type = 1;
+        promptCanvasController.gameObject.SetActive(true);
+        //promptCanvas.SetActive(true);
+        promptCanvasController.setButtonInfo(gridx, gridy, buttonIndex);
+        dropdownCanvas.SetActive(false);
+    }
+    public void Option3D()
+    {
+        promptCanvasController.type = 2;
+        Debug.Log("3D Option");
+        dropdownCanvas.SetActive(false);
+    }
     public void setGrid(int x, int y)
     {
         gridx = x;

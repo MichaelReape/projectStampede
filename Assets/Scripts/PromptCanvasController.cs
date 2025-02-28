@@ -18,6 +18,8 @@ public class PromptCanvasController : MonoBehaviour
     private int gridx;
     private int gridy;
     private int buttonIndex;
+
+    public int type;
     //need to reference the player movement script
     //[SerializeField] private PlayerMovement playerMovement;
 
@@ -32,43 +34,52 @@ public class PromptCanvasController : MonoBehaviour
     public void OnConfirm()
     {
         Debug.Log("Confirm Button Clicked");
-        //get the text from the input field
-        string prompt = promptInput.text;
-        //int gridx = ButtonController.getGridX();
-        PauseMenuController.PMCInstance.SetIsPauseMenuOpen(false);
-        //pauseMenuController.SetIsPauseMenuOpen(false);
+        if(type == 1)
+        {
+            Debug.Log("2D Option, type = " + type);
 
-        //get the image from the API
-        if (!prompt.Equals("") && !APIManager.APIInstance.isCallingAPI)
-        {
-            ButtonController.SetButtonRed();
-            APIManager.APIInstance.GetImageFromAPI(prompt,gridx, gridy, buttonIndex,(Sprite result) =>
+            //get the text from the input field
+            string prompt = promptInput.text;
+            //int gridx = ButtonController.getGridX();
+            PauseMenuController.PMCInstance.SetIsPauseMenuOpen(false);
+            //pauseMenuController.SetIsPauseMenuOpen(false);
+
+            //get the image from the API
+            if (!prompt.Equals("") && !APIManager.APIInstance.isCallingAPI)
             {
-                Debug.Log(gridx + " " + gridy + " " + buttonIndex);
-                Debug.Log("Image received from API");
-                image.sprite = result;
-                ButtonController.SetButtonGreen();
+                ButtonController.SetButtonRed();
+                APIManager.APIInstance.GetImageFromAPI(prompt,gridx, gridy, buttonIndex,(Sprite result) =>
+                {
+                    Debug.Log(gridx + " " + gridy + " " + buttonIndex);
+                    Debug.Log("Image received from API");
+                    image.sprite = result;
+                    ButtonController.SetButtonGreen();
+                    buttonAnimation();
+                });
+                //if (APIManager.APIInstance.isCallingAPI)
+                //{
+                //    ButtonController.SetButtonGreen();
+                //    buttonAnimation();
+                //    Debug.Log("API call in progress");
+                //} 
+            }
+            else
+            {
+                //ButtonController.SetButtonGreen();
                 buttonAnimation();
-            });
-            //if (APIManager.APIInstance.isCallingAPI)
-            //{
-            //    ButtonController.SetButtonGreen();
-            //    buttonAnimation();
-            //    Debug.Log("API call in progress");
-            //} 
+                Debug.Log("Prompt is empty");
+            }
+            //close the prompt canvas
+            promptCanvas.SetActive(false);
+            Debug.Log("Prompt Canvas Closed");
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            PlayerMovement.PlayerMovementInstance.CanMove = true;
         }
-        else
+        else if (type == 2)
         {
-            //ButtonController.SetButtonGreen();
-            buttonAnimation();
-            Debug.Log("Prompt is empty");
+
         }
-        //close the prompt canvas
-        promptCanvas.SetActive(false);
-        Debug.Log("Prompt Canvas Closed");
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        PlayerMovement.PlayerMovementInstance.CanMove = true;
     }
     public void OnCancel()
     {
