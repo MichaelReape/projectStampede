@@ -30,7 +30,7 @@ public class ButtonController : MonoBehaviour
 
     private void OnMouseDown()
     { 
-        if (Vector3.Distance(Camera.main.transform.position, transform.position) <= interactionDistance && !PauseMenuController.PMCInstance.GetIsPauseMenuOpen())
+        if (Vector3.Distance(Camera.main.transform.position, transform.position) <= interactionDistance && !PauseMenuController.PMCInstance.GetIsPauseMenuOpen() && !APIManager.APIInstance.isCallingAPI)
         {
             Debug.Log("Click");
             //APIManager.APIInstance.GetImageFromAPI("A big,fat, orange cat smoking a bong", (Sprite result) =>
@@ -106,6 +106,7 @@ public class ButtonController : MonoBehaviour
     {
         promptCanvasController.type = 2;
         Debug.Log("3D Option");
+        promptCanvasController.gameObject.SetActive(true);
         dropdownCanvas.SetActive(false);
     }
     public void setGrid(int x, int y)

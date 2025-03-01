@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,12 +35,12 @@ public class PromptCanvasController : MonoBehaviour
     public void OnConfirm()
     {
         Debug.Log("Confirm Button Clicked");
+            string prompt = promptInput.text;
         if(type == 1)
         {
             Debug.Log("2D Option, type = " + type);
 
             //get the text from the input field
-            string prompt = promptInput.text;
             //int gridx = ButtonController.getGridX();
             PauseMenuController.PMCInstance.SetIsPauseMenuOpen(false);
             //pauseMenuController.SetIsPauseMenuOpen(false);
@@ -78,7 +79,46 @@ public class PromptCanvasController : MonoBehaviour
         }
         else if (type == 2)
         {
+            Debug.Log("3D Option, type = " + type);
+            Debug.Log("promp is " + prompt);
+            PauseMenuController.PMCInstance.SetIsPauseMenuOpen(false);
+            //string prompt = promptInput.text;
+            //code for 3d prompt to api controller
+            if (!prompt.Equals("") && !APIManager.APIInstance.isCallingAPI)
+            {
+                ButtonController.SetButtonRed();
+                APIManager.APIInstance.Get3DObjectFromAPI(prompt, (string localPath) =>
 
+                {
+                    Debug.Log("3D Object received from API");
+                    //load the 3d object
+                    string fileName = Path.Combine(localPath, prompt);
+                    fileName = fileName + ".glb";
+                    ObjectLoader.ObjectLoaderInstance.LoadObject(fileName);
+                    //i should probably save it too here
+                    ButtonController.SetButtonGreen();
+                    buttonAnimation();
+                });
+
+
+                //Debug.Log("3D Object received from API");
+                ////load the 3d object
+                //ObjectLoader.ObjectLoaderInstance.LoadObject(objectPath);
+                ////i should probably save it too here
+                //ButtonController.SetButtonGreen();
+                //buttonAnimation();
+            }
+            else
+            {
+                buttonAnimation();
+                Debug.Log("Prompt is empty");
+            }
+            //close the prompt canvas
+            promptCanvas.SetActive(false);
+            Debug.Log("Prompt Canvas Closed");
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            PlayerMovement.PlayerMovementInstance.CanMove = true;
         }
     }
     public void OnCancel()

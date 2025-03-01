@@ -47,10 +47,11 @@ using System.Threading.Tasks;
 
 public class GLBSpawner : MonoBehaviour
 {
-    public string path = "file:///C:/Users/micha/Desktop/StableDiffusion3d/stable-fast-3d/output/0/mesh.glb";
+    public string path;
 
     void Start()
     {
+        path = "file:///C:/Users/micha/Desktop/StableDiffusionPro/stable-fast-3d/output/0/mesh.glb";
         //Cursor.lockState = CursorLockMode.None;
         //Cursor.visible = true;
         //importButton.onClick.AddListener(() =>
@@ -69,10 +70,11 @@ public class GLBSpawner : MonoBehaviour
             Debug.LogError("Failed to load GLB file.");
             return;
         }
+        
 
         // 2. Create a parent GameObject to hold the model
         GameObject parent = new GameObject("ImportedGLB");
-
+        
         // 3. Instantiate the main scene from the GLB
         //gltf.InstantiateMainScene(parent.transform);
         await temp.InstantiateMainSceneAsync(parent.transform);

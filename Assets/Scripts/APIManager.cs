@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using System.IO;
 //using UnityEngine.Networking;
 
 public class APIManager : MonoBehaviour
@@ -11,10 +12,10 @@ public class APIManager : MonoBehaviour
     //with something like APIManager.APIInstance
 
     private static APIManager instance;
-    private string apiEndpoint = "http://localhost:5000/generate";
+    private string apiEndpoint;
     //to make sure only one api call is made at a time
     public bool isCallingAPI = false;
-    
+    private string localPath;
     private int gridx;
     private int gridy;
     private int buttonIndex;
@@ -51,8 +52,8 @@ public class APIManager : MonoBehaviour
     private IEnumerator GetImage(string prompt, System.Action<Sprite> onSuccess)
     {
         //this is where you would make the API call to get the image using the prompt
-        
-        if(isCallingAPI)
+        apiEndpoint = "http://localhost:5000/generateImage";
+        if (isCallingAPI)
         {
             Debug.Log("API call already in progress");
             yield break;
@@ -130,6 +131,62 @@ public class APIManager : MonoBehaviour
         }
         isCallingAPI = false;
     }
+    public string Get3DObjectFromAPI(string prompt, System.Action<string> onSuccess)
+    {
+        Debug.Log("Getting 3D object from API");
+        StartCoroutine(GetObject(prompt, onSuccess));
+        localPath += prompt + ".glb";
+        return localPath;
+    }
+
+    private IEnumerator GetObject(string prompt, System.Action<string> onSuccess)
+    {
+        if (isCallingAPI)
+        {
+            Debug.Log("API call already in progress");
+            yield break;
+        }
+        isCallingAPI = true;
+        apiEndpoint = "http://localhost:5000/generate3D";
+
+        WWWForm form = new WWWForm();
+        form.AddField("prompt", prompt);
+        Debug.Log("API call made to: " + apiEndpoint);
+        using (UnityWebRequest webRequest = UnityWebRequest.Post(apiEndpoint, form))
+        {
+            //Start  request
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log("GLB download successful!");
+                string filename = prompt + ".glb";
+                //Ensure the directory structure exists
+                localPath = Path.Combine(Application.persistentDataPath, "Saves", "Objects");
+                Debug.Log("Local path: " + localPath);
+                string dir = Path.GetDirectoryName(localPath);
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
+                string filePath = Path.Combine(localPath, filename);
+                //write the downloaded bytes to file
+                File.WriteAllBytes(filePath, webRequest.downloadHandler.data);
+                Debug.Log("GLB file saved to: " + localPath);
+
+                onSuccess?.Invoke(localPath);
+                // 3) Optionally load the GLB immediately with glTFast
+                //StartCoroutine(LoadGLB(localPath));
+            }
+            else
+            {
+                Debug.LogError($"Error downloading GLB: {webRequest.error}");
+                onSuccess?.Invoke(null);
+            }
+        }
+        isCallingAPI = false;
+    }
+
     public Sprite SpriteFromTexture2D(Texture2D texture)
     {
         //convert the texture to a sprite
