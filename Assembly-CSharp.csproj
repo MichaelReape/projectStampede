@@ -60,36 +60,36 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.48f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Spawner Scripts\APIManager.cs" />
+    <Compile Include="Assets\Scripts\Old\UIMenuManager.cs" />
     <Compile Include="Assets\Scripts\WFC Scripts\TileData.cs" />
-    <Compile Include="Assets\Scripts\LoadImageFromInternet.cs" />
     <Compile Include="Assets\Scripts\GLBTest.cs" />
+    <Compile Include="Assets\Scripts\Menu Scripts\PauseMenuController.cs" />
     <Compile Include="Assets\Scripts\Save-Load Scripts\MapLoader.cs" />
-    <Compile Include="Assets\Scripts\ButtonController.cs" />
-    <Compile Include="Assets\Scripts\InputFieldController.cs" />
+    <Compile Include="Assets\Scripts\Old\SphereInteraction.cs" />
+    <Compile Include="Assets\Scripts\Spawner Scripts\ButtonController.cs" />
     <Compile Include="Assets\Scripts\WFC Scripts\MapManager.cs" />
-    <Compile Include="Assets\Scripts\ButtonActions.cs" />
-    <Compile Include="Assets\Scripts\MoveImage.cs" />
-    <Compile Include="Assets\Scripts\PauseMenuController.cs" />
+    <Compile Include="Assets\Scripts\Old\InputButton.cs" />
     <Compile Include="Assets\Scripts\WFC Scripts\MapSize.cs" />
-    <Compile Include="Assets\Scripts\UIMenuManager.cs" />
+    <Compile Include="Assets\Scripts\Old\MoveImage.cs" />
+    <Compile Include="Assets\Scripts\Menu Scripts\MainMenuContoller.cs" />
+    <Compile Include="Assets\Scripts\Save-Load Scripts\ObjectSaver.cs" />
     <Compile Include="Assets\Scripts\WFC Scripts\NewMap.cs" />
-    <Compile Include="Assets\Scripts\InputButton.cs" />
-    <Compile Include="Assets\Scripts\SphereInteraction.cs" />
-    <Compile Include="Assets\Scripts\MainMenuContoller.cs" />
+    <Compile Include="Assets\Scripts\Old\ButtonActions.cs" />
+    <Compile Include="Assets\Scripts\Old\CloseButton.cs" />
+    <Compile Include="Assets\Scripts\Spawner Scripts\LoadImageFromInternet.cs" />
     <Compile Include="Assets\Scripts\Save-Load Scripts\MapSaver.cs" />
     <Compile Include="Assets\Scripts\Draggable.cs" />
-    <Compile Include="Assets\Scripts\PromptCanvasController.cs" />
-    <Compile Include="Assets\Scripts\ObjectLoader.cs" />
     <Compile Include="Assets\Scripts\Save-Load Scripts\MapData.cs" />
     <Compile Include="Assets\Scripts\WFC Scripts\GridCell.cs" />
-    <Compile Include="Assets\Scripts\APIManager.cs" />
+    <Compile Include="Assets\Scripts\Menu Scripts\InputFieldController.cs" />
     <Compile Include="Assets\Scripts\Save-Load Scripts\LoadMenuController.cs" />
     <Compile Include="Assets\Scripts\Save-Load Scripts\ImageLoader.cs" />
     <Compile Include="Assets\Scripts\Save-Load Scripts\TileManager.cs" />
+    <Compile Include="Assets\Scripts\Spawner Scripts\ObjectLoader.cs" />
     <Compile Include="Assets\Scripts\Save-Load Scripts\ImageSaver.cs" />
-    <Compile Include="Assets\Scripts\CloseButton.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
-    <Compile Include="Assets\Scripts\WebRequest.cs" />
+    <Compile Include="Assets\Scripts\Spawner Scripts\PromptCanvasController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

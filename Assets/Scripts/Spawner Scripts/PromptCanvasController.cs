@@ -92,9 +92,9 @@ public class PromptCanvasController : MonoBehaviour
                 {
                     Debug.Log("3D Object received from API");
                     //load the 3d object
-                    string fileName = Path.Combine(localPath, prompt);
-                    fileName = fileName + ".glb";
-                    ObjectLoader.ObjectLoaderInstance.LoadObject(fileName);
+                    string filePath = Path.Combine(localPath, prompt);
+                    filePath = filePath + ".glb";
+                    ObjectLoader.ObjectLoaderInstance.LoadObject(filePath, prompt);
                     //i should probably save it too here
                     ButtonController.SetButtonGreen();
                     buttonAnimation();
