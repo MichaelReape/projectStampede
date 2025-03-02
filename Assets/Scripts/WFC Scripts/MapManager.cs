@@ -428,7 +428,7 @@ public class MapManager : MonoBehaviour
     //code to test the save feature
     //DO NOT FORGET TO REMOVE!!!
     [SerializeField] private MapSaver mapSaver;
-    private MapData generatedData;
+    //private MapData generatedData;
 
     public void saveMap()
     {
@@ -457,6 +457,7 @@ public class MapManager : MonoBehaviour
                 mapData.rooms.Add(roomData);
             }
         }
+        mapData.objects = ObjectSaver.ObjectSaverInstance.objectDataList;
         //save the mapData object
         mapSaver.SaveGrid(mapData, mapName);
         Debug.Log("Map saved");

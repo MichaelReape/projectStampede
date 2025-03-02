@@ -99,7 +99,7 @@ public class APIManager : MonoBehaviour
                     string savedImagePath = ImageSaver.ImageSaverInstance.SaveImage(result, prompt);
                     //saves teh image path to the specific room/grid cell for the specific button
                     MapManager.MapManagerInstance.grid[gridx, gridy].imagePaths[buttonIndex] = savedImagePath;
-                    MapManager.MapManagerInstance.saveMap();
+                    //MapManager.MapManagerInstance.saveMap();
                     Debug.Log("in APIManager, Image saved to: " + savedImagePath);
                     Debug.Log(MapManager.MapManagerInstance.grid[gridx, gridy].imagePaths[buttonIndex]);
                     //need to add the saved image path to the RoomData object

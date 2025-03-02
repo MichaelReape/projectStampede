@@ -8,14 +8,7 @@ public class ObjectSaver : MonoBehaviour
     private static ObjectSaver instance;
 
     //serialised data structure to store the object data
-    [System.Serializable]
-    public class ObjectData
-    {
-        public string name;
-        public Vector3 position;
-        public Quaternion rotation;
-        public Vector3 scale;
-    }
+    
     public List<ObjectData> objectDataList = new List<ObjectData>();
     public static ObjectSaver ObjectSaverInstance
     {
@@ -63,8 +56,5 @@ public class ObjectSaver : MonoBehaviour
         objectData.rotation = rotation;
         objectData.scale = scale;
         objectDataList.Add(objectData);
-
-        
     }
-
 }

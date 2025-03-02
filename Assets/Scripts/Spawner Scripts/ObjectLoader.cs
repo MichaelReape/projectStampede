@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GLTFast;
+using System.IO;
 
 public class ObjectLoader : MonoBehaviour
 {
@@ -56,6 +57,7 @@ public class ObjectLoader : MonoBehaviour
             parent.transform.position = position;
             BoxCollider boxCollider = parent.AddComponent<BoxCollider>();
             RecalculateBoundsFromChildren(parent, boxCollider);
+            ObjectSaver.ObjectSaverInstance.UpdateData(prompt, parent.transform.position, parent.transform.rotation, parent.transform.localScale);
         }
         else
         {
@@ -80,4 +82,35 @@ public class ObjectLoader : MonoBehaviour
         boxCollider.size = combinedBounds.size;
     }
 
+    //object loader from json
+    public async void LoadObjectFromSave(ObjectData objectData)
+    {
+        //i think i need to puth them in to the object saver list 
+        //load the object from the json data
+        Debug.Log("Loading object " + objectData.name);
+        string localPath = Path.Combine(Application.persistentDataPath, "Saves", "Objects");
+        string filePath = Path.Combine(localPath, objectData.name + ".glb");
+        var temp = new GltfImport();
+        bool success = await temp.Load(filePath);
+        if (success)
+        {
+            //create the object
+            GameObject parent = new GameObject("ImportedGLB");
+            //set the name of the object to the json name
+            parent.name = objectData.name;
+            Debug.Log("Parent name: " + parent.name);
+            //instantiate the object
+            await temp.InstantiateMainSceneAsync(parent.transform);
+            //add the draggable script
+            var draggable = parent.AddComponent<Draggable>();
+            //set the object to the parameters in json
+            parent.transform.position = objectData.position;
+            parent.transform.rotation = objectData.rotation;
+            parent.transform.localScale = objectData.scale;
+            //add a box collider
+            BoxCollider boxCollider = parent.AddComponent<BoxCollider>();
+            RecalculateBoundsFromChildren(parent, boxCollider);
+            ObjectSaver.ObjectSaverInstance.UpdateData(objectData.name, objectData.position, objectData.rotation, objectData.scale);
+        }
+    }
 }

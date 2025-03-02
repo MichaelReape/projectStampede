@@ -34,6 +34,13 @@ public void LoadMap(string fileName)
         MapData map = LoadGrid(fileName);
         MapManager.MapManagerInstance.mapName = fileName;
         MapManager.MapManagerInstance.ReconstructGrid(map);
+        //cycle through the objects and instantiate them
+        foreach (ObjectData objectData in map.objects)
+        {
+            Debug.Log("Loading object " + objectData.name);
+            //instantiate the object
+            ObjectLoader.ObjectLoaderInstance.LoadObjectFromSave(objectData);
+        }
         Debug.Log("Map loaded");
     }
 
@@ -53,6 +60,8 @@ public void LoadMap(string fileName)
 
         //read the json from the file
         string json = File.ReadAllText(path);
+        Debug.Log("HERE ******************************************");
+        Debug.Log(json);
         //deserialize the json into a MapData object
         MapData map = JsonUtility.FromJson<MapData>(json);
         Debug.Log("File " + fileName + " loaded from " + path);
