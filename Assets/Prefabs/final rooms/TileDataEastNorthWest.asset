@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de0ab42e4478e6c4fa478362edd496a7, type: 3}
+  m_Name: TileDataEastNorthWest
+  m_EditorClassIdentifier: 
+  tileName: EastNorthWest
+  numberOfDoors: 3
+  doorPositions: 00000000010000000100000001000000
+  wieght: 1
+  tilePrefab: {fileID: 6012434578404166896, guid: 153ea147ef57e68468692c002ae2ad32, type: 3}

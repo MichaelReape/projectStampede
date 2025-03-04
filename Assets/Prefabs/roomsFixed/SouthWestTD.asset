@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de0ab42e4478e6c4fa478362edd496a7, type: 3}
+  m_Name: SouthWestTD
+  m_EditorClassIdentifier: 
+  tileName: SouthWest
+  numberOfDoors: 2
+  doorPositions: 01000000010000000000000000000000
+  wieght: 1
+  tilePrefab: {fileID: 2377056949889438441, guid: 920b1e2ae726fd9478db0a7f1f9c9858, type: 3}
