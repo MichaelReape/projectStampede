@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -62,7 +63,7 @@ public class MapManager : MonoBehaviour
     }
 
     //initialise the grid
-    public void InitialiseGrid(int height, int width)
+    public void InitialiseGrid(int width, int height)
     {
         //set the grid dimensions
         gridHeight = height;
@@ -71,7 +72,7 @@ public class MapManager : MonoBehaviour
         //print the direction offsets
         foreach (Vector2Int direction in directions)
         {
-            Debug.Log(direction);
+            //Debug.Log(direction);
         }
         //i want to print the tiles to the console
         //foreach (TileData tile in tiles)
@@ -91,11 +92,14 @@ public class MapManager : MonoBehaviour
                 //i want to print the possible tiles for each cell
                 foreach (TileData tile in grid[x, y].possibleTiles)
                 {
-                    Debug.Log(tile.tileName);
+                    //Debug.Log(tile.tileName);
                 }
             }
         }
+
         Debug.Log("Grid initialised");
+        //here we will remove the boundary tiles
+        RemoveBoundaryTiles(grid);
     }
 
     //collapse the grid using the WFC algorithm
@@ -105,8 +109,10 @@ public class MapManager : MonoBehaviour
     {
         Debug.Log("Running WFC");
         bool allCollapsed = false;
+        int counter = 0;
         while (!allCollapsed)
         {
+            Debug.Log("Iteration: " + counter++);
             //get the cell with the lowest entropy
             GridCell lowestEntropyCell = GetLowestEntropy();
             //collapse the cell
@@ -118,10 +124,10 @@ public class MapManager : MonoBehaviour
             //if not repeat
         }
         //print the grid
-        foreach (GridCell cell in grid)
-        {
+        //foreach (GridCell cell in grid)
+        //{
             //Debug.Log("the chosen tile is " + cell.chosenTile.tileName);
-        }
+        //}
         //Debug.Log("All cells have collapsed");
         //instantiate the tiles
         Debug.Log("Instantiating tiles");
@@ -164,20 +170,170 @@ public class MapManager : MonoBehaviour
         return lowestEntropyCell;
     }
 
+    //this is a method to remove the illegal cells just based on the grid boundaries
+    //will be run before the collapse method
+    public void RemoveBoundaryTiles(GridCell[,] grid)
+    {
+        Debug.Log("Removing boundary tiles");
+        //print the boundaries
+        Debug.Log("the grid width is " + gridWidth);
+        Debug.Log("the grid height is " + gridHeight);
+
+        //foreach (GridCell cell in grid)
+        //{
+        //    List<TileData> validTiles = new List<TileData>();
+
+        //    //doors facing out at teh boundaries of the grid
+        //    foreach (TileData tile in cell.possibleTiles)
+        //    {
+        //        bool isValid = true;
+        //        //remove the cell.possible tiles that have doors facing out of the grid
+        //        //door positions s,w, n, e
+        //        //if x is 0 remove tiles with a west door
+        //        if (cell.gridPosition.x == 0 && tile.doorPositions[1] == 1)
+        //        {
+        //            isValid = false;
+        //            //possibleTilesTemp.Remove(tile);
+        //            //Debug.Log("removing tile " + tile.name);
+        //        }
+        //        if (cell.gridPosition.x == gridWidth - 1 && tile.doorPositions[3] == 1)
+        //        {
+        //            isValid = false;
+        //            //remove tiles with an east door
+        //            //possibleTilesTemp.Remove(tile);
+        //            //Debug.Log("removing tile " + tile.name);
+        //        }
+        //        if (cell.gridPosition.y == 0 && tile.doorPositions[0] == 1)
+        //        {
+        //            isValid = false;
+        //            //possibleTilesTemp.Remove(tile);
+        //            //Debug.Log("removing tile " + tile.name);
+        //            //remove tiles with a south door
+        //        }
+        //        if (cell.gridPosition.y == gridHeight - 1 && tile.doorPositions[2] == 1)
+        //        {
+        //            isValid = false;
+        //            //possibleTilesTemp.Remove(tile);
+        //            Debug.Log("removing tile " + tile.name);
+        //            //remove tiles with a north door
+        //        }
+        //        if (isValid)
+        //        {
+        //            validTiles.Add(tile);
+        //        }
+
+        //    }
+
+        //    cell.possibleTiles = validTiles;
+        //}
+        foreach (GridCell cell in grid)
+        {
+            List<TileData> validTiles = new List<TileData>();
+
+            foreach (TileData tile in cell.possibleTiles)
+            {
+                bool isValid = true;
+
+                // Left boundary (West doors not allowed)
+                if (cell.gridPosition.x == 0 && tile.doorPositions[1] == 1)
+                {
+                    isValid = false;
+                }
+
+                // Right boundary (East doors not allowed)
+                if (cell.gridPosition.x == gridWidth - 1 && tile.doorPositions[3] == 1)
+                {
+                    isValid = false;
+                }
+
+                // Bottom boundary (South doors not allowed)
+                if (cell.gridPosition.y == 0 && tile.doorPositions[0] == 1)
+                {
+                    isValid = false;
+                }
+
+                // Top boundary (North doors not allowed)
+                if (cell.gridPosition.y == gridHeight - 1 && tile.doorPositions[2] == 1)
+                {
+                    //should be north
+                    Debug.Log("removing tile " + tile.tileName );
+                    isValid = false;
+                }
+
+                if (isValid)
+                {
+                    validTiles.Add(tile);
+                }
+            }
+
+            cell.possibleTiles = validTiles;
+        }
+    }
 
 
     public void CollapseCell(GridCell cell)
     {
         //i want to create an empty list instead of clearing and adding to the original
-        List<TileData> possibleTilesTemp = new List<TileData>();
         //if cell is already collapsed, return
         if (cell.chosenTile != null)
         {
             //Debug.Log("cell already collapsed");
             return;
         }
+        //List<TileData> validTiles = new List<TileData>();
+        ////print the possible tiles
+        ////foreach (TileData tile in cell.possibleTiles)
+        ////{
+        ////    Debug.Log("the possible tiles are " + tile.tileName);
+        ////}
+        ////cell.possibleTiles;
+
+        ////doors facing out at teh boundaries of the grid
+        //foreach (TileData tile in cell.possibleTiles)
+        //{
+        //    bool isValid = true;
+        //    //remove the cell.possible tiles that have doors facing out of the grid
+        //    //door positions s,w, n, e
+        //    //if x is 0 remove tiles with a west door
+        //    if (cell.gridPosition.x == 0 && tile.doorPositions[1] == 1)
+        //    {
+        //        isValid = false;
+        //        //possibleTilesTemp.Remove(tile);
+        //        //Debug.Log("removing tile " + tile.name);
+        //    }
+        //    if(cell.gridPosition.x == gridWidth && tile.doorPositions[3] == 1)
+        //    {
+        //        isValid = false;
+        //        //remove tiles with an east door
+        //        //possibleTilesTemp.Remove(tile);
+        //        //Debug.Log("removing tile " + tile.name);
+        //    }
+        //    if(cell.gridPosition.y == 0 && tile.doorPositions[0] == 1)
+        //    {
+        //        isValid = false;
+        //        //possibleTilesTemp.Remove(tile);
+        //        //Debug.Log("removing tile " + tile.name);
+        //        //remove tiles with a south door
+        //    }
+        //    if (cell.gridPosition.y == gridHeight - 1  && tile.doorPositions[2] == 1)
+        //    {
+        //        isValid = false;
+        //        //possibleTilesTemp.Remove(tile);
+        //        Debug.Log("removing tile " + tile.name);
+        //        //remove tiles with a north door
+        //    }
+        //    if (isValid)
+        //    {
+        //        validTiles.Add(tile);
+        //    }
+            
+        //} 
+
+        //cell.possibleTiles = validTiles;
+        Debug.Log( " THE NUMBER OF POSSIBLE TILES ARE:  "+cell.possibleTiles.Count);
         if (cell.possibleTiles.Count == 0)
         {
+            Debug.LogWarning("No possible tiles left for cell at " + cell.gridPosition);
             //Debug.LogWarning("No possible tiles left for cell at " + cell.gridPosition);
             //TODO: Handle contradiction, e.g. backtracking or returning early.
             //causing the game to crash
@@ -194,8 +350,10 @@ public class MapManager : MonoBehaviour
         //Debug.Log(randomTileIndex);
         cell.chosenTile = cell.possibleTiles[randomTileIndex];
 
+
         //print the chosen tile      
-        //Debug.Log("The cell is collapsed, the chosen tile is " + cell.chosenTile.tileName);
+        Debug.Log("The cell is collapsed, the chosen tile is " + cell.chosenTile.tileName + " at the grid position " + cell.gridPosition.x + " , " + cell.gridPosition.y);
+        Debug.Log("The cells doors are " + cell.chosenTile.doorPositions[0] + " " + cell.chosenTile.doorPositions[1] + " " + cell.chosenTile.doorPositions[2] + " " + cell.chosenTile.doorPositions[3]);
         //remove all other possible tiles
         //cell.possibleTiles.Clear();
         //set the chosen tile to the cell list of possible tiles (tidying up)
@@ -361,26 +519,27 @@ public class MapManager : MonoBehaviour
         //maybe need to change the cell size to 1
 
         //loop through the grid and instantiate the tiles
-        for (int x = 0; x < gridWidth; x++)
+        for (int x = 0; x<gridWidth; x++)
         {
-            for (int y = 0; y < gridHeight; y++)
+            for (int y = 0; y<gridHeight; y++)
             {
                 //print the cell 
-                Debug.Log("the cell is " + grid[x, y].chosenTile.tilePrefab.name);
+                //Debug.Log("the cell is " + grid[x, y].chosenTile.tilePrefab.name);
                 //maybe do a safety check here
                 //
                 //
                 //
                 GridCell cell = grid[x, y];
-                //print the chosen tile
-                //Debug.Log("the chosen tile is " + grid[x, y].chosenTile.tileName + " at position " + x + ", " + y);
-                //get the chosen tile
-                TileData chosenTile = cell.chosenTile;
-                //instantiate the tile
-                GameObject tile = Instantiate(chosenTile.tilePrefab, new Vector3(x * cellSize, 0, y * cellSize), Quaternion.identity);
+    //print the chosen tile
+    //Debug.Log("the chosen tile is " + grid[x, y].chosenTile.tileName + " at position " + x + ", " + y);
+    //get the chosen tile
+    TileData chosenTile = cell.chosenTile;
+    //instantiate the tile
+    //changed to -y
+    GameObject tile = Instantiate(chosenTile.tilePrefab, new Vector3(x * cellSize, 0, y * cellSize), chosenTile.tilePrefab.transform.rotation);
 
-                //sets the grid position of the button objects in the tile
-                ButtonController[] buttonControllers = tile.GetComponentsInChildren<ButtonController>();
+    //sets the grid position of the button objects in the tile
+    ButtonController[] buttonControllers = tile.GetComponentsInChildren<ButtonController>();
                 foreach (ButtonController buttonController in buttonControllers)
                 {
                     buttonController.setGrid(x, y);
@@ -418,13 +577,14 @@ public class MapManager : MonoBehaviour
                 }
             }
         }
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            PlayerMovement.PlayerMovementInstance.CanMove = true;
-            PauseMenuController.PMCInstance.SetIsPauseMenuOpen(false);
+        Cursor.lockState = CursorLockMode.Locked;
+Cursor.visible = false;
+PlayerMovement.PlayerMovementInstance.CanMove = true;
+PauseMenuController.PMCInstance.SetIsPauseMenuOpen(false);
         //Debug.Log("Tiles instantiated");
     }
 
+  
     //code to test the save feature
     //DO NOT FORGET TO REMOVE!!!
     [SerializeField] private MapSaver mapSaver;

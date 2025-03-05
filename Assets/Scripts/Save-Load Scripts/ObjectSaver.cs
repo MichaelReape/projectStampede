@@ -57,4 +57,25 @@ public class ObjectSaver : MonoBehaviour
         objectData.scale = scale;
         objectDataList.Add(objectData);
     }
+    //function to remove an object from the list
+    public void DeleteObject(string name)
+    {
+        for (int i = 0; i < objectDataList.Count; i++)
+        {
+            if (objectDataList[i].name.Equals(name))
+            {
+                objectDataList.RemoveAt(i);
+                //return;
+                break;
+            }
+        }
+        //remove it from teh persistent data if it exists
+        string path = Application.persistentDataPath + "/Saves/Objects/" + name + ".glb";
+        Debug.Log(path);
+        if (System.IO.File.Exists(path))
+        {
+            Debug.Log("Deleting file " + path);
+            System.IO.File.Delete(path);
+        }
+    }
 }
