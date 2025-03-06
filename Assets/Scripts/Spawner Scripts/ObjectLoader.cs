@@ -44,7 +44,7 @@ public class ObjectLoader : MonoBehaviour
             parent.name = prompt;
             Debug.Log("Parent name: " + parent.name);
             await temp.InstantiateMainSceneAsync(parent.transform);
-            var draggable = parent.AddComponent<Draggable>();
+            var draggable = parent.AddComponent<ObjectFunctionality>();
             //need to get the position of the spawner
             //need a position variable
             //parent.transform.position = new Vector3(0, 0, 0);
@@ -102,7 +102,7 @@ public class ObjectLoader : MonoBehaviour
             //instantiate the object
             await temp.InstantiateMainSceneAsync(parent.transform);
             //add the draggable script
-            var draggable = parent.AddComponent<Draggable>();
+            var draggable = parent.AddComponent<ObjectFunctionality>();
             //set the object to the parameters in json
             parent.transform.position = objectData.position;
             parent.transform.rotation = objectData.rotation;

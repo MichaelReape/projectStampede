@@ -52,13 +52,6 @@ public class GLBSpawner : MonoBehaviour
     void Start()
     {
         path = "file:///C:/Users/micha/Desktop/StableDiffusionPro/stable-fast-3d/output/0/mesh.glb";
-        //Cursor.lockState = CursorLockMode.None;
-        //Cursor.visible = true;
-        //importButton.onClick.AddListener(() =>
-        //        {
-
-        //            Debug.Log("Button clicked");
-        //       });
     }
     private async void OnMouseDown()
     {
@@ -81,7 +74,7 @@ public class GLBSpawner : MonoBehaviour
 
         // 4. Add the Draggable script
         //    This will let us click and drag the object in the scene
-        var draggable = parent.AddComponent<Draggable>();
+        var objectFunctions = parent.AddComponent<ObjectFunctionality>();
 
         // 5. Add a BoxCollider to the parent (so OnMouseDown can fire)
         //    We'll compute a bounding box that encapsulates all child meshes

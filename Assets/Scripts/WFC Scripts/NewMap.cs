@@ -16,9 +16,9 @@ public class NewMap : MonoBehaviour
         newMapPanel.SetActive(true);
         int mapSizeX = MapSize.mapSizeX;
         int mapSizeY = MapSize.mapSizeY;
-        MapManager.MapManagerInstance.InitialiseGrid(mapSizeX, mapSizeY);
+        //MapManager.MapManagerInstance.InitialiseGrid(mapSizeX, mapSizeY);
         Debug.Log("grid initialised");
-        MapManager.MapManagerInstance.RunWFC();
+        MapManager.MapManagerInstance.RunWFC(mapSizeX, mapSizeY);
         Debug.Log("WFC run");
 
         //unlcok the mouse and lock the movement

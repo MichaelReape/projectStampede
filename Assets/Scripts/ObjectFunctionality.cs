@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class Draggable : MonoBehaviour
+public class ObjectFunctionality : MonoBehaviour
 {
     private Camera mainCamera;
-    private bool isDragging;
+    private bool isHolding;
     private Vector3 offset;
     private float zDistanceToCamera;
 
@@ -14,7 +14,7 @@ public class Draggable : MonoBehaviour
 
     void OnMouseDown()
     {
-        isDragging = true;
+        isHolding = true;
 
         //Distance from the camera to the object
         zDistanceToCamera = Vector3.Distance(transform.position, mainCamera.transform.position);
@@ -34,8 +34,11 @@ public class Draggable : MonoBehaviour
 
     void OnMouseDrag()
     {
-        if (!isDragging) return;
-
+        if (!isHolding)
+        {
+            return;
+        }
+            
         //Current mouse position in screen space, at the same Z distance
         Vector3 mouseScreenPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, zDistanceToCamera);
         Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(mouseScreenPos);
@@ -71,15 +74,16 @@ public class Draggable : MonoBehaviour
         //testing deleting the object
         if (Input.GetKeyDown(KeyCode.Delete))
         {
+            //removes from storage
             ObjectSaver.ObjectSaverInstance.DeleteObject(gameObject.name);
+            //removes from scene
             Destroy(gameObject);
-
         }
     }
 
     void OnMouseUp()
     {
-        isDragging = false;
+        isHolding = false;
         //on mouse up ill log the position, rotation adn scale of the object to the object saver data structure
         ObjectSaver.ObjectSaverInstance.UpdateData(gameObject.name, transform.position, transform.rotation, transform.localScale);
     }

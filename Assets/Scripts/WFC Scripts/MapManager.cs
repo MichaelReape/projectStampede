@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using TMPro.EditorUtilities;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,15 +24,22 @@ public class MapManager : MonoBehaviour
     //2d array to hold the grid
     public GridCell[,] grid;
     public TileManager tileManager;
+    private int numberOfRuns = 0;
 
     //directions for the neighbours
     public Vector2Int[] directions = new Vector2Int[]
     {
         //north, east, south, west
-        new Vector2Int(0,1),
-        new Vector2Int(1,0),
+        //new Vector2Int(0,1),
+        //new Vector2Int(1,0),
+        //new Vector2Int(0,-1),
+        //new Vector2Int(-1,0)
+
+        //south, west, north, east
         new Vector2Int(0,-1),
-        new Vector2Int(-1,0)
+        new Vector2Int(-1,0),
+        new Vector2Int(0,1),
+        new Vector2Int(1,0)
     };
 
     public static MapManager MapManagerInstance
@@ -54,33 +63,14 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        //Debug.Log("Map Manager started");
-        //InitialiseGrid();
-        //RunWFC();
-        //saveMap();
-    }
-
     //initialise the grid
     public void InitialiseGrid(int width, int height)
-    {
+    { 
         //set the grid dimensions
         gridHeight = height;
         gridWidth = width;
         //cellSize = size;
-        //print the direction offsets
-        foreach (Vector2Int direction in directions)
-        {
-            //Debug.Log(direction);
-        }
-        //i want to print the tiles to the console
-        //foreach (TileData tile in tiles)
-        //{
-        //    Debug.Log(tile.tileName);
-        //}
-        //ok so it has the tiles
-
+       
         //create the grid with the given dimensions
         grid = new GridCell[gridWidth, gridHeight];
         //populate the grid with 
@@ -105,14 +95,23 @@ public class MapManager : MonoBehaviour
     //collapse the grid using the WFC algorithm
     //basically loop until each cell has only one possible tile
 
-    public void RunWFC()
+    public void RunWFC(int width, int height)
     {
+        InitialiseGrid(width, height);
+        //need to limit the number of times the WFC runs
+        
         Debug.Log("Running WFC");
         bool allCollapsed = false;
-        int counter = 0;
-        while (!allCollapsed)
+        //int counter = 0;
+        bool pathExists = false;
+        //dont use recursion, use a while loop
+        //while(!pathExists && numberOfRuns < 10)
+        //{
+
+        //}
+            while (!allCollapsed)
         {
-            Debug.Log("Iteration: " + counter++);
+            //Debug.Log("Iteration: " + counter++);
             //get the cell with the lowest entropy
             GridCell lowestEntropyCell = GetLowestEntropy();
             //collapse the cell
@@ -123,15 +122,32 @@ public class MapManager : MonoBehaviour
             allCollapsed = CheckAllCollapsed();
             //if not repeat
         }
-        //print the grid
-        //foreach (GridCell cell in grid)
+        pathExists = CheckPath();
+        if (pathExists ) {
+            Debug.Log("Number of times run: " + numberOfRuns++);
+            Debug.Log("Path exists: " + pathExists);
+            Debug.Log("Instantiating tiles");
+            InstantiateTiles();
+        }
+        //else if (numberOfRuns > 10)
         //{
-            //Debug.Log("the chosen tile is " + cell.chosenTile.tileName);
+        //    Debug.Log("Number of times run: " + numberOfRuns);
+        //    Debug.Log("Path does not exist");
+
+        //    //RunWFC(width, height);
         //}
-        //Debug.Log("All cells have collapsed");
-        //instantiate the tiles
-        Debug.Log("Instantiating tiles");
-        InstantiateTiles();
+        //after testing I got stackoverflow error at 7986 runs os limited to 7500
+        else if (numberOfRuns < 7500)
+        {
+            Debug.Log("Number of times run: " + numberOfRuns++);
+            Debug.Log("Path does not exist");
+            RunWFC(width, height);
+        }
+        //need to run the WFC again if the path does not exist
+
+        //Debug.Log("Path exists: " + pathExists);
+        //Debug.Log("Instantiating tiles");
+        //InstantiateTiles();
     }
 
 
@@ -179,53 +195,6 @@ public class MapManager : MonoBehaviour
         Debug.Log("the grid width is " + gridWidth);
         Debug.Log("the grid height is " + gridHeight);
 
-        //foreach (GridCell cell in grid)
-        //{
-        //    List<TileData> validTiles = new List<TileData>();
-
-        //    //doors facing out at teh boundaries of the grid
-        //    foreach (TileData tile in cell.possibleTiles)
-        //    {
-        //        bool isValid = true;
-        //        //remove the cell.possible tiles that have doors facing out of the grid
-        //        //door positions s,w, n, e
-        //        //if x is 0 remove tiles with a west door
-        //        if (cell.gridPosition.x == 0 && tile.doorPositions[1] == 1)
-        //        {
-        //            isValid = false;
-        //            //possibleTilesTemp.Remove(tile);
-        //            //Debug.Log("removing tile " + tile.name);
-        //        }
-        //        if (cell.gridPosition.x == gridWidth - 1 && tile.doorPositions[3] == 1)
-        //        {
-        //            isValid = false;
-        //            //remove tiles with an east door
-        //            //possibleTilesTemp.Remove(tile);
-        //            //Debug.Log("removing tile " + tile.name);
-        //        }
-        //        if (cell.gridPosition.y == 0 && tile.doorPositions[0] == 1)
-        //        {
-        //            isValid = false;
-        //            //possibleTilesTemp.Remove(tile);
-        //            //Debug.Log("removing tile " + tile.name);
-        //            //remove tiles with a south door
-        //        }
-        //        if (cell.gridPosition.y == gridHeight - 1 && tile.doorPositions[2] == 1)
-        //        {
-        //            isValid = false;
-        //            //possibleTilesTemp.Remove(tile);
-        //            Debug.Log("removing tile " + tile.name);
-        //            //remove tiles with a north door
-        //        }
-        //        if (isValid)
-        //        {
-        //            validTiles.Add(tile);
-        //        }
-
-        //    }
-
-        //    cell.possibleTiles = validTiles;
-        //}
         foreach (GridCell cell in grid)
         {
             List<TileData> validTiles = new List<TileData>();
@@ -256,7 +225,7 @@ public class MapManager : MonoBehaviour
                 if (cell.gridPosition.y == gridHeight - 1 && tile.doorPositions[2] == 1)
                 {
                     //should be north
-                    Debug.Log("removing tile " + tile.tileName );
+                    //Debug.Log("removing tile " + tile.tileName );
                     isValid = false;
                 }
 
@@ -280,60 +249,12 @@ public class MapManager : MonoBehaviour
             //Debug.Log("cell already collapsed");
             return;
         }
-        //List<TileData> validTiles = new List<TileData>();
-        ////print the possible tiles
-        ////foreach (TileData tile in cell.possibleTiles)
-        ////{
-        ////    Debug.Log("the possible tiles are " + tile.tileName);
-        ////}
-        ////cell.possibleTiles;
-
-        ////doors facing out at teh boundaries of the grid
-        //foreach (TileData tile in cell.possibleTiles)
-        //{
-        //    bool isValid = true;
-        //    //remove the cell.possible tiles that have doors facing out of the grid
-        //    //door positions s,w, n, e
-        //    //if x is 0 remove tiles with a west door
-        //    if (cell.gridPosition.x == 0 && tile.doorPositions[1] == 1)
-        //    {
-        //        isValid = false;
-        //        //possibleTilesTemp.Remove(tile);
-        //        //Debug.Log("removing tile " + tile.name);
-        //    }
-        //    if(cell.gridPosition.x == gridWidth && tile.doorPositions[3] == 1)
-        //    {
-        //        isValid = false;
-        //        //remove tiles with an east door
-        //        //possibleTilesTemp.Remove(tile);
-        //        //Debug.Log("removing tile " + tile.name);
-        //    }
-        //    if(cell.gridPosition.y == 0 && tile.doorPositions[0] == 1)
-        //    {
-        //        isValid = false;
-        //        //possibleTilesTemp.Remove(tile);
-        //        //Debug.Log("removing tile " + tile.name);
-        //        //remove tiles with a south door
-        //    }
-        //    if (cell.gridPosition.y == gridHeight - 1  && tile.doorPositions[2] == 1)
-        //    {
-        //        isValid = false;
-        //        //possibleTilesTemp.Remove(tile);
-        //        Debug.Log("removing tile " + tile.name);
-        //        //remove tiles with a north door
-        //    }
-        //    if (isValid)
-        //    {
-        //        validTiles.Add(tile);
-        //    }
-            
-        //} 
-
+       
         //cell.possibleTiles = validTiles;
-        Debug.Log( " THE NUMBER OF POSSIBLE TILES ARE:  "+cell.possibleTiles.Count);
+        //Debug.Log( " THE NUMBER OF POSSIBLE TILES ARE:  "+cell.possibleTiles.Count);
         if (cell.possibleTiles.Count == 0)
         {
-            Debug.LogWarning("No possible tiles left for cell at " + cell.gridPosition);
+            //Debug.LogWarning("No possible tiles left for cell at " + cell.gridPosition);
             //Debug.LogWarning("No possible tiles left for cell at " + cell.gridPosition);
             //TODO: Handle contradiction, e.g. backtracking or returning early.
             //causing the game to crash
@@ -348,12 +269,14 @@ public class MapManager : MonoBehaviour
         //Debug.Log("the random tile is " + cell.possibleTiles[randomTileIndex].tileName);
         //set the chosen tile to the random tile
         //Debug.Log(randomTileIndex);
+        //Debug.Log(cell.possibleTiles.Count);
+
         cell.chosenTile = cell.possibleTiles[randomTileIndex];
 
 
         //print the chosen tile      
-        Debug.Log("The cell is collapsed, the chosen tile is " + cell.chosenTile.tileName + " at the grid position " + cell.gridPosition.x + " , " + cell.gridPosition.y);
-        Debug.Log("The cells doors are " + cell.chosenTile.doorPositions[0] + " " + cell.chosenTile.doorPositions[1] + " " + cell.chosenTile.doorPositions[2] + " " + cell.chosenTile.doorPositions[3]);
+        //Debug.Log("The cell is collapsed, the chosen tile is " + cell.chosenTile.tileName + " at the grid position " + cell.gridPosition.x + " , " + cell.gridPosition.y);
+        //Debug.Log("The cells doors are " + cell.chosenTile.doorPositions[0] + " " + cell.chosenTile.doorPositions[1] + " " + cell.chosenTile.doorPositions[2] + " " + cell.chosenTile.doorPositions[3]);
         //remove all other possible tiles
         //cell.possibleTiles.Clear();
         //set the chosen tile to the cell list of possible tiles (tidying up)
@@ -405,7 +328,7 @@ public class MapManager : MonoBehaviour
                     //little confusing because the order for doors is south, west, north, east
                     //but for directions it is north, east, south, west
                     //might change later
-                    if (direction == directions[0])
+                    if (direction == directions[2])
                     {
                         //north neighbour
                         //their south door should be the same as our north door
@@ -414,7 +337,7 @@ public class MapManager : MonoBehaviour
                         //Debug.Log("sourceWallIndex: " + sourceWallIndex);
                         //Debug.Log("neighbourWallIndex: " + neighbourWallIndex);
                     }
-                    else if (direction == directions[1])
+                    else if (direction == directions[3])
                     {
                         //east neighbour
                         sourceWallIndex = 3;
@@ -422,7 +345,7 @@ public class MapManager : MonoBehaviour
                         //Debug.Log("sourceWallIndex: " + sourceWallIndex);
                         //Debug.Log("neighbourWallIndex: " + neighbourWallIndex);
                     }
-                    else if (direction == directions[2])
+                    else if (direction == directions[0])
                     {
                         //south neighbour
                         sourceWallIndex = 0;
@@ -430,7 +353,7 @@ public class MapManager : MonoBehaviour
                         //Debug.Log("sourceWallIndex: " + sourceWallIndex);
                         //Debug.Log("neighbourWallIndex: " + neighbourWallIndex);
                     }
-                    else if (direction == directions[3])
+                    else if (direction == directions[1])
                     {
                         //west neighbour
                         sourceWallIndex = 1;
@@ -509,6 +432,90 @@ public class MapManager : MonoBehaviour
         return true;
     }
 
+
+    //method to check if there is a path from 0,0 to all other cells, through the connected door positions
+    //for example a cell with doorPositions[0,1,0,0] will connect with [0,0,1,0] or [0,0,1,1] or [0,1,1,0] etc
+    //if not then reset the grid and run the WFC again
+    //we will use a breadth first search to check if there is a path
+    public bool CheckPath()
+    {
+        Debug.Log("Checking path");
+        //bfs so we need a queue
+        Queue<GridCell> queue = new Queue<GridCell>();
+        //need a list to store the visited cells
+        List<GridCell> visited = new List<GridCell>();
+        //start from the 0,0 cell
+        queue.Enqueue(grid[0, 0]);
+        //add the 0,0 cell to the visited list
+        visited.Add(grid[0, 0]);
+        //we are going to queue all the connected cells and visit them until we reach the end
+        while (queue.Count > 0)
+        {
+            //take the first cell from the queue
+            GridCell currentCell = queue.Dequeue();
+            //find the connected cells add them to the queue
+            for (int i = 0; i < directions.Length; i++)
+            {
+                if(currentCell.chosenTile.doorPositions[i] == 1)
+                {
+                    //Debug.Log(i);
+                    //Debug.Log(directions[i]);
+                    //get the neighbour cell
+                    Vector2Int neighbourPos = currentCell.gridPosition + directions[i];
+                    //Debug.Log("the neighbour position is " + neighbourPos);
+                    //check if the neighbour is within the grid
+                    if (IsValidPosition(neighbourPos))
+                    {
+                        //Debug.Log("the neighbour is valid");
+                        GridCell neighbour = grid[neighbourPos.x, neighbourPos.y];
+                        //check if the neighbour has been visited
+                        if (!visited.Contains(neighbour)&& isDoorConnected(currentCell, neighbour, i))
+                        {
+                            //bug where doors face walls probably getting counted as valid so need to check
+                            //Debug.Log("Definitely connected");
+                            //Debug.Log("the neighbour is " + neighbour.gridPosition);
+                            //add the neighbour to the queue
+                            queue.Enqueue(neighbour);
+                            //add the neighbour to the visited list
+                            visited.Add(neighbour);
+                        }
+                    }
+                }
+            }
+            
+        }
+        //check if all cells have been visited
+        if (visited.Count == gridWidth * gridHeight)
+        {
+            Debug.Log("Path exists");
+            //print the visited cells
+            //foreach (GridCell cell in visited)
+            //{
+            //    Debug.Log("Visited cell at " + cell.gridPosition);
+            //}
+            return true;
+        }
+        else
+        {
+            Debug.Log("Path does not exist");
+            return false;
+        }
+    }
+
+    public bool isDoorConnected(GridCell cell,GridCell neighbour, int directionIndex)
+    {
+        //should be the opposite of the direction
+        //so index +2
+        int neighbourDoorDirectionIndex = (directionIndex + 2) % 4;
+
+        //return true if bnoth have a 1 at teh door position
+        return cell.chosenTile.doorPositions[directionIndex] == 1 && neighbour.chosenTile.doorPositions[neighbourDoorDirectionIndex] == 1;
+        
+    }
+    //check if the door is connected to a wall
+    //if the door is connected to a wall then the cell is not
+
+
     //last thing to do is to create a method to instantiate the tiles
     //this will be done after the grid has been collapsed
     public void InstantiateTiles()
@@ -530,16 +537,15 @@ public class MapManager : MonoBehaviour
                 //
                 //
                 GridCell cell = grid[x, y];
-    //print the chosen tile
-    //Debug.Log("the chosen tile is " + grid[x, y].chosenTile.tileName + " at position " + x + ", " + y);
-    //get the chosen tile
-    TileData chosenTile = cell.chosenTile;
-    //instantiate the tile
-    //changed to -y
-    GameObject tile = Instantiate(chosenTile.tilePrefab, new Vector3(x * cellSize, 0, y * cellSize), chosenTile.tilePrefab.transform.rotation);
+                //print the chosen tile
+                //Debug.Log("the chosen tile is " + grid[x, y].chosenTile.tileName + " at position " + x + ", " + y);
+                //get the chosen tile
+                TileData chosenTile = cell.chosenTile;
+                //instantiate the tile
+                GameObject tile = Instantiate(chosenTile.tilePrefab, new Vector3(x * cellSize, 0, y * cellSize), chosenTile.tilePrefab.transform.rotation);
 
-    //sets the grid position of the button objects in the tile
-    ButtonController[] buttonControllers = tile.GetComponentsInChildren<ButtonController>();
+                //sets the grid position of the button objects in the tile
+                ButtonController[] buttonControllers = tile.GetComponentsInChildren<ButtonController>();
                 foreach (ButtonController buttonController in buttonControllers)
                 {
                     buttonController.setGrid(x, y);
@@ -553,7 +559,6 @@ public class MapManager : MonoBehaviour
                     if (!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath))
                     {
                         byte[] imageBytes = File.ReadAllBytes(imagePath);
-
                         Texture2D tex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
                         //load the image from the byte array
                         if (tex.LoadImage(imageBytes))
@@ -578,9 +583,9 @@ public class MapManager : MonoBehaviour
             }
         }
         Cursor.lockState = CursorLockMode.Locked;
-Cursor.visible = false;
-PlayerMovement.PlayerMovementInstance.CanMove = true;
-PauseMenuController.PMCInstance.SetIsPauseMenuOpen(false);
+        Cursor.visible = false;
+        PlayerMovement.PlayerMovementInstance.CanMove = true;
+        PauseMenuController.PMCInstance.SetIsPauseMenuOpen(false);
         //Debug.Log("Tiles instantiated");
     }
 

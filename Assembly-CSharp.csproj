@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\WFC Scripts\TileData.cs" />
     <Compile Include="Assets\Scripts\GLBTest.cs" />
     <Compile Include="Assets\Scripts\Menu Scripts\PauseMenuController.cs" />
+    <Compile Include="Assets\Scripts\ObjectFunctionality.cs" />
     <Compile Include="Assets\Scripts\Save-Load Scripts\MapLoader.cs" />
     <Compile Include="Assets\Scripts\Old\SphereInteraction.cs" />
     <Compile Include="Assets\Scripts\Spawner Scripts\ButtonController.cs" />
@@ -78,7 +79,6 @@
     <Compile Include="Assets\Scripts\Old\ButtonActions.cs" />
     <Compile Include="Assets\Scripts\Old\CloseButton.cs" />
     <Compile Include="Assets\Scripts\Save-Load Scripts\MapSaver.cs" />
-    <Compile Include="Assets\Scripts\Draggable.cs" />
     <Compile Include="Assets\Scripts\Save-Load Scripts\MapData.cs" />
     <Compile Include="Assets\Scripts\WFC Scripts\GridCell.cs" />
     <Compile Include="Assets\Scripts\Old\LoadImageFromInternet.cs" />
