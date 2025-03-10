@@ -1,18 +1,16 @@
 using System;
-using System.Collections;
+// using System.Collections;
 using System.Collections.Generic;
-using System.Data;
+// using System.Data;
 using System.IO;
-using System.Linq;
-using TMPro.EditorUtilities;
-using Unity.Collections.LowLevel.Unsafe;
+// using System.Linq;
+// using TMPro.EditorUtilities;
+// using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MapManager : MonoBehaviour
 {
-    //going to convert to  a singleton pattern, is this a good decision design wise, yes or no? 
-    //singleton pattern to ensure only one instance of the WFCManager
     private static MapManager instance;
     //grid dimensions can be set
     public int gridWidth;
@@ -20,6 +18,7 @@ public class MapManager : MonoBehaviour
     //all rooms have the same size at the minute
     public int cellSize;
     public string mapName;
+    //list of all the tile prefabs
     public List<TileData> tiles;
     //2d array to hold the grid
     public GridCell[,] grid;
@@ -37,17 +36,16 @@ public class MapManager : MonoBehaviour
         new Vector2Int(1,0)
     };
 
+    //singleton pattern to ensure only one instance of the WFCManager
     public static MapManager MapManagerInstance
     {
         get
-        { 
+        {
             return instance;
         }
     }
-
     private void Awake()
     {
-        //singleton pattern to ensure only one instance of the WFCManager
         if (instance != null && instance != this)
         {
             Destroy(this.gameObject);
@@ -58,27 +56,20 @@ public class MapManager : MonoBehaviour
         }
     }
 
-
-    //collapse the grid using the WFC algorithm
-    //basically loop until each cell has only one possible tile
-
+    //Method to run the WFC
     public void RunWFC(int width, int height)
     {
+        //set the grid with the given dimensions
         InitialiseGrid(width, height);
-        //need to limit the number of times the WFC runs
-        
-        Debug.Log("Running WFC");
-        bool allCollapsed = false;
-        //int counter = 0;
-        bool pathExists = false;
-        //dont use recursion, use a while loop
-        //while(!pathExists && numberOfRuns < 10)
-        //{
 
-        //}
-            while (!allCollapsed)
+        Debug.Log("Running WFC");
+        //boolean to check if all cells have collapsed
+        bool allCollapsed = false;
+        //boolean to ensure a valid path exists
+        bool pathExists = false;
+
+        while (!allCollapsed)
         {
-            //Debug.Log("Iteration: " + counter++);
             //get the cell with the lowest entropy
             GridCell lowestEntropyCell = GetLowestEntropy();
             //collapse the cell
@@ -89,14 +80,16 @@ public class MapManager : MonoBehaviour
             allCollapsed = CheckAllCollapsed();
             //if not repeat
         }
+        //check if a path exists
         pathExists = CheckPath();
-        if (pathExists ) {
+        if (pathExists)
+        {
             Debug.Log("Number of times run: " + numberOfRuns++);
             Debug.Log("Path exists: " + pathExists);
             Debug.Log("Instantiating tiles");
             InstantiateTiles();
         }
-       
+
         //after testing I got stackoverflow exception at 7986 runs os limited to 7500
         else if (numberOfRuns < 7500)
         {
@@ -108,25 +101,22 @@ public class MapManager : MonoBehaviour
 
     //initialise the grid
     public void InitialiseGrid(int width, int height)
-    { 
+    {
         //set the grid dimensions
         gridHeight = height;
         gridWidth = width;
+        //cell size could be set here but is default set to 10 in the application
         //cellSize = size;
-       
+
         //create the grid with the given dimensions
         grid = new GridCell[gridWidth, gridHeight];
-        //populate the grid with 
+        //populate the grid with cells that have all possible tiles available
         for (int x = 0; x < gridWidth; x++)
         {
             for (int y = 0; y < gridHeight; y++)
             {
+                //pass the location and the list of tiles to the grid cell
                 grid[x, y] = new GridCell(new Vector2Int(x, y), tiles);
-                //i want to print the possible tiles for each cell
-                foreach (TileData tile in grid[x, y].possibleTiles)
-                {
-                    //Debug.Log(tile.tileName);
-                }
             }
         }
 
@@ -139,9 +129,6 @@ public class MapManager : MonoBehaviour
     public void RemoveBoundaryTiles(GridCell[,] grid)
     {
         Debug.Log("Removing boundary tiles");
-        //print the boundaries
-        Debug.Log("the grid width is " + gridWidth);
-        Debug.Log("the grid height is " + gridHeight);
 
         foreach (GridCell cell in grid)
         {
@@ -225,7 +212,7 @@ public class MapManager : MonoBehaviour
         {
             return;
         }
-       
+
         //Debug.Log( " THE NUMBER OF POSSIBLE TILES ARE:  "+cell.possibleTiles.Count);
         if (cell.possibleTiles.Count == 0)
         {
@@ -429,7 +416,7 @@ public class MapManager : MonoBehaviour
             //find the connected cells add them to the queue
             for (int i = 0; i < directions.Length; i++)
             {
-                if(currentCell.chosenTile.doorPositions[i] == 1)
+                if (currentCell.chosenTile.doorPositions[i] == 1)
                 {
                     //Debug.Log(i);
                     //Debug.Log(directions[i]);
@@ -442,7 +429,7 @@ public class MapManager : MonoBehaviour
                         //Debug.Log("the neighbour is valid");
                         GridCell neighbour = grid[neighbourPos.x, neighbourPos.y];
                         //check if the neighbour has been visited
-                        if (!visited.Contains(neighbour)&& isDoorConnected(currentCell, neighbour, i))
+                        if (!visited.Contains(neighbour) && isDoorConnected(currentCell, neighbour, i))
                         {
                             //bug where doors face walls probably getting counted as valid so need to check
                             //Debug.Log("Definitely connected");
@@ -455,7 +442,7 @@ public class MapManager : MonoBehaviour
                     }
                 }
             }
-            
+
         }
         //check if all cells have been visited
         if (visited.Count == gridWidth * gridHeight)
@@ -475,7 +462,7 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    public bool isDoorConnected(GridCell cell,GridCell neighbour, int directionIndex)
+    public bool isDoorConnected(GridCell cell, GridCell neighbour, int directionIndex)
     {
         //should be the opposite of the direction
         //so index +2
@@ -483,7 +470,7 @@ public class MapManager : MonoBehaviour
 
         //return true if bnoth have a 1 at teh door position
         return cell.chosenTile.doorPositions[directionIndex] == 1 && neighbour.chosenTile.doorPositions[neighbourDoorDirectionIndex] == 1;
-        
+
     }
     //check if the door is connected to a wall
     //if the door is connected to a wall then the cell is not
@@ -499,9 +486,9 @@ public class MapManager : MonoBehaviour
         //maybe need to change the cell size to 1
 
         //loop through the grid and instantiate the tiles
-        for (int x = 0; x<gridWidth; x++)
+        for (int x = 0; x < gridWidth; x++)
         {
-            for (int y = 0; y<gridHeight; y++)
+            for (int y = 0; y < gridHeight; y++)
             {
                 //print the cell 
                 //Debug.Log("the cell is " + grid[x, y].chosenTile.tilePrefab.name);
@@ -630,5 +617,3 @@ public class MapManager : MonoBehaviour
         InstantiateTiles();
     }
 }
-
-

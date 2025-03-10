@@ -5,10 +5,12 @@ using UnityEngine;
 public class ObjectSaver : MonoBehaviour
 {
     //object sver singleton
+    //singleton pattern to ensure only one instance of the object saver
+    //useful for calling the instance from other scripts
     private static ObjectSaver instance;
 
-    //serialised data structure to store the object data
-    
+    //list of the object data
+    //name, position, rotation, scale
     public List<ObjectData> objectDataList = new List<ObjectData>();
     public static ObjectSaver ObjectSaverInstance
     {
@@ -30,6 +32,7 @@ public class ObjectSaver : MonoBehaviour
         }
     }
 
+    //method to add the object data to the data structure
     public void UpdateData(string name, Vector3 position, Quaternion rotation, Vector3 scale)
     {
         //check if the object is already in the list
@@ -41,11 +44,6 @@ public class ObjectSaver : MonoBehaviour
                 objectDataList[i].position = position;
                 objectDataList[i].rotation = rotation;
                 objectDataList[i].scale = scale;
-                //print the data to the console
-                //Debug.Log("Object Name: " + objectDataList[i].name);
-                //Debug.Log("Object Position: " + objectDataList[i].position);
-                //Debug.Log("Object Rotation: " + objectDataList[i].rotation);
-                //Debug.Log("Object Scale: " + objectDataList[i].scale);
                 return;
             }
         }
@@ -60,18 +58,19 @@ public class ObjectSaver : MonoBehaviour
     //function to remove an object from the list
     public void DeleteObject(string name)
     {
+        //cycle through the list to find the object
         for (int i = 0; i < objectDataList.Count; i++)
         {
+            //if the object is found remove it
             if (objectDataList[i].name.Equals(name))
             {
                 objectDataList.RemoveAt(i);
-                //return;
                 break;
             }
         }
-        //remove it from teh persistent data if it exists
+        //remove it from the persistent data if it exists
         string path = Application.persistentDataPath + "/Saves/Objects/" + name + ".glb";
-        Debug.Log(path);
+
         if (System.IO.File.Exists(path))
         {
             Debug.Log("Deleting file " + path);

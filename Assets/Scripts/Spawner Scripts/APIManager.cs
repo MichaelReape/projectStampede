@@ -19,13 +19,14 @@ public class APIManager : MonoBehaviour
     private int gridx;
     private int gridy;
     private int buttonIndex;
+    private ImageSaver imageSaver;
 
-    public static APIManager APIInstance 
+    public static APIManager APIInstance
     {
-        get 
-        {  
-            return instance; 
-        } 
+        get
+        {
+            return instance;
+        }
     }
 
     private void Awake()
@@ -96,7 +97,8 @@ public class APIManager : MonoBehaviour
                     Debug.Log("Image loaded successfully");
                     Sprite webSprite = SpriteFromTexture2D(tex);
                     //here i will save the image using the ImageSaver script
-                    string savedImagePath = ImageSaver.ImageSaverInstance.SaveImage(result, prompt);
+                    // string savedImagePath = ImageSaver.ImageSaverInstance.SaveImage(result, prompt);
+                    string savedImagePath = imageSaver.SaveImage(result, prompt);
                     //saves teh image path to the specific room/grid cell for the specific button
                     MapManager.MapManagerInstance.grid[gridx, gridy].imagePaths[buttonIndex] = savedImagePath;
                     //MapManager.MapManagerInstance.saveMap();

@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-using System.Runtime.CompilerServices;
-using UnityEngine.SceneManagement;
+// using System.Runtime.CompilerServices;
+// using UnityEngine.SceneManagement;
 
+//class to load the map data from a file in the persistent data path
 public class MapLoader : MonoBehaviour
 {
-    //public TileManager tileManager;
-    //public List<TileData> tiles;
+    //reference to the load menu canvas
     public GameObject LoadMenuCanvas;
-
+    //lock the player movement while choosing a map to load
     private void Start()
     {
         //    //canr remember if this is needed
@@ -24,17 +24,18 @@ public class MapLoader : MonoBehaviour
         PlayerMovement.PlayerMovementInstance.CanMove = false;
     }
 
-public void LoadMap(string fileName)
+    public void LoadMap(string fileName)
     {
         //disable the load menu
         LoadMenuCanvas.SetActive(false);
-        //load the scene first
-        //SceneManager.LoadScene("LoadMapTemplate");
-        //open the cursonr and lock the movement
+
+        //call the load grid function
         MapData map = LoadGrid(fileName);
+        //set the map name
         MapManager.MapManagerInstance.mapName = fileName;
+        //reconstruct the grid from the map data loaded
         MapManager.MapManagerInstance.ReconstructGrid(map);
-        //cycle through the objects and instantiate them
+        //cycle through the objects from the map and instantiate them
         foreach (ObjectData objectData in map.objects)
         {
             Debug.Log("Loading object " + objectData.name);
@@ -44,12 +45,11 @@ public void LoadMap(string fileName)
         Debug.Log("Map loaded");
     }
 
+    //helper method to load the map data from a file
     public MapData LoadGrid(string fileName)
     {
-        //get the path to the file
-        Debug.Log("Loading file " + fileName);
+        //get the path to the file from the filename passed from the load menu
         string path = Path.Combine(Application.persistentDataPath, "Saves", fileName + ".json");
-        Debug.Log("Path to file " + path);
 
         //check if the file exists or not
         if (!File.Exists(path))
@@ -60,55 +60,28 @@ public void LoadMap(string fileName)
 
         //read the json from the file
         string json = File.ReadAllText(path);
-        Debug.Log("HERE ******************************************");
-        Debug.Log(json);
+
         //deserialize the json into a MapData object
         MapData map = JsonUtility.FromJson<MapData>(json);
         Debug.Log("File " + fileName + " loaded from " + path);
+        //return the map object
         return map;
     }
 
-    public string[] GetFiles()
+    //method to get the list of maps in the save directory
+    //used to populate the load menu
+    public string[] GetMaps()
     {
         string saveDirectory = Path.Combine(Application.persistentDataPath, "Saves");
+        //if the directory does not exist create it and return null to the load menu list
         if (!Directory.Exists(saveDirectory))
         {
             Debug.LogError("Directory " + saveDirectory + " does not exist");
             Directory.CreateDirectory(saveDirectory);
             return null;
         }
-        string[] files = Directory.GetFiles(saveDirectory, "*.json");
-        return files;
-        //may get rid of the extension later
+        //get all the files in the directory with the .json extension
+        string[] maps = Directory.GetFiles(saveDirectory, "*.json");
+        return maps;
     }
-
-    //public void InstantiateLoadedgrid(MapData map)
-    //{
-    //    //Debug.Log(map.rooms[0].imagePaths[0]);
-    //    //possibly use a dictionary to store the tiles and their names
-    //    Debug.Log("Instantiating loaded grid");
-
-    //    //first handle if the grid is null
-    //    if (map == null)
-    //    {
-    //        Debug.LogError("MapData is null");
-    //        return;
-    //    }
-
-    //    int cellSize = map.cellSize;
-    //    //iterate through the list of rooms
-    //    foreach (RoomData room in map.rooms)
-    //    {
-    //        foreach (TileData tile in tiles)
-    //        {
-    //            if (tile.tileName.Equals(room.roomType))
-    //            {
-    //                //instantiate the tile
-    //                GameObject tilePrefab = Instantiate(tile.tilePrefab, new Vector3(room.x * cellSize, 0, room.y * cellSize), Quaternion.identity);
-    //                break;
-    //            }
-    //        }
-    //    }
-
-    //}
 }
