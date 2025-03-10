@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6974861170737512856, guid: 5218df2947ad36a4db30c972ed94f4dd, type: 3}
+      propertyPath: buttonIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7218181140844757485, guid: 5218df2947ad36a4db30c972ed94f4dd, type: 3}
       propertyPath: m_Name
       value: Image_Spawner_NewMap (1)
@@ -134,6 +138,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6974861170737512856, guid: 5218df2947ad36a4db30c972ed94f4dd, type: 3}
+      propertyPath: buttonIndex
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7218181140844757485, guid: 5218df2947ad36a4db30c972ed94f4dd, type: 3}
       propertyPath: m_Name
       value: Image_Spawner_NewMap
@@ -207,14 +215,14 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 9ad4e75363a1b5840b273a358330bada, type: 3}
       propertyPath: m_Materials.Array.data[2]
       value: 
-      objectReference: {fileID: 2100000, guid: e5a5f2988800d4d46b5772b4f980a84d, type: 2}
+      objectReference: {fileID: 2100000, guid: 7fda6f9a13a3b844e8b11a89f4e74d95, type: 2}
     - target: {fileID: -7511558181221131132, guid: 9ad4e75363a1b5840b273a358330bada, type: 3}
       propertyPath: m_Materials.Array.data[3]
       value: 
       objectReference: {fileID: 2100000, guid: 6619584f8de8c66439ddcb874382bcc1, type: 2}
     - target: {fileID: 919132149155446097, guid: 9ad4e75363a1b5840b273a358330bada, type: 3}
       propertyPath: m_Name
-      value: WestSouthEast
+      value: SouthEastWest
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -401,6 +409,10 @@ PrefabInstance:
     - target: {fileID: 6098977831246481711, guid: 5218df2947ad36a4db30c972ed94f4dd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6974861170737512856, guid: 5218df2947ad36a4db30c972ed94f4dd, type: 3}
+      propertyPath: buttonIndex
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7218181140844757485, guid: 5218df2947ad36a4db30c972ed94f4dd, type: 3}
       propertyPath: m_Name

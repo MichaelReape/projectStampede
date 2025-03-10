@@ -111,22 +111,6 @@ public class APIManager : MonoBehaviour
                 {
                     Debug.Log("Error loading image");
                 }
-                    // Proceed to parse as a texture
-                    //this gives me an invalid cast exception
-
-            //        Texture2D texture = DownloadHandlerTexture.GetContent(request);
-            ////error handling
-            //if(texture != null)
-            //{
-            //    Debug.Log("Image received from API");
-            //    Sprite webSprite = SpriteFromTexture2D(texture);
-            //    //return the sprite to the callback function
-            //    onSuccess?.Invoke(webSprite);
-            //}
-            //else
-            //{
-            //    Debug.Log("Error receiving image from API");
-            //}
             }
         }
         isCallingAPI = false;
@@ -181,7 +165,8 @@ public class APIManager : MonoBehaviour
             else
             {
                 Debug.LogError($"Error downloading GLB: {webRequest.error}");
-                onSuccess?.Invoke(null);
+                //onSuccess?.Invoke(null);
+
             }
         }
         isCallingAPI = false;

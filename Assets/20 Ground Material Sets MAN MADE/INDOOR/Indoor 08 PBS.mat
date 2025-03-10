@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Indoor 08 PBS
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_Parent: {fileID: 2100000, guid: cfc37600fdb17d04b83d5818937307a2, type: 2}
+  m_Parent: {fileID: 2100000, guid: 228f87cf739044f4091ad077a9397dd9, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _EMISSION

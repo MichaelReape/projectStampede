@@ -14,9 +14,6 @@ public class TileData : ScriptableObject
     //might change later
     public List<int> doorPositions = new List<int> { 0, 0, 0, 0 };
 
-    //adds a weight to the tile, this will be used to determine the probability of the tile being selected
-    public float wieght = 1f;
-
     //holds the prefab of the tile
     public GameObject tilePrefab;
 }

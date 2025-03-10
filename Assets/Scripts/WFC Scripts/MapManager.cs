@@ -25,16 +25,11 @@ public class MapManager : MonoBehaviour
     public GridCell[,] grid;
     public TileManager tileManager;
     private int numberOfRuns = 0;
+    public MapSaver mapSaver;
 
     //directions for the neighbours
     public Vector2Int[] directions = new Vector2Int[]
     {
-        //north, east, south, west
-        //new Vector2Int(0,1),
-        //new Vector2Int(1,0),
-        //new Vector2Int(0,-1),
-        //new Vector2Int(-1,0)
-
         //south, west, north, east
         new Vector2Int(0,-1),
         new Vector2Int(-1,0),
@@ -63,34 +58,6 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    //initialise the grid
-    public void InitialiseGrid(int width, int height)
-    { 
-        //set the grid dimensions
-        gridHeight = height;
-        gridWidth = width;
-        //cellSize = size;
-       
-        //create the grid with the given dimensions
-        grid = new GridCell[gridWidth, gridHeight];
-        //populate the grid with 
-        for (int x = 0; x < gridWidth; x++)
-        {
-            for (int y = 0; y < gridHeight; y++)
-            {
-                grid[x, y] = new GridCell(new Vector2Int(x, y), tiles);
-                //i want to print the possible tiles for each cell
-                foreach (TileData tile in grid[x, y].possibleTiles)
-                {
-                    //Debug.Log(tile.tileName);
-                }
-            }
-        }
-
-        Debug.Log("Grid initialised");
-        //here we will remove the boundary tiles
-        RemoveBoundaryTiles(grid);
-    }
 
     //collapse the grid using the WFC algorithm
     //basically loop until each cell has only one possible tile
@@ -129,65 +96,46 @@ public class MapManager : MonoBehaviour
             Debug.Log("Instantiating tiles");
             InstantiateTiles();
         }
-        //else if (numberOfRuns > 10)
-        //{
-        //    Debug.Log("Number of times run: " + numberOfRuns);
-        //    Debug.Log("Path does not exist");
-
-        //    //RunWFC(width, height);
-        //}
-        //after testing I got stackoverflow error at 7986 runs os limited to 7500
+       
+        //after testing I got stackoverflow exception at 7986 runs os limited to 7500
         else if (numberOfRuns < 7500)
         {
             Debug.Log("Number of times run: " + numberOfRuns++);
             Debug.Log("Path does not exist");
             RunWFC(width, height);
         }
-        //need to run the WFC again if the path does not exist
-
-        //Debug.Log("Path exists: " + pathExists);
-        //Debug.Log("Instantiating tiles");
-        //InstantiateTiles();
     }
 
-
-    //returns a GridCell object with the lowest entropy
-    public GridCell GetLowestEntropy()
-    {
-        //i think we cycle through the grid and get the cell with the lowest amount of possiblities
-        //this will be the cell with the lowest entropy
-        GridCell lowestEntropyCell = null;
-
-        // loop through the grid
-        foreach (GridCell cell in grid)
+    //initialise the grid
+    public void InitialiseGrid(int width, int height)
+    { 
+        //set the grid dimensions
+        gridHeight = height;
+        gridWidth = width;
+        //cellSize = size;
+       
+        //create the grid with the given dimensions
+        grid = new GridCell[gridWidth, gridHeight];
+        //populate the grid with 
+        for (int x = 0; x < gridWidth; x++)
         {
-            // if the cell has not collapsed
-            if (cell.chosenTile == null)
+            for (int y = 0; y < gridHeight; y++)
             {
-                //if the lowestEntropyCell is null, set it to the current cell
-                if (lowestEntropyCell == null)
+                grid[x, y] = new GridCell(new Vector2Int(x, y), tiles);
+                //i want to print the possible tiles for each cell
+                foreach (TileData tile in grid[x, y].possibleTiles)
                 {
-                    lowestEntropyCell = cell;
-                }
-                //if the current cell has less possible tiles than the lowestEntropyCell
-                else if (cell.possibleTiles.Count < lowestEntropyCell.possibleTiles.Count)
-                {
-                    lowestEntropyCell = cell;
+                    //Debug.Log(tile.tileName);
                 }
             }
         }
-        //print the lowest entropy cell options
-        //foreach (TileData tile in lowestEntropyCell.possibleTiles)
-        //{
-        //    Debug.Log("the lowest cell options are "+tile.tileName);
-        //}
-        //print the lowest entropy cell position
-        //Debug.Log("the lowest cell position is " + lowestEntropyCell.gridPosition);
-        return lowestEntropyCell;
+
+        Debug.Log("Grid initialised");
+        //here we will remove the boundary tiles
+        RemoveBoundaryTiles(grid);
     }
 
-    //this is a method to remove the illegal cells just based on the grid boundaries
-    //will be run before the collapse method
+    //Removes the illegal tiles on the boundary of the grid
     public void RemoveBoundaryTiles(GridCell[,] grid)
     {
         Debug.Log("Removing boundary tiles");
@@ -224,8 +172,6 @@ public class MapManager : MonoBehaviour
                 // Top boundary (North doors not allowed)
                 if (cell.gridPosition.y == gridHeight - 1 && tile.doorPositions[2] == 1)
                 {
-                    //should be north
-                    //Debug.Log("removing tile " + tile.tileName );
                     isValid = false;
                 }
 
@@ -234,10 +180,41 @@ public class MapManager : MonoBehaviour
                     validTiles.Add(tile);
                 }
             }
-
             cell.possibleTiles = validTiles;
         }
     }
+
+
+    //returns a GridCell object with the lowest entropy
+    public GridCell GetLowestEntropy()
+    {
+        //we cycle through the grid and get the cell with the lowest amount of possiblities
+        //this will be the cell with the lowest entropy
+        GridCell lowestEntropyCell = null;
+
+        // loop through the grid
+        foreach (GridCell cell in grid)
+        {
+            // if the cell has not collapsed
+            if (cell.chosenTile == null)
+            {
+                //if the lowestEntropyCell is null, set it to the current cell
+                if (lowestEntropyCell == null)
+                {
+                    lowestEntropyCell = cell;
+                }
+                //if the current cell has less possible tiles than the lowestEntropyCell
+                else if (cell.possibleTiles.Count < lowestEntropyCell.possibleTiles.Count)
+                {
+                    lowestEntropyCell = cell;
+                }
+            }
+        }
+        return lowestEntropyCell;
+    }
+
+    //this is a method to remove the illegal cells just based on the grid boundaries
+    //will be run before the collapse method
 
 
     public void CollapseCell(GridCell cell)
@@ -246,19 +223,15 @@ public class MapManager : MonoBehaviour
         //if cell is already collapsed, return
         if (cell.chosenTile != null)
         {
-            //Debug.Log("cell already collapsed");
             return;
         }
        
-        //cell.possibleTiles = validTiles;
         //Debug.Log( " THE NUMBER OF POSSIBLE TILES ARE:  "+cell.possibleTiles.Count);
         if (cell.possibleTiles.Count == 0)
         {
-            //Debug.LogWarning("No possible tiles left for cell at " + cell.gridPosition);
-            //Debug.LogWarning("No possible tiles left for cell at " + cell.gridPosition);
-            //TODO: Handle contradiction, e.g. backtracking or returning early.
+            Debug.LogWarning("No possible tiles left for cell at " + cell.gridPosition);
             //causing the game to crash
-            //return;
+            return;
         }
         //select a random tile from the possible tiles
         int randomTileIndex = UnityEngine.Random.Range(0, cell.possibleTiles.Count);
@@ -589,15 +562,9 @@ public class MapManager : MonoBehaviour
         //Debug.Log("Tiles instantiated");
     }
 
-  
-    //code to test the save feature
-    //DO NOT FORGET TO REMOVE!!!
-    [SerializeField] private MapSaver mapSaver;
-    //private MapData generatedData;
-
     public void saveMap()
     {
-        //this is where i build teh map to save
+        //this is where i build the map to save
         //create a new mapData object
         MapData mapData = new MapData();
         mapData.height = gridHeight;
@@ -614,7 +581,7 @@ public class MapManager : MonoBehaviour
                 roomData.x = x;
                 roomData.y = y;
                 roomData.roomType = cell.chosenTile.tileName;
-                //Debug.Log("the room type is " + roomData.roomType);
+
                 //will add the rooms to the mapData object in a sequential order then can reproduce
                 //the grid given the width and height
                 //add the image paths
@@ -626,7 +593,6 @@ public class MapManager : MonoBehaviour
         //save the mapData object
         mapSaver.SaveGrid(mapData, mapName);
         Debug.Log("Map saved");
-
     }
 
     public void ReconstructGrid(MapData map)
@@ -649,11 +615,8 @@ public class MapManager : MonoBehaviour
             //set the chosen tile
             foreach (TileData tile in tiles)
             {
-                //Debug.Log("here");
                 if (tile.tileName.Equals(room.roomType))
                 {
-                    //Debug.Log("the room type is " + room.roomType);
-                    //Debug.Log("CHOSEN TILE: " + tile.tileName);
                     cell.chosenTile = tile;
                 }
             }
@@ -666,17 +629,6 @@ public class MapManager : MonoBehaviour
         //instantiate the tiles
         InstantiateTiles();
     }
-
-    public List<TileData> getTiles()
-    {
-        return tiles;
-    }
-    //methods needed for the WFC algorithm
-    //1. get the cell with the lowest entropy or a random cell to start
-    //2. choose and collapse the cell, remove all other possible tiles, can add a wight 
-    //3. propagate the constraints through the grid
-    //4. check if all cells have collapsed
-    //
 }
 
 

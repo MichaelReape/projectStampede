@@ -130,6 +130,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7199154466585972044, guid: f72772541e7b5664b939065b8cb76ea6, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9637da8abe0164b61ace0767d05f0b0e, type: 2}
     - target: {fileID: 8332684075137103395, guid: f72772541e7b5664b939065b8cb76ea6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 30
@@ -756,6 +760,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3225464403310233556, guid: 655ce3e3b96522443a613e3777e69bdc, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: c25360feba1083f428cd828ed2a1be76, type: 2}
     - target: {fileID: 4018295781392311809, guid: 655ce3e3b96522443a613e3777e69bdc, type: 3}
       propertyPath: m_Name
       value: NorthWest
@@ -813,6 +821,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2884012297323391067, guid: 8ff64c7c38433c54c8154bfa80753471, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 666469795f05fc0488c6e0c274101482, type: 2}
     - target: {fileID: 3676887379856984462, guid: 8ff64c7c38433c54c8154bfa80753471, type: 3}
       propertyPath: m_Name
       value: SouthEastWest
