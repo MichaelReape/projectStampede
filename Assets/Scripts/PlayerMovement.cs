@@ -29,8 +29,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     private void Awake()
-    {
-        //singleton pattern to ensure only one instance of the APIManager      
+    {     
         if (instance != null && instance != this)
         {
             Destroy(this.gameObject);

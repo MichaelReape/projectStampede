@@ -2096,6 +2096,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCallingAPI: 0
+  imageSaver: {fileID: 138005462}
 --- !u!4 &1896615612
 Transform:
   m_ObjectHideFlags: 0

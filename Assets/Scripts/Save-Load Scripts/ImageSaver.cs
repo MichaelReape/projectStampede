@@ -9,25 +9,25 @@ public class ImageSaver : MonoBehaviour
 {
     //dont think this needs to be a singleton
 
-    //     private static ImageSaver instance;
-    //     public static ImageSaver ImageSaverInstance
-    //     {
-    //         get
-    //         {
-    //             return instance;
-    //         }
-    //     }
-    //     private void Awake()
-    //     {
-    //         if (instance != null && instance != this)
-    //         {
-    //             Destroy(this.gameObject);
-    //         }
-    //         else
-    //         {
-    //             instance = this;
-    //         }
-    //     }
+    private static ImageSaver instance;
+    public static ImageSaver ImageSaverInstance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
 
     //method to save the image to a file
     public string SaveImage(byte[] imageBytes, string file)

@@ -199,11 +199,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 410426853}
   walkSpeed: 4
-  jumpPower: 2
   gravity: 10
   lookSpeed: 1
   lookXLimit: 45
-  defaultHeight: 1.5
+  height: 1.5
 --- !u!143 &231598783
 CharacterController:
   m_ObjectHideFlags: 0
@@ -481,6 +480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCallingAPI: 0
+  imageSaver: {fileID: 382092774}
 --- !u!4 &699304711
 Transform:
   m_ObjectHideFlags: 0
