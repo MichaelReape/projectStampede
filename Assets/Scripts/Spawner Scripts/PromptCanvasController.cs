@@ -10,22 +10,16 @@ using UnityEngine.UI;
 public class PromptCanvasController : MonoBehaviour
 {
 
-    [SerializeField] private TMP_InputField promptInput;
-    [SerializeField] private GameObject promptCanvas;
-    [SerializeField] public Image image;
-    //public Transform buttonTransform;
+    public TMP_InputField promptInput;
+    public GameObject promptCanvas;
+    public Image image;
     public ButtonController ButtonController;
-    //public PauseMenuController pauseMenuController;
     private int gridx;
     private int gridy;
     private int buttonIndex;
-
     public int type;
-    //need to reference the player movement script
-    //[SerializeField] private PlayerMovement playerMovement;
 
-    //on submit button click
-
+    //for setting the button location on the grid and in the room, used for saving the image and loading it back in the correct location
     public void setButtonInfo(int x, int y, int index)
     {
         gridx = x;
@@ -34,79 +28,73 @@ public class PromptCanvasController : MonoBehaviour
     }
     public void OnConfirm()
     {
-        Debug.Log("Confirm Button Clicked");
-            string prompt = promptInput.text;
-        if(type == 1)
+        //grabs the input text
+        string prompt = promptInput.text;
+        //type 1 is 2d image
+        if (type == 1)
         {
-            Debug.Log("2D Option, type = " + type);
-
-            //get the text from the input field
-            //int gridx = ButtonController.getGridX();
+            //reset the pause menu flag on confirm
             PauseMenuController.PMCInstance.SetIsPauseMenuOpen(false);
-            //pauseMenuController.SetIsPauseMenuOpen(false);
 
             //get the image from the API
+            //prompt cant be empty and no api call in progress
             if (!prompt.Equals("") && !APIManager.APIInstance.isCallingAPI)
             {
+                //button animation colour
                 ButtonController.SetButtonRed();
-                APIManager.APIInstance.GetImageFromAPI(prompt,gridx, gridy, buttonIndex,(Sprite result) =>
+                //call the api manager to get the image
+                APIManager.APIInstance.GetImageFromAPI(prompt, gridx, gridy, buttonIndex, (Sprite result) =>
                 {
-                    Debug.Log(gridx + " " + gridy + " " + buttonIndex);
-                    Debug.Log("Image received from API");
+                    //set the image to the returned sprite
                     image.sprite = result;
+                    //button animation colour green
                     ButtonController.SetButtonGreen();
+                    //button animation, pops up again
                     buttonAnimation();
                 });
-                //if (APIManager.APIInstance.isCallingAPI)
-                //{
-                //    ButtonController.SetButtonGreen();
-                //    buttonAnimation();
-                //    Debug.Log("API call in progress");
-                //} 
             }
             else
             {
-                //ButtonController.SetButtonGreen();
+                //button animation, pops up again
                 buttonAnimation();
+                //print error
                 Debug.Log("Prompt is empty");
             }
+
             //close the prompt canvas
             promptCanvas.SetActive(false);
-            Debug.Log("Prompt Canvas Closed");
+            //hide cursor again and player can move
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             PlayerMovement.PlayerMovementInstance.CanMove = true;
         }
+        //type 2 is 3d object
         else if (type == 2)
         {
-            Debug.Log("3D Option, type = " + type);
-            Debug.Log("promp is " + prompt);
+            //reset the pause menu flag on confirm
             PauseMenuController.PMCInstance.SetIsPauseMenuOpen(false);
-            //string prompt = promptInput.text;
+
             //code for 3d prompt to api controller
+            //cant be empty and no api call in progress
             if (!prompt.Equals("") && !APIManager.APIInstance.isCallingAPI)
             {
+                //button animation colour
                 ButtonController.SetButtonRed();
+                //call the api manager to get the 3d object
+                //will return a path to the object
+                //object loader will instantiate the glb file with the gltf plugin
                 APIManager.APIInstance.Get3DObjectFromAPI(prompt, (string localPath) =>
-
                 {
-                    Debug.Log("3D Object received from API");
-                    //load the 3d object
+                    //prompt is the file name
                     string filePath = Path.Combine(localPath, prompt);
                     filePath = filePath + ".glb";
+                    //load the 3d object
                     ObjectLoader.ObjectLoaderInstance.LoadObject(filePath, prompt);
-                    //i should probably save it too here
+                    //button animation colour green
                     ButtonController.SetButtonGreen();
+                    //button animation, pops up again
                     buttonAnimation();
                 });
-
-
-                //Debug.Log("3D Object received from API");
-                ////load the 3d object
-                //ObjectLoader.ObjectLoaderInstance.LoadObject(objectPath);
-                ////i should probably save it too here
-                //ButtonController.SetButtonGreen();
-                //buttonAnimation();
             }
             else
             {
@@ -115,7 +103,7 @@ public class PromptCanvasController : MonoBehaviour
             }
             //close the prompt canvas
             promptCanvas.SetActive(false);
-            Debug.Log("Prompt Canvas Closed");
+            //hide cursor again and player can move
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             PlayerMovement.PlayerMovementInstance.CanMove = true;
@@ -123,22 +111,26 @@ public class PromptCanvasController : MonoBehaviour
     }
     public void OnCancel()
     {
-        //pauseMenuController.SetIsPauseMenuOpen(false);
+        //reset the pause menu flag on cancel
         PauseMenuController.PMCInstance.SetIsPauseMenuOpen(false);
-        Debug.Log("Cancel Button Clicked");
+        //button animation colour
         ButtonController.SetButtonGreen();
         //close the prompt canvas
         promptCanvas.SetActive(false);
-        Debug.Log("Prompt Canvas Closed");
+        //hide cursor again and player can move
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         PlayerMovement.PlayerMovementInstance.CanMove = true;
+        //button animation, pops up again
         buttonAnimation();
     }
+    //helper for the button animations
     public void buttonAnimation()
     {
+        //if the button flag is set
         if (ButtonController.isButtonPressed)
         {
+            //raise the button back up and reset the flag
             Vector3 newPosition = ButtonController.buttonTransform.position;
             newPosition.y += 0.05f;
             ButtonController.buttonTransform.position = newPosition;

@@ -12,12 +12,7 @@ public class ButtonController : MonoBehaviour
     private int gridy;
     private Transform player;
     public Transform buttonTransform;
-    //[SerializeField] public Image image;
-    //[SerializeField] private GameObject promptCanvas;
     public PromptCanvasController promptCanvasController;
-    //public Prompt3dController prompt3dController;
-    //[SerializeField] private PlayerMovement playerMovement;
-    //public PauseMenuController pauseMenuController;
     public bool isButtonPressed = false;
     public TMP_Dropdown dropdown;
     public GameObject dropdownCanvas;
@@ -29,34 +24,25 @@ public class ButtonController : MonoBehaviour
     }
 
     private void OnMouseDown()
-    { 
+    {
+        //player must be within the set distance, pause menu must be closed, and there cannot be any api call inprogress
         if (Vector3.Distance(Camera.main.transform.position, transform.position) <= interactionDistance && !PauseMenuController.PMCInstance.GetIsPauseMenuOpen() && !APIManager.APIInstance.isCallingAPI)
         {
-            Debug.Log("Click");
-            //APIManager.APIInstance.GetImageFromAPI("A big,fat, orange cat smoking a bong", (Sprite result) =>
-            //{
-            //    image.sprite = result;
-            //});
-            //pauseMenuController.SetIsPauseMenuOpen(true);
+            //pause menu flag to true, gets reset on cancel or submit
             PauseMenuController.PMCInstance.SetIsPauseMenuOpen(true);
-            //going to call the prompt canvas and set it to active
-            //promptCanvasController.gameObject.SetActive(true);
-            ////promptCanvas.SetActive(true);
-            //promptCanvasController.setButtonInfo(gridx, gridy, buttonIndex);
-            //promptCanvasController.buttonIndex = buttonIndex;
-            //promptCanvasController.gridx = gridx;
-            //promptCanvasController.gridy = gridy;
+
+            //lock player movement and show the cursor
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            Debug.Log("Prompt Canvas Active");
             PlayerMovement.PlayerMovementInstance.CanMove = false;
-            //show the dropdown
-            //dropdown.gameObject.SetActive(true);
+            //show the selection dropdown
             dropdownCanvas.SetActive(true);
+            //for selecting the option, 2d or 3d
             dropdown.onValueChanged.AddListener(delegate { DropdownValueChanged(dropdown); });
-            //engage teh button animation
+            //button animation
             if (!isButtonPressed)
             {
+                //lower teh button and set the flag
                 Vector3 newPosition = buttonTransform.position;
                 newPosition.y -= 0.05f;
                 buttonTransform.position = newPosition;
@@ -65,55 +51,46 @@ public class ButtonController : MonoBehaviour
         }
 
     }
-    private void OnMouseUp()
-    {
-        //bug here where if the button is pressed while menu open will just add y position
-        //probably fix with another flag
-        //if (!PauseMenuController.PMCInstance.GetIsPauseMenuOpen())
-        //{
-            //disengage the button animation
-            //Vector3 newPosition = buttonTransform.position;
-            //newPosition.y += 0.05f;
-            //buttonTransform.position = newPosition;
-            //Debug.Log("Clack");
-        
-    }
+    //calls corresponding method to the dropdown value
     private void DropdownValueChanged(TMP_Dropdown change)
     {
-        Debug.Log("Dropdown Value Changed");
-        Debug.Log(change.value);
         if (change.value == 1)
         {
-            Debug.Log("2D Option");
             Option2D();
         }
         else if (change.value == 2)
         {
-            Debug.Log("3D Option");
             Option3D();
         }
     }
+    //2d image option 
     public void Option2D()
     {
-        Debug.Log("2D Option");
+        //the type is 1 for 2d image
         promptCanvasController.type = 1;
+        //opens the prompt canvas
         promptCanvasController.gameObject.SetActive(true);
-        //promptCanvas.SetActive(true);
+        //gives the button info to know from which spawner the prompt is made
         promptCanvasController.setButtonInfo(gridx, gridy, buttonIndex);
+        //closes the dropdown
         dropdownCanvas.SetActive(false);
     }
     public void Option3D()
     {
+        //the type is 2 for 3d object
         promptCanvasController.type = 2;
-        Debug.Log("3D Option");
+        //opens the prompt canvas
         promptCanvasController.gameObject.SetActive(true);
+        //closes the dropdown
         dropdownCanvas.SetActive(false);
     }
+    //logs the room coordinates for the button, from the mapmanager
     public void setGrid(int x, int y)
     {
         gridx = x;
         gridy = y;
     }
+    //dont think i used these in the end, but good to have
     public int getGridX()
     {
         return gridx;
@@ -122,14 +99,14 @@ public class ButtonController : MonoBehaviour
     {
         return gridy;
     }
+    //helper for the button animation, will be red while call in progress
     public void SetButtonRed()
     {
-        Debug.Log("Red");
         GetComponent<MeshRenderer>().material.color = Color.red;
     }
+    //helper for the button animation, will be green when call is done
     public void SetButtonGreen()
     {
-        Debug.Log("Green");
         GetComponent<MeshRenderer>().material.color = Color.green;
     }
 }
