@@ -18,11 +18,6 @@ public class GridCell
     {
         gridPosition = gridPos;
         possibleTiles = new List<TileData>(tiles);
-        //print the door positons of each tile
-        //foreach (TileData tile in possibleTiles)
-        //{
-        //    Debug.Log("Tile " + tile.tileName + " has door positions " + tile.doorPositions[0] + " " + tile.doorPositions[1] + " " + tile.doorPositions[2] + " " + tile.doorPositions[3]);
-        //}
     }
 
 
