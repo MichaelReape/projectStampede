@@ -8,24 +8,22 @@ public class NewMap : MonoBehaviour
 {
     public GameObject newMapPanel;
     public TMP_InputField mapNameInput;
-    //public GameObject pauseMenuPanel;
     public PauseMenuController pauseMenuPanel;
-    // Start is called before the first frame 
     void Start()
     {
+        //panel to name the map
         newMapPanel.SetActive(true);
+        //initialise the grid with the dimensions from main menu scene
         int mapSizeX = MapSize.mapSizeX;
         int mapSizeY = MapSize.mapSizeY;
-        //MapManager.MapManagerInstance.InitialiseGrid(mapSizeX, mapSizeY);
-        Debug.Log("grid initialised");
-        MapManager.MapManagerInstance.RunWFC(mapSizeX, mapSizeY);
-        Debug.Log("WFC run");
 
-        //unlcok the mouse and lock the movement
+        MapManager.MapManagerInstance.RunWFC(mapSizeX, mapSizeY);
+
+        //unlock the mouse and lock the movement
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         PlayerMovement.PlayerMovementInstance.CanMove = false;
-        //need a way to take in the grid dimensions from teh main menu scene
+        //pause menu flag so m doesnt open it
         pauseMenuPanel.SetIsPauseMenuOpen(true);
     }
 
@@ -33,13 +31,16 @@ public class NewMap : MonoBehaviour
     {
         if (mapNameInput != null)
         {
+            //sets the map name
             MapManager.MapManagerInstance.mapName = mapNameInput.text;
+            //saves the map under the name
             MapManager.MapManagerInstance.saveMap();
-            Debug.Log("map saved as " + mapNameInput);
+            //closes the panel and hides the mouse
             newMapPanel.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             PlayerMovement.PlayerMovementInstance.CanMove = true;
+            //resets the pause menu flag so m can open it
             pauseMenuPanel.SetIsPauseMenuOpen(false);
         }
         else

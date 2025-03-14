@@ -88,7 +88,6 @@
     <Compile Include="Assets/Scripts/Old/LoadImageFromInternet.cs" />
     <Compile Include="Assets/Scripts/Menu Scripts/InputFieldController.cs" />
     <Compile Include="Assets/Scripts/Save-Load Scripts/LoadMenuController.cs" />
-    <Compile Include="Assets/Scripts/Save-Load Scripts/ImageLoader.cs" />
     <Compile Include="Assets/Scripts/Save-Load Scripts/TileManager.cs" />
     <Compile Include="Assets/Scripts/Spawner Scripts/ObjectLoader.cs" />
     <Compile Include="Assets/Scripts/Save-Load Scripts/ImageSaver.cs" />

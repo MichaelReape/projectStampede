@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     private void Awake()
-    {     
+    {
         if (instance != null && instance != this)
         {
             Destroy(this.gameObject);
