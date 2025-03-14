@@ -16,8 +16,8 @@ public class APIManager : MonoBehaviour
     private int gridx;
     private int gridy;
     private int buttonIndex;
-    //public ImageSaver imageSaver;
 
+    //singleton pattern for easy access to the APIManager
     public static APIManager APIInstance
     {
         get
@@ -38,7 +38,6 @@ public class APIManager : MonoBehaviour
         }
     }
 
-    //going to add a callback function to get the image from the API
     public void GetImageFromAPI(string prompt, int x, int y, int index, System.Action<Sprite> onSuccess)
     {
         //set the grid location and button index from where the call is made
@@ -70,8 +69,6 @@ public class APIManager : MonoBehaviour
             yield return request.SendWebRequest();
 
             //error handling
-            // if (request.result == UnityWebRequest.Result.ConnectionError ||
-            //     request.result == UnityWebRequest.Result.ProtocolError)
             if (request.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError("Error fetching image: " + request.error);

@@ -91,7 +91,8 @@ public class MapManager : MonoBehaviour
         }
 
         //after testing I got stackoverflow exception at 7986 runs os limited to 7500
-        else if (numberOfRuns < 7500)
+        //after removing the recursive call to propoagate no longer overflows but will still limit to 15000
+        else if (numberOfRuns < 20000)
         {
             Debug.Log("Number of times run: " + numberOfRuns++);
             Debug.Log("Path does not exist");
@@ -206,160 +207,100 @@ public class MapManager : MonoBehaviour
 
     public void CollapseCell(GridCell cell)
     {
-        //i want to create an empty list instead of clearing and adding to the original
         //if cell is already collapsed, return
         if (cell.chosenTile != null)
         {
             return;
         }
-
-        //Debug.Log( " THE NUMBER OF POSSIBLE TILES ARE:  "+cell.possibleTiles.Count);
+        //if there are no possible tiles left, return
         if (cell.possibleTiles.Count == 0)
         {
+            //error handling
             Debug.LogWarning("No possible tiles left for cell at " + cell.gridPosition);
-            //causing the game to crash
             return;
         }
         //select a random tile from the possible tiles
         int randomTileIndex = UnityEngine.Random.Range(0, cell.possibleTiles.Count);
-        //seems to tend to 0
-        //print the random Tile index
-        //Debug.Log("the random tile index is " + randomTileIndex);
-        //print the random tile
-        //Debug.Log("the random tile is " + cell.possibleTiles[randomTileIndex].tileName);
-        //set the chosen tile to the random tile
-        //Debug.Log(randomTileIndex);
-        //Debug.Log(cell.possibleTiles.Count);
 
+        //set the chosen tile to the random tile
         cell.chosenTile = cell.possibleTiles[randomTileIndex];
 
-
-        //print the chosen tile      
-        //Debug.Log("The cell is collapsed, the chosen tile is " + cell.chosenTile.tileName + " at the grid position " + cell.gridPosition.x + " , " + cell.gridPosition.y);
-        //Debug.Log("The cells doors are " + cell.chosenTile.doorPositions[0] + " " + cell.chosenTile.doorPositions[1] + " " + cell.chosenTile.doorPositions[2] + " " + cell.chosenTile.doorPositions[3]);
-        //remove all other possible tiles
-        //cell.possibleTiles.Clear();
-        //set the chosen tile to the cell list of possible tiles (tidying up)
-        //cell.possibleTiles.Add(cell.chosenTile);
-
-        //add the chosen tile to the temp list
-        //possibleTilesTemp.Add(cell.chosenTile);
-        //set the possible tiles to the temp list
+        //set the possible tiles list to just the chosen tile
         cell.possibleTiles = new List<TileData> { cell.chosenTile };
-        //possibleTilesTemp.Clear();
     }
     public void Propagate(GridCell cell)
     {
+        //checks if the cell has collapsed
         if (cell.chosenTile == null)
         {
-            //Debug.LogWarning("Tried to propagate from a cell that isn't collapsed: " + cell.gridPosition);
             return;
         }
-        //Debug.Log("Propagating constraints " + cell.gridPosition);
-        //1. get the neighbours of the cell
+
+        //the cells neighbours in the grid
         foreach (Vector2Int direction in directions)
         {
-            //print the direction
-            //Debug.Log("the direction we are looking is " + direction);
             //get the neighbour using the direction offset
             Vector2Int neighbourPos = cell.gridPosition + direction;
             //check if the neighbour is within the grid
             if (IsValidPosition(neighbourPos))
             {
-                //print here
-                //Debug.Log("the neighbour position is " + neighbourPos + " and is valid");
                 //get the neighbour cell
                 GridCell neighbour = grid[neighbourPos.x, neighbourPos.y];
 
                 //if the neighbour hasnt collapsed, ie it has a list to update
                 if (neighbour.chosenTile == null)
                 {
-                    //the doors should lineup
-                    //if the neighbour is to the north for example
-                    //the north door of the cell should be the same as the south door of the neighbour
-                    //so we remove based on the doors of the source cell
-                    //if there is no door then obviously there wont be any neighbours in that direction
-                    //since we are going through each direction we can use an if else to decide which wall to chekc
-                    //print here
-                    //Debug.Log("the neighbour has not collapsed");
                     int sourceWallIndex = 0;
                     int neighbourWallIndex = 0;
 
-                    //little confusing because the order for doors is south, west, north, east
-                    //but for directions it is north, east, south, west
-                    //might change later
+                    //directions are south, west, north, east in that order
                     if (direction == directions[2])
                     {
                         //north neighbour
-                        //their south door should be the same as our north door
                         sourceWallIndex = 2;
                         neighbourWallIndex = 0;
-                        //Debug.Log("sourceWallIndex: " + sourceWallIndex);
-                        //Debug.Log("neighbourWallIndex: " + neighbourWallIndex);
                     }
                     else if (direction == directions[3])
                     {
                         //east neighbour
                         sourceWallIndex = 3;
                         neighbourWallIndex = 1;
-                        //Debug.Log("sourceWallIndex: " + sourceWallIndex);
-                        //Debug.Log("neighbourWallIndex: " + neighbourWallIndex);
                     }
                     else if (direction == directions[0])
                     {
                         //south neighbour
                         sourceWallIndex = 0;
                         neighbourWallIndex = 2;
-                        //Debug.Log("sourceWallIndex: " + sourceWallIndex);
-                        //Debug.Log("neighbourWallIndex: " + neighbourWallIndex);
                     }
                     else if (direction == directions[1])
                     {
                         //west neighbour
                         sourceWallIndex = 1;
                         neighbourWallIndex = 3;
-                        //Debug.Log("sourceWallIndex: " + sourceWallIndex);
-                        //Debug.Log("neighbourWallIndex: " + neighbourWallIndex);
                     }
-                    //Debug.Log("sourceWallIndex: " + sourceWallIndex);
-                    //Debug.Log("neighbourWallIndex: " + neighbourWallIndex);
-                    //Debug.Log("Direction: " + direction);
-                    //now need to filter the possible tiles based on the doors
 
+                    //filter the possible tiles based on the doors
                     List<TileData> tilesToRemove = new List<TileData>();
                     foreach (TileData tile in neighbour.possibleTiles)
                     {
-                        //this may be wrong, need to check
-                        //right now it only checks the source cell doors but what about the walls
-                        //might be a feature as it will create hallways idk
-
-                        //issue is the cell.chosenTile might be null
-                        //not sure about this
-                        //if(cell.chosenTile == null)
-                        //{
-                        //    return;
-                        //}
-                        //if the source cell has a door in the direction
-                        //if (cell.chosenTile != null)
-                        //{ }
+                        //if the cell has a door in the direction and the neighbour doesnt have a door in the opposite direction
+                        //remove the tile from the list of possible tiles
                         if (cell.chosenTile.doorPositions[sourceWallIndex] == 1 && tile.doorPositions[neighbourWallIndex] == 0)
                         {
                             //if the neighbour tile doesnt have a door in the opposite 
-                            //remove the tile from the list of possible tiles
-
-                            //this might be a bad idea as it could cause a runtime error
-                            //instead i might create a copy list and just overwrite the original at the end
-                            //neighbour.possibleTiles.Remove(tile);
+                            //add it to the list of tiles to remove 
                             tilesToRemove.Add(tile);
                         }
                     }
+                    //remove the tiles from the list of possible tiles
                     foreach (TileData tile in tilesToRemove)
                     {
                         neighbour.possibleTiles.Remove(tile);
                     }
-                    //recursively call the propagate method on the neighbour
-                    Propagate(neighbour);
                 }
+                //recursively call the propagate method on the neighbour
+                //removed this as it was causing a stack overflow exception
+                // Propagate(neighbour);
             }
         }
     }
@@ -418,11 +359,8 @@ public class MapManager : MonoBehaviour
             {
                 if (currentCell.chosenTile.doorPositions[i] == 1)
                 {
-                    //Debug.Log(i);
-                    //Debug.Log(directions[i]);
                     //get the neighbour cell
                     Vector2Int neighbourPos = currentCell.gridPosition + directions[i];
-                    //Debug.Log("the neighbour position is " + neighbourPos);
                     //check if the neighbour is within the grid
                     if (IsValidPosition(neighbourPos))
                     {
@@ -431,9 +369,6 @@ public class MapManager : MonoBehaviour
                         //check if the neighbour has been visited
                         if (!visited.Contains(neighbour) && isDoorConnected(currentCell, neighbour, i))
                         {
-                            //bug where doors face walls probably getting counted as valid so need to check
-                            //Debug.Log("Definitely connected");
-                            //Debug.Log("the neighbour is " + neighbour.gridPosition);
                             //add the neighbour to the queue
                             queue.Enqueue(neighbour);
                             //add the neighbour to the visited list
@@ -448,11 +383,6 @@ public class MapManager : MonoBehaviour
         if (visited.Count == gridWidth * gridHeight)
         {
             Debug.Log("Path exists");
-            //print the visited cells
-            //foreach (GridCell cell in visited)
-            //{
-            //    Debug.Log("Visited cell at " + cell.gridPosition);
-            //}
             return true;
         }
         else
@@ -481,24 +411,14 @@ public class MapManager : MonoBehaviour
     public void InstantiateTiles()
     {
         Debug.Log("Instantiating tiles");
-        //this might be wrong, need to check
-        //is instantiating the tiles with a gap between them
-        //maybe need to change the cell size to 1
 
         //loop through the grid and instantiate the tiles
         for (int x = 0; x < gridWidth; x++)
         {
             for (int y = 0; y < gridHeight; y++)
             {
-                //print the cell 
-                //Debug.Log("the cell is " + grid[x, y].chosenTile.tilePrefab.name);
-                //maybe do a safety check here
-                //
-                //
-                //
+                //grab the cell
                 GridCell cell = grid[x, y];
-                //print the chosen tile
-                //Debug.Log("the chosen tile is " + grid[x, y].chosenTile.tileName + " at position " + x + ", " + y);
                 //get the chosen tile
                 TileData chosenTile = cell.chosenTile;
                 //instantiate the tile
@@ -523,13 +443,8 @@ public class MapManager : MonoBehaviour
                         //load the image from the byte array
                         if (tex.LoadImage(imageBytes))
                         {
-                            //probably need to refactor this
-                            //dont like calling the APIManager for this
-                            //maybe should keep it dumb
                             Sprite webSprite = APIManager.APIInstance.SpriteFromTexture2D(tex);
-                            //buttonControllers[i].SetImage(webSprite);
 
-                            //not quite sure how to do this
                             if (i < buttonControllers.Length)
                             {
                                 //Image image = buttonControllers[i].GetComponent<Image>();
@@ -542,11 +457,11 @@ public class MapManager : MonoBehaviour
                 }
             }
         }
+        //lock the cursor and hide it, allow the player to move, sets the menu flag to false
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         PlayerMovement.PlayerMovementInstance.CanMove = true;
         PauseMenuController.PMCInstance.SetIsPauseMenuOpen(false);
-        //Debug.Log("Tiles instantiated");
     }
 
     public void saveMap()
