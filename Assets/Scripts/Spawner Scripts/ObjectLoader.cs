@@ -45,12 +45,7 @@ public class ObjectLoader : MonoBehaviour
             Debug.Log("Parent name: " + parent.name);
             await temp.InstantiateMainSceneAsync(parent.transform);
             var draggable = parent.AddComponent<ObjectFunctionality>();
-            //need to get the position of the spawner
-            //need a position variable
-            //parent.transform.position = new Vector3(0, 0, 0);
-            //vector3 variable
-            //stop saying draggable ok?
-            //may change this to grab the palyer position from when the button was pressed
+
             Vector3 position = PlayerMovement.PlayerMovementInstance.transform.position;
             //spawns overhead
             position.y += 1.5f;
