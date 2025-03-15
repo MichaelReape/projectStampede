@@ -13,12 +13,6 @@ public class MapLoader : MonoBehaviour
     //lock the player movement while choosing a map to load
     private void Start()
     {
-        //    //canr remember if this is needed
-        //    tiles = tileManager.GetTileDatas();
-        //    //Debug.Log("Number of tiles loaded " + tiles.Count);
-        //    //MapData map = LoadGrid("testMap");
-        //    //MapManager.MapManagerInstance.ReconstructGrid(map);
-        //    //Debug.Log("Map loaded");
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         PlayerMovement.PlayerMovementInstance.CanMove = false;
@@ -38,11 +32,9 @@ public class MapLoader : MonoBehaviour
         //cycle through the objects from the map and instantiate them
         foreach (ObjectData objectData in map.objects)
         {
-            Debug.Log("Loading object " + objectData.name);
             //instantiate the object
             ObjectLoader.ObjectLoaderInstance.LoadObjectFromSave(objectData);
         }
-        Debug.Log("Map loaded");
     }
 
     //helper method to load the map data from a file
@@ -63,7 +55,6 @@ public class MapLoader : MonoBehaviour
 
         //deserialize the json into a MapData object
         MapData map = JsonUtility.FromJson<MapData>(json);
-        Debug.Log("File " + fileName + " loaded from " + path);
         //return the map object
         return map;
     }

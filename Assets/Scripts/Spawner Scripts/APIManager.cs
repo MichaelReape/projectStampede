@@ -166,7 +166,7 @@ public class APIManager : MonoBehaviour
         isCallingAPI = false;
     }
 
-    //helper method to convert the texture to a sprite
+    //helper to convert the texture to a sprite
     public Sprite SpriteFromTexture2D(Texture2D texture)
     {
         //convert the texture to a sprite

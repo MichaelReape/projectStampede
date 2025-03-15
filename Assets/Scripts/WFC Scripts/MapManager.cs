@@ -1,11 +1,6 @@
 using System;
-// using System.Collections;
 using System.Collections.Generic;
-// using System.Data;
 using System.IO;
-// using System.Linq;
-// using TMPro.EditorUtilities;
-// using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -89,17 +84,13 @@ public class MapManager : MonoBehaviour
             Debug.Log("Instantiating tiles");
             InstantiateTiles();
         }
-
-        //after testing I got stackoverflow exception at 7986 runs os limited to 7500
-        //after removing the recursive call to propoagate no longer overflows but will still limit to 15000
+        //set number of time you want to run the WFC
         else if (numberOfRuns < 20000)
         {
             Debug.Log("Number of times run: " + numberOfRuns++);
-            Debug.Log("Path does not exist");
             RunWFC(width, height);
         }
     }
-
     //initialise the grid
     public void InitialiseGrid(int width, int height)
     {
@@ -125,7 +116,6 @@ public class MapManager : MonoBehaviour
         //here we will remove the boundary tiles
         RemoveBoundaryTiles(grid);
     }
-
     //Removes the illegal tiles on the boundary of the grid
     public void RemoveBoundaryTiles(GridCell[,] grid)
     {
@@ -171,8 +161,6 @@ public class MapManager : MonoBehaviour
             cell.possibleTiles = validTiles;
         }
     }
-
-
     //returns a GridCell object with the lowest entropy
     public GridCell GetLowestEntropy()
     {
@@ -200,11 +188,6 @@ public class MapManager : MonoBehaviour
         }
         return lowestEntropyCell;
     }
-
-    //this is a method to remove the illegal cells just based on the grid boundaries
-    //will be run before the collapse method
-
-
     public void CollapseCell(GridCell cell)
     {
         //if cell is already collapsed, return
@@ -309,8 +292,6 @@ public class MapManager : MonoBehaviour
     //checks if the position is within the grid
     public bool IsValidPosition(Vector2Int pos)
     {
-        //print the position
-        //Debug.Log("the position is " + pos);
         if (pos.x >= 0 && pos.x < gridWidth && pos.y >= 0 && pos.y < gridHeight)
         {
             return true;
@@ -319,7 +300,7 @@ public class MapManager : MonoBehaviour
     }
 
 
-    //this will check if all cells have collapsed
+    //check if all cells have collapsed
     public bool CheckAllCollapsed()
     {
         //loop throught the grid and check if cell.chosenTile is null
@@ -340,7 +321,6 @@ public class MapManager : MonoBehaviour
     //we will use a breadth first search to check if there is a path
     public bool CheckPath()
     {
-        Debug.Log("Checking path");
         //bfs so we need a queue
         Queue<GridCell> queue = new Queue<GridCell>();
         //need a list to store the visited cells
@@ -349,7 +329,7 @@ public class MapManager : MonoBehaviour
         queue.Enqueue(grid[0, 0]);
         //add the 0,0 cell to the visited list
         visited.Add(grid[0, 0]);
-        //we are going to queue all the connected cells and visit them until we reach the end
+        //queue all the connected cells and visit them until we reach the end
         while (queue.Count > 0)
         {
             //take the first cell from the queue
@@ -382,7 +362,6 @@ public class MapManager : MonoBehaviour
         //check if all cells have been visited
         if (visited.Count == gridWidth * gridHeight)
         {
-            Debug.Log("Path exists");
             return true;
         }
         else
@@ -402,16 +381,9 @@ public class MapManager : MonoBehaviour
         return cell.chosenTile.doorPositions[directionIndex] == 1 && neighbour.chosenTile.doorPositions[neighbourDoorDirectionIndex] == 1;
 
     }
-    //check if the door is connected to a wall
-    //if the door is connected to a wall then the cell is not
 
-
-    //last thing to do is to create a method to instantiate the tiles
-    //this will be done after the grid has been collapsed
     public void InstantiateTiles()
     {
-        Debug.Log("Instantiating tiles");
-
         //loop through the grid and instantiate the tiles
         for (int x = 0; x < gridWidth; x++)
         {
@@ -447,7 +419,6 @@ public class MapManager : MonoBehaviour
 
                             if (i < buttonControllers.Length)
                             {
-                                //Image image = buttonControllers[i].GetComponent<Image>();
                                 //grabs the image component from the button controller through the canvaa
                                 Image image = buttonControllers[i].promptCanvasController.image;
                                 image.sprite = webSprite;
@@ -466,7 +437,6 @@ public class MapManager : MonoBehaviour
 
     public void saveMap()
     {
-        //this is where i build the map to save
         //create a new mapData object
         MapData mapData = new MapData();
         mapData.height = gridHeight;
@@ -478,36 +448,32 @@ public class MapManager : MonoBehaviour
             for (int y = 0; y < gridHeight; y++)
             {
                 GridCell cell = grid[x, y];
-                //create a new roomData object
+                //create a new roomData object and load it with the cell data
                 RoomData roomData = new RoomData();
                 roomData.x = x;
                 roomData.y = y;
                 roomData.roomType = cell.chosenTile.tileName;
 
-                //will add the rooms to the mapData object in a sequential order then can reproduce
-                //the grid given the width and height
                 //add the image paths
                 roomData.imagePaths = cell.imagePaths;
+                //add the roomData object to the mapData object
                 mapData.rooms.Add(roomData);
             }
         }
+        //add the object data to the mapData object
         mapData.objects = ObjectSaver.ObjectSaverInstance.objectDataList;
         //save the mapData object
         mapSaver.SaveGrid(mapData, mapName);
-        Debug.Log("Map saved");
     }
 
     public void ReconstructGrid(MapData map)
     {
-        //this will be fed the map data from teh json file and will reconstruct the grid array
+        //rebuilt the grid from the map data
         gridHeight = map.height;
-        Debug.Log("the grid height is " + gridHeight);
         gridWidth = map.width;
-        Debug.Log("the grid width is " + gridWidth);
         cellSize = map.cellSize;
-        Debug.Log("the cell size is " + cellSize);
-        //cellSize = map.cellSize;
         grid = new GridCell[gridWidth, gridHeight];
+        //get the tiles from the tile manager
         tiles = tileManager.GetTileDatas();
         //populate the grid with the room data
         foreach (RoomData room in map.rooms)
@@ -527,7 +493,6 @@ public class MapManager : MonoBehaviour
             //add the cell to the grid
             grid[room.x, room.y] = cell;
         }
-        Debug.Log("Grid reconstructed");
         //instantiate the tiles
         InstantiateTiles();
     }

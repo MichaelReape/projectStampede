@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//need to turn this into a singleton
 
-
-[RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
     private static PlayerMovement instance;
 
     public Camera playerCamera;
     public float walkSpeed = 4f;
-    public float gravity = 10f;
     public float lookSpeed = 2f;
     public float lookXLimit = 45f;
     public float height = 1.5f;
@@ -54,38 +50,21 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        //lock and hide the cursor, get the character controller
         characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
     void Update()
     {
+        //get the forward and right vectors
         Vector3 forward = transform.TransformDirection(Vector3.forward);
-
         Vector3 right = transform.TransformDirection(Vector3.right);
-
-        bool isRunning = Input.GetKey(KeyCode.LeftShift);
+        //speed of movement
         float curSpeedX = canMove ? (walkSpeed) * Input.GetAxis("Vertical") : 0;
         float curSpeedY = canMove ? (walkSpeed) * Input.GetAxis("Horizontal") : 0;
-        float movementDirectionY = moveDirection.y;
+        //move the player
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
-        //if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
-        //{
-        //    moveDirection.y = jumpPower;
-        //}
-        //else
-        //{
-        //    moveDirection.y = movementDirectionY;
-        //}
-        //if (!characterController.isGrounded)
-        //{
-        //    moveDirection.y -= gravity * Time.deltaTime;
-        //}
-        //else
-        //{
-        //    characterController.height = defaultHeight;
-        //    walkSpeed = 6f;
-        //}
         characterController.Move(moveDirection * Time.deltaTime);
         if (canMove)
         {

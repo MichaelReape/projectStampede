@@ -8,7 +8,6 @@ public class PauseMenuController : MonoBehaviour
 {
     public GameObject pauseMenu;
     public GameObject saveMenuPanel;
-    //public TMP_InputField saveMapNameInput;
 
     private bool isPauseMenuOpen = false;
     private static PauseMenuController instance;
@@ -41,11 +40,10 @@ public class PauseMenuController : MonoBehaviour
         saveMenuPanel.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
         //check for m key to bring up menu
-        if(Input.GetKeyDown(KeyCode.M) && !isPauseMenuOpen)
+        if (Input.GetKeyDown(KeyCode.M) && !isPauseMenuOpen)
         {
             Debug.Log("M key pressed");
             isPauseMenuOpen = true;
@@ -62,10 +60,10 @@ public class PauseMenuController : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             PlayerMovement.PlayerMovementInstance.CanMove = false;
-            //or lock movement
         }
         else
         {
+            //unlock movement
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             PlayerMovement.PlayerMovementInstance.CanMove = true;
@@ -74,7 +72,6 @@ public class PauseMenuController : MonoBehaviour
 
     public void OnResumeButtonClicked()
     {
-        Debug.Log("Resume button clicked");
         isPauseMenuOpen = false;
         pauseMenu.SetActive(false);
         TogglePauseMenu();
@@ -87,27 +84,21 @@ public class PauseMenuController : MonoBehaviour
 
     public void OnMainMenuButtonClicked()
     {
-        Debug.Log("Main Menu button clicked");
         SceneManager.LoadScene("MainMenu");
     }
 
     public void OnQuitButtonClicked()
     {
-        Debug.Log("Quit button clicked");
         //not working in editor
+        //would work in a build
         Application.Quit();
     }
     public void OnConfirmButtonClicked()
     {
-        //string mapName = saveMapNameInput.text;
-        //Debug.Log("Save button clicked with map name: " + mapName);
-        
-        Debug.Log("Map name is: " + MapManager.MapManagerInstance.mapName);
         //save map
         MapManager.MapManagerInstance.saveMap();
         saveMenuPanel.SetActive(false);
         pauseMenu.SetActive(true);
-        //reset map name
     }
 
     public void OnCancelButtonClicked()

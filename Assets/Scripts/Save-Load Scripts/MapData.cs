@@ -15,7 +15,6 @@ public class RoomData
     //order bottom left, top left, top right, bottom right
     public string[] imagePaths = new string[4];
 }
-[Serializable]
 public class ObjectData
 {
     //store the name of the 3Dobject
@@ -25,8 +24,6 @@ public class ObjectData
     public Quaternion rotation;
     public Vector3 scale;
 }
-
-[Serializable]
 public class MapData
 {
     //store the dimensions of the grid
