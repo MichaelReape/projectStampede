@@ -4,10 +4,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.IO;
 
-
 public class APIManager : MonoBehaviour
 {
-
     private static APIManager instance;
     private string apiEndpoint;
     //to make sure only one api call is made at a time
@@ -25,7 +23,6 @@ public class APIManager : MonoBehaviour
             return instance;
         }
     }
-
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -37,7 +34,6 @@ public class APIManager : MonoBehaviour
             instance = this;
         }
     }
-
     public void GetImageFromAPI(string prompt, int x, int y, int index, System.Action<Sprite> onSuccess)
     {
         //set the grid location and button index from where the call is made

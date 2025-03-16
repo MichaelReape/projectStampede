@@ -4,11 +4,8 @@ using System.IO;
 using UnityEngine;
 
 //class to save the images to a file in the persistent data path
-//this class is a singleton
 public class ImageSaver : MonoBehaviour
 {
-    //dont think this needs to be a singleton
-
     private static ImageSaver instance;
     public static ImageSaver ImageSaverInstance
     {

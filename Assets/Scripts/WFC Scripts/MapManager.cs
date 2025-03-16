@@ -314,7 +314,6 @@ public class MapManager : MonoBehaviour
         return true;
     }
 
-
     //method to check if there is a path from 0,0 to all other cells, through the connected door positions
     //for example a cell with doorPositions[0,1,0,0] will connect with [0,0,1,0] or [0,0,1,1] or [0,1,1,0] etc
     //if not then reset the grid and run the WFC again

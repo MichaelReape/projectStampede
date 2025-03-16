@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//[CreateAssetMenu(fileName = "TileData", menuName = "WFC/TileData")]
 public class TileData : ScriptableObject
 {
     //holds the data of the tile

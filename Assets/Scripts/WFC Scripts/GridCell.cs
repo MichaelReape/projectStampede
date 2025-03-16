@@ -19,6 +19,4 @@ public class GridCell
         gridPosition = gridPos;
         possibleTiles = new List<TileData>(tiles);
     }
-
-
 }

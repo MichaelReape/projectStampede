@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-// using System.Runtime.CompilerServices;
-// using UnityEngine.SceneManagement;
 
 //class to load the map data from a file in the persistent data path
 public class MapLoader : MonoBehaviour
@@ -58,7 +56,6 @@ public class MapLoader : MonoBehaviour
         //return the map object
         return map;
     }
-
     //method to get the list of maps in the save directory
     //used to populate the load menu
     public string[] GetMaps()
