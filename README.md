@@ -10,8 +10,8 @@ A first-person virtual “memory palace” where you generate mnemonic images an
 ## What you can do
 
 - Generate a palace of any size with a Wave Function Collapse (WFC) map generator so rooms connect logically.
-![ActivityDiagramWFC](https://github.com/user-attachments/assets/74e98b13-0184-429a-8f56-d34b0668d889)
 
+![ActivityDiagramWFC](https://github.com/user-attachments/assets/74e98b13-0184-429a-8f56-d34b0668d889)
 
 - Create mnemonic devices from text:
 
@@ -24,6 +24,7 @@ A first-person virtual “memory palace” where you generate mnemonic images an
 - Save/Load entire palaces to JSON (rooms, images, object transforms).
 
 ## How it works (short)
+![Architecture diagram](https://github.com/user-attachments/assets/2173c82d-8e86-45f3-bb41-f15a44ebcfe6)
 
 - Unity client (C#): first-person UI, WFC generator, GLTFast import for GLB meshes, JSON persistence.
 
