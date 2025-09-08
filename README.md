@@ -10,6 +10,8 @@ A first-person virtual “memory palace” where you generate mnemonic images an
 ## What you can do
 
 - Generate a palace of any size with a Wave Function Collapse (WFC) map generator so rooms connect logically.
+![ActivityDiagramWFC](https://github.com/user-attachments/assets/74e98b13-0184-429a-8f56-d34b0668d889)
+
 
 - Create mnemonic devices from text:
 
