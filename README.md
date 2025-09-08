@@ -5,7 +5,11 @@ A first-person virtual “memory palace” where you generate mnemonic images an
 ## Demo
 - Video: TO BE ADDED LATER
 
-- Screenshots: TO BE ADDED LATER
+### Screenshots:
+<img width="1270" height="800" alt="Screenshot 2025-03-17 000704" src="https://github.com/user-attachments/assets/9f4fdcc7-2e4a-47cd-a772-4dbc175e4034" />
+<img width="1420" height="724" alt="Screenshot 2025-04-01 182444" src="https://github.com/user-attachments/assets/41ecf815-c04d-4aa9-8189-73b98e67f909" />
+
+
 
 ## What you can do
 
