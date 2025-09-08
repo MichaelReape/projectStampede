@@ -3,9 +3,9 @@
 A first-person virtual “memory palace” where you generate mnemonic images and 3D objects from text prompts, place them in a procedurally built environment, and save/load entire palaces.
 
 ## Demo
-- Video: Add a link or embed here (YouTube or demo.mp4 in the repo)
+- Video: TO BE ADDED LATER
 
-- Screenshots: Optional — add a few stills
+- Screenshots: TO BE ADDED LATER
 
 ## What you can do
 
