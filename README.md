@@ -50,3 +50,7 @@ projectStampede/
 
 ## Try it (WIP)
 To be updated.
+
+## License
+- Code under MIT
+- Thesis under CC BY 4.0
