@@ -22,6 +22,11 @@ A first-person virtual “memory palace” where you generate mnemonic images an
 - First-person navigation (WASD + mouse) for natural placement and recall.
 
 - Save/Load entire palaces to JSON (rooms, images, object transforms).
+#### Save
+![SequenceDiagramSave](https://github.com/user-attachments/assets/2a2d29f5-b6fd-4f97-b2bd-770220328683)
+#### Load
+![SequenceDiagramload](https://github.com/user-attachments/assets/89864584-a46d-4842-9f9d-9763c0dc5fac)
+
 
 ## How it works (short)
 ![Architecture diagram](https://github.com/user-attachments/assets/2173c82d-8e86-45f3-bb41-f15a44ebcfe6)
